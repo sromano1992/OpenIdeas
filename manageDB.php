@@ -38,7 +38,7 @@
     function getTest($email){
         $conn = getConn();
         
-        $sql = "SELECT * from utente";
+        $sql = "SELECT * utente";
         
         
         mysqli_close($conn);
