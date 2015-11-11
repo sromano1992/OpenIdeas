@@ -17,22 +17,53 @@
         return $conn;
     }
     
-    function getUserFBLogin($email){
+    function getUserFBLogin($email, $name, $sex, $picture, $birthday){
         $conn = getConn();
         
-        $sql = "SELECT * from utente";
+        $sql = "SELECT * from utente where email='{$email}'";
         $result = mysqli_query($conn, $sql);
         
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row
-            while($row = mysqli_fetch_assoc($result)) {
-                echo "id: " . $row["name"]. " - Name: " . $row["email"]. " " . $row["surname"]. "<br>";
+        if (mysqli_num_rows($result) > 0) { //user in db
+            session_start();
+            if (!isset($_SESSION['email'])){
+                $_SESSION['email'] =  $_POST['email'];
             }
-        } else {
-            echo "0 results";
+            // output data of each row
+            /*while($row = mysqli_fetch_assoc($result)) {
+                echo "id: " . $row["name"]. " - Name: " . $row["email"]. " " . $row["surname"]. "<br>";
+            }*/
+        } else {    //insert user in db
+            insertFBUser($email, $name, $sex, $picture, $birthday);
         }
         
         mysqli_close($conn);
+    }
+    
+    /** 
+    * @author Simone Romano
+    */
+    function insertFBUser($email, $name, $sex, $picture, $birthday){
+        $conn = getConn();
+        
+        $nameSurname = explode (" " ,$name);    
+        //people can have more than 1 name!
+        $name = $nameSurname[0];
+        $surname = $nameSurname[1];
+        
+        $now = (new \DateTime())->format('Y-m-d H:i:s');
+        $sql = "INSERT INTO utente(name,surname,dateOfBirth,email,sex,imPath,confirmed,lastLogin) values('{$name}','${surname}','{$birthday}','{$email}','{$sex}','{$picture}','1','{$now}')";
+        
+        $result = mysqli_query($conn, $sql);
+        
+        echo"{$result}";
+        mysqli_close($conn);
+    }
+    
+    /** 
+    * @author Simone Romano
+    */
+    function insertUser(){
+        
     }
     
     function getTest($email){
