@@ -71,7 +71,7 @@
       //console.log('Successful login for: ' + response.name);
       console.log(JSON.stringify(response));
       if (window.location.href == "http://localhost/WebSemantico/login.php") {
-        //location.href = "index.php";
+        location.href = "index.php";
       }
       checkSession(response.email);
     });
