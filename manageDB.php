@@ -34,4 +34,13 @@
         
         mysqli_close($conn);
     }
+    
+    function getTest($email){
+        $conn = getConn();
+        
+        $sql = "SELECT * from utente";
+        
+        
+        mysqli_close($conn);
+    }
 ?>
