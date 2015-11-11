@@ -31,7 +31,8 @@
     <body>
        
     <?php
-        include("navbar.php");     
+        include("navbar.php");
+        require "manageDB.php";
     ?>
       <hr>
         <div class="container">
@@ -60,10 +61,15 @@
               
               <ul class="list-group">
                 <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Received comments</strong></span> 125</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span>
+                    <?php
+                        $followers = getUserFollowers($_SESSION['email']);
+                        echo "{$followers}";
+                    ?>
+                </li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Financier</strong></span> 37</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>My ideas</strong></span> 78</li>
               </ul> 
                    
               <div class="panel panel-default">

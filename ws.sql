@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2015 alle 16:20
+-- Generation Time: Nov 13, 2015 alle 19:49
 -- Versione del server: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -40,9 +40,17 @@ CREATE TABLE IF NOT EXISTS `category` (
 CREATE TABLE IF NOT EXISTS `comment` (
   `idIdea` int(11) DEFAULT NULL,
   `idUser` varchar(200) DEFAULT NULL,
-  `date` date NOT NULL DEFAULT '0000-00-00',
+  `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `comment`
+--
+
+INSERT INTO `comment` (`idIdea`, `idUser`, `date`, `text`) VALUES
+(1, 'email@email.it', '2015-11-11 08:36:00', 'Good ideas :) !'),
+(1, 'a.leo@unisa.it', '2015-11-12 00:14:00', 'Bad Idea! It already exist!');
 
 -- --------------------------------------------------------
 
@@ -53,8 +61,16 @@ CREATE TABLE IF NOT EXISTS `comment` (
 CREATE TABLE IF NOT EXISTS `follow` (
   `idUser` varchar(200) DEFAULT NULL,
   `idIdea` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL
+  `date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `follow`
+--
+
+INSERT INTO `follow` (`idUser`, `idIdea`, `date`) VALUES
+('a.leo@unisa.it', 1, '2015-11-11 00:00:00'),
+('email@email.it', 2, '2015-11-05 12:25:00');
 
 -- --------------------------------------------------------
 
@@ -76,11 +92,19 @@ CREATE TABLE IF NOT EXISTS `hascategory` (
 CREATE TABLE IF NOT EXISTS `idea` (
   `nome` varchar(200) NOT NULL,
 `id` int(11) NOT NULL,
-  `dateOfInsert` date NOT NULL,
+  `dateOfInsert` datetime NOT NULL,
   `description` text NOT NULL,
   `idUser` varchar(200) NOT NULL,
   `financier` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dump dei dati per la tabella `idea`
+--
+
+INSERT INTO `idea` (`nome`, `id`, `dateOfInsert`, `description`, `idUser`, `financier`) VALUES
+('ip multi socket 220v', 1, '2015-11-13 09:33:17', 'this idea want to realize a muilti socket with an ip address and possibility of switch it in on/off mdoe by using internet.', 's.romano1992@gmail.com', NULL),
+('vision tool', 2, '2015-11-17 08:12:46', 'idea is to realiza a tool for vision tasks. ', 's.romano1992@gmail.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -96,15 +120,21 @@ CREATE TABLE IF NOT EXISTS `utente` (
   `password` varchar(200) DEFAULT NULL,
   `sex` char(1) NOT NULL,
   `imPath` text NOT NULL,
-  `lastLogin` date NOT NULL
+  `lastLogin` datetime NOT NULL,
+  `confirmed` tinyint(1) NOT NULL,
+  `validationCode` text NOT NULL,
+  `registrationDate` datetime DEFAULT NULL,
+  `webPage` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `utente`
 --
 
-INSERT INTO `utente` (`name`, `surname`, `dateOfBirth`, `email`, `password`, `sex`, `imPath`, `lastLogin`) VALUES
-('pippo', 'pluto', '2015-11-12', 'email@email.it', 'pwd', 'm', '', '2015-11-10');
+INSERT INTO `utente` (`name`, `surname`, `dateOfBirth`, `email`, `password`, `sex`, `imPath`, `lastLogin`, `confirmed`, `validationCode`, `registrationDate`, `webPage`) VALUES
+('Amedeo', 'Leo', '1992-09-08', 'a.leo@unisa.it', 'aleo', 'm', '', '2015-11-13 00:00:00', 0, '', NULL, NULL),
+('pippo', 'pluto', '2015-11-12', 'email@email.it', 'pwd', 'm', '', '2015-11-10 00:00:00', 0, '', NULL, NULL),
+('Simone', 'Romano', '0000-00-00', 's.romano1992@gmail.com', NULL, 'm', 'https://scontent.xx.fbcdn.net/hprofile-xpt1/v/t1.0-1/p50x50/11695888_851302401625643_2317299565397082538_n.jpg?oh=a7371e28b70771b0a1c084d3cd44b0ad&oe=56F0DF68', '2015-11-13 09:39:57', 1, '', '2015-11-13 07:25:54', NULL);
 
 --
 -- Indexes for dumped tables
@@ -159,7 +189,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `idea`
 --
 ALTER TABLE `idea`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Limiti per le tabelle scaricate
 --
