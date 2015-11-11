@@ -90,7 +90,7 @@
       xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
           //ok
-          //alert(xhttp.responseText);
+          alert(xhttp.responseText);
         }
       }
       xhttp.open("POST", "checkUserMemberFB.php", true);
