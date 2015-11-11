@@ -1,0 +1,6 @@
+Note:
+	1) Login with facebook: registrarsi come facebook developer. Aggiungere dunque un'app e specificare il link dell'app;
+		nel caso di test locali inserire "localhost/appName/file.html(o php).
+		Inserire dunque il codice per il login fornito da facebook
+	2) Utenti nel database:
+		1)email = user@email.it	pwd = pwd
