@@ -2,6 +2,10 @@ Note git:
 	alla modifica di un file:
 		1) git commit -m "message" fileName
 		2) git push
+	alla risoluzione di un conflitto:
+		1) risolvere manualmente il conflitto
+		2) git commit -am "message" .
+		3) git push
 
 Note:
 	1) Login with facebook: registrarsi come facebook developer. Aggiungere dunque un'app e specificare il link dell'app;
