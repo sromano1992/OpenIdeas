@@ -90,12 +90,8 @@
     
     //mancano gli allegati
     //utente fb ok, utente normale?
-    //modificare db per date!
-    //http://stackoverflow.com/questions/13063980/mysql-default-datetime-through-phpmyadmin
-    //ID IDEA????????
     function insertIdea($name, $description,  $idUser, $categories, $financier = NULL) {
         $date = getTimeAndDate();
-        //$date = "2014-11-12";
         $conn = getConn();
         
         echo $name . '<br>';
@@ -148,9 +144,9 @@
         }
     }
     
-    /* se l'idea è sua, non può seguirla!!! */
     function insertFollower ($idUser, $idIdea) {
-        
+        if(isIdeaOfUser($idUser, $idIdea))
+            return NULL;
         $date = getTimeAndDate();
         $conn = getConn();
         $sql = "INSERT INTO follow (idUser, idIdea, date) VALUES ('$idUser','$idIdea','$date')";
@@ -182,9 +178,7 @@
         $result = mysqli_query($conn, $sql);
         
         if (mysqli_num_rows($result) > 0) {
-            // output data of each row
             while($row = mysqli_fetch_assoc($result)) {
-                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
                 $returnValues[] = $row;
             }
             mysqli_close($conn);
@@ -195,8 +189,6 @@
         }
     }
 
-    //???
-    //modificare db per rendere univoco date
     function insertComment ($idUser, $idIdea, $text) {
         $date = getTimeAndDate();
         $conn = getConn();
@@ -243,8 +235,6 @@
         }
     }
     
-    
-    /* ci interessa anche l'utente? */
     function getIdeaById($idIdea) {
         $returnValues = array();
         $conn = getConn();
@@ -252,11 +242,12 @@
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             while($row = mysqli_fetch_assoc($result)) {
-                $returnValues[] = $row;
+                $returnValues['Idea'] = $row;
             }
             mysqli_close($conn);
-            $returnValues[] = getFollowersByIdIdea($idIdea);
-            $returnValues[] = getCommentsByIdIdea($idIdea);
+            $returnValues['User'] = getUserOfIdea($idIdea);
+            $returnValues['Followers'] = getFollowersByIdIdea($idIdea);
+            $returnValues['Comments'] = getCommentsByIdIdea($idIdea);
             
             return $returnValues;
         } else {
@@ -265,7 +256,72 @@
         }
     }
     
-        /** 
+    function getUserOfIdea($idIdea) {
+        $returnValues = array();
+        $conn = getConn();
+        $sql = "SELECT idUser FROM idea WHERE id = '$idIdea'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $idUser = $row['idUser'];              
+            }
+        }
+        else {
+            mysqli_close($conn);
+            return NULL;
+        }
+        $sql_user = "SELECT * FROM utente WHERE email = '$idUser'";
+        $result_user = mysqli_query($conn, $sql_user);
+        if (mysqli_num_rows($result_user) > 0) {
+            while($row_user = mysqli_fetch_assoc($result_user)) {
+                $returnValues = $row_user;
+            }
+            return $returnValues;
+        }
+        else {
+            mysqli_close($conn);
+            return NULL;
+        }
+        mysqli_close($conn);
+    }
+    
+    function getNumberOfComments($idIdea) {
+        $comments = getCommentsByIdIdea($idIdea);
+        return count($comments);
+    }
+    
+    function getNumberOfFollowers($idIdea) {
+        $followers = getFollowersByIdIdea($idIdea);
+        return count($followers);
+    }
+    
+    function hasFinancier($idIdea) {
+        $idea = getIdeaById($idIdea);
+        if($idea['Idea']['financier'] == NULL)
+            return false;
+        return true;
+    }
+    
+    function updateIdea($idIdea, $name, $description) {
+        
+    }
+    
+    function insertFinancier($idIdea, $idFinancier) {
+        $idea = getIdeaById($idIdea);
+        /* if(exists($idFinancier) */
+        if($idea['Idea']['idUser'] == $idFinancier)
+            return "Non puoi finanziare una tua idea";
+        else if($idea['Idea']['financier'] != NULL)
+            return "Quest'idea ha già un finanziatore";
+        else {
+            $conn = getConn();
+            $sql = "UPDATE idea SET financier = '$idFinancier' WHERE id = '$idIdea'";
+            $result = mysqli_query($conn, $sql);
+            mysqli_close($conn);
+        }    
+    }
+    
+    /** 
     * @author Simone Romano
     */
     function insertFBUser($email, $name, $sex, $picture, $birthday){
