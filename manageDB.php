@@ -259,7 +259,7 @@
             $sql = "SELECT * FROM comment WHERE idUser = '$idUser'";
         }
         else if($idUser == NULL && $idIdea != NULL) {
-            $sql = "SELECT * FROM comment WHERE idIdea = '$idIdea'";
+            $sql = "SELECT * FROM comment WHERE idIdea = '$idIdea' ORDER BY date DESC";
         }
         else {
             $sql = "SELECT * FROM comment WHERE (idIdea = '$idIdea' AND idUser = '$idUser')";
