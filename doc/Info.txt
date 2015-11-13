@@ -13,4 +13,5 @@ Note:
 		Inserire dunque il codice per il login fornito da facebook
 	2) Utenti nel database:
 		1)email = user@email.it	pwd = pwd
-		
+	3) pagina user:
+		-inserimento idea: titolo, descr, link video, periodo, img
