@@ -33,6 +33,9 @@
     <?php
         include("navbar.php");
         require "manageDB.php";
+        if (!isset($_SESSION['email'])){
+            header("location: index.php");
+        }
     ?>
       <hr>
         <div class="container">

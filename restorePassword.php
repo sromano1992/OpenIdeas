@@ -1,33 +1,24 @@
 <?php
-    echo (new \DateTime())->format('d-m-Y H:i:s');
-    require 'manageDB.php';
-    //insertIdea('name1','descr','s.romano1992@gmail.com','cat');
-    //$userIdeas = getUserIdeasOrderedByFollowers("s.romano1992@gmail.com");
-    //print_r($userIdeas);
-    $n = 0.77*5;
-    echo"<br>{$n}<br>";
-    
-    
- 
-        
-    // definisco mittente e destinatario della mail
+    require "manageDB.php";
+    $email = $_POST['email'];
+     // definisco mittente e destinatario della mail
     $nome_mittente = "OpenIdeas";
-    $mail_destinatario = "pianobarsimone@hotmail.it";
-    $mail_mittente = "test";
+    $mail_mittente = "";
+    $mail_destinatario = "{$email}";
 
     // definisco il subject
-    $mail_oggetto = "Registrazione";
+    $mail_oggetto = "Recupero password";
+    $newPassword = randomPassword();
+    updatePassword($email, $newPassword);
     
     // definisco il messaggio formattato in HTML
     $mail_corpo = <<<HTML
     <html>
     <head>
-      <title>Una semplice mail con PHP formattata in HTML</title>
+      <title>Recupero password portale OpenIdeas</title>
     </head>
     <body>
-    La tua registrazione al portale <a href='http://localhost/WebSemantico/OpenIdeas/index.php'>OpenIdeas</a>
-        è quasi completa. Clicca al link seguente per confermare<br>
-        here
+        La tua password è stata reimpostata a: {$newPassword}
     </body>
     </html>
 HTML;
@@ -45,7 +36,18 @@ HTML;
     $mail_headers .= "Content-type: text/html; charset=iso-8859-1";
     
     if (mail($mail_destinatario, $mail_oggetto, $mail_corpo, $mail_headers))
-      echo "Messaggio inviato con successo a " . $mail_destinatario;
+      echo "E' stata generata una nuova password ed e' stata inviata all'indirizzo " . $mail_destinatario;
     else
       echo "Errore. Nessun messaggio inviato.";
+      
+    function randomPassword() {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
+    }
 ?>

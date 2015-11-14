@@ -6,6 +6,10 @@ Note git:
 		1) risolvere manualmente il conflitto
 		2) git commit -am "message" .
 		3) git push
+Note mail() php:
+	Windows 8.1: http://stackoverflow.com/questions/21337859/sendmail-wamp-php: segui la guida per configurazione php.ini/sendmail.ini.
+	A questo punto dai i permessi di amministratore a sendmail ed eseguilo in modalità winxpsp3.
+	Disabilita il controllo UAC (prompt privilegi amministratore) ed esegui xampp come amministratore!
 
 Note:
 	1) Login with facebook: registrarsi come facebook developer. Aggiungere dunque un'app e specificare il link dell'app;
