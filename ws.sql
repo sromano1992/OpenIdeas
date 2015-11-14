@@ -4,6 +4,9 @@
 --
 -- Host: 127.0.0.1
 -- Generation Time: Nov 14, 2015 alle 10:00
+
+-- Generation Time: Nov 14, 2015 alle 12:42
+
 -- Versione del server: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -19,6 +22,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `ws`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `attachment`
+--
+
+CREATE TABLE IF NOT EXISTS `attachment` (
+  `idIdea` int(11) NOT NULL,
+  `url` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -101,6 +115,9 @@ CREATE TABLE IF NOT EXISTS `idea` (
   `financier` varchar(200) DEFAULT NULL,
   `dateOfFinancing` datetime NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `dateOfFinancing` datetime NOT NULL,
+  `imPath` text NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dump dei dati per la tabella `idea`
@@ -109,6 +126,11 @@ CREATE TABLE IF NOT EXISTS `idea` (
 INSERT INTO `idea` (`nome`, `id`, `dateOfInsert`, `description`, `idUser`, `financier`, `dateOfFinancing`) VALUES
 ('ip multi socket 220v', 1, '2015-11-13 09:33:17', 'this idea want to realize a muilti socket with an ip address and possibility of switch it in on/off mdoe by using internet.', 's.romano1992@gmail.com', 's.romano1992@gmail.com', '2015-11-14 16:00:00'),
 ('vision tool', 2, '2015-11-17 08:12:46', 'idea is to realiza a tool for vision tasks. ', 's.romano1992@gmail.com', 'a.leo@unisa.it', '0000-00-00 00:00:00');
+INSERT INTO `idea` (`nome`, `id`, `dateOfInsert`, `description`, `idUser`, `financier`, `dateOfFinancing`, `imPath`) VALUES
+('ip multi socket 220v', 1, '2015-11-13 09:33:17', 'this idea want to realize a muilti socket with an ip address and possibility of switch it in on/off mdoe by using internet.', 's.romano1992@gmail.com', 's.romano1992@gmail.com', '2015-11-14 16:00:00', ''),
+('vision tool', 2, '2015-11-17 08:12:46', 'idea is to realiza a tool for vision tasks. ', 's.romano1992@gmail.com', 'a.leo@unisa.it', '0000-00-00 00:00:00', ''),
+('name1', 7, '2015-11-14 10:57:53', 'descr', 's.romano1992@gmail.com', NULL, '0000-00-00 00:00:00', ''),
+('idea9', 8, '2015-11-06 00:00:00', 'descri idea 9', 's.romano1992@gmail.com', NULL, '0000-00-00 00:00:00', 'http://www.sromano.altervista.org/progetto_smartwatch/home.jpg');
 
 -- --------------------------------------------------------
 
@@ -139,10 +161,17 @@ INSERT INTO `utente` (`name`, `surname`, `dateOfBirth`, `email`, `password`, `se
 ('Amedeo', 'Leo', '1992-09-08', 'a.leo@unisa.it', 'aleo', 'm', '', '2015-11-13 00:00:00', 0, '', NULL, NULL),
 ('pippo', 'pluto', '2015-11-12', 'email@email.it', 'pwd', 'm', '', '2015-11-10 00:00:00', 0, '', NULL, NULL),
 ('Simone', 'Romano', '0000-00-00', 's.romano1992@gmail.com', NULL, 'm', 'https://scontent.xx.fbcdn.net/hprofile-xpt1/v/t1.0-1/p50x50/11695888_851302401625643_2317299565397082538_n.jpg?oh=a7371e28b70771b0a1c084d3cd44b0ad&oe=56F0DF68', '2015-11-14 07:41:37', 1, '', '2015-11-13 07:25:54', NULL);
+('Simone', 'Romano', '0000-00-00', 's.romano1992@gmail.com', NULL, 'm', 'https://scontent.xx.fbcdn.net/hprofile-xpt1/v/t1.0-1/p50x50/11695888_851302401625643_2317299565397082538_n.jpg?oh=a7371e28b70771b0a1c084d3cd44b0ad&oe=56F0DF68', '2015-11-14 10:37:29', 1, '', '2015-11-13 07:25:54', 'http://www.sromano.altervista.org');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `attachment`
+--
+ALTER TABLE `attachment`
+ ADD KEY `idIdea` (`idIdea`);
 
 --
 -- Indexes for table `category`
@@ -193,10 +222,16 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `idea`
 --
 ALTER TABLE `idea`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Limiti per le tabelle scaricate
 --
+
+--
+-- Limiti per la tabella `attachment`
+--
+ALTER TABLE `attachment`
+ADD CONSTRAINT `attachment_ibfk_1` FOREIGN KEY (`idIdea`) REFERENCES `idea` (`id`);
 
 --
 -- Limiti per la tabella `comment`

@@ -1,0 +1,16 @@
+Get last user's activities:
+select date,text,idIdea,'comment' as type from comment where idUser='s.romano1992@gmail.com'
+union all
+select date,idIdea,idUser,'follow' as type from follow where idUser='s.romano1992@gmail.com' 
+union all
+select dateOfFinancing,id,idUser,'financier' as type from idea where financier='s.romano1992@gmail.com'
+union all
+select dateOfInsert,nome,id,'insert' as type from idea where idUser='s.romano1992@gmail.com' 
+order by date 	
+
+get number of max follower 
+select max(countIdea) from
+(
+    select idIdea,count(idIdea) as countIdea from follow
+    group by idIdea
+) as maxFollow

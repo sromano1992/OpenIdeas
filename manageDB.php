@@ -254,6 +254,255 @@
         }
     }
 
+    
+    /**
+     * @author Simone Romano
+     **/
+    function getUserFollowers($email){        
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "Select count(*) from follow where idIdea in( SELECT id FROM idea WHERE idUser='{$email}')";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                $toReturn = $row['count(*)'];
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
+    
+    /**
+     * @author Simone Romano
+     **/
+    function getIdeaDescription($id){        
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "select description from idea where id={$id}";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                $toReturn = $row['description'];
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
+    
+    /**
+     * @author Simone Romano
+     **/
+    function getIdeaImPath($id){        
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "select imPath from idea where id={$id}";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                $toReturn = $row['imPath'];
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
+    
+     /**
+     * @author Simone Romano
+     **/
+    function getIdeaName($idIdea){        
+        $returnValues = array();
+        $conn = getConn();
+        $toReturn = "";
+        
+        $sql = "select nome from idea where id='{$idIdea}'";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                $toReturn = $row['nome'];
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
+
+    /**
+     * @author Simone Romano
+     * Return the count of comments for idas of $email user.
+     **/
+    function getCommentForUser($email){
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "select count(*) from comment where idIdea in (select id from idea where idUser='{$email}')";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                $toReturn = $row['count(*)'];
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
+    
+    /**
+     * @author Simone Romano
+     * Return the list of user ideas ordered by number of followers.
+     **/
+    function getUserIdeasOrderedByFollowers($email){
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "select id from idea where idUser='{$email}'";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        $toReturn = array();
+        $i = 0;
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                $sql_followers = "select count(*) from follow where idIdea='{$row['id']}'";
+                $result_followers_num = mysqli_query($conn, $sql_followers) or die("select failed");
+                $followers_numb = 0;
+                if (mysqli_num_rows($result_followers_num) > 0) {
+                    // output data of each row
+                    while($row_followers = mysqli_fetch_assoc($result_followers_num)) {
+                        $followers_numb = $row_followers['count(*)'];                        
+                    }
+                }
+                $record = array();
+                $record[0] = $row['id'];
+                $record[1] = $followers_numb;
+                $index = 0;
+                //inserting in crescent order
+                //get index of new element
+                for($j = 0; $j < sizeOf($toReturn); $j++) {
+                    if ($toReturn[$j][1] > $record[1]){
+                        $index = $j;
+                        break;
+                    }
+                }
+                //shifit of right part of array
+                for($j = sizeOf($toReturn)-1; $j >= $index; $j--) {
+                    $toReturn[$j+1] = $toReturn[$j];             
+                }
+                //insert new element
+                $toReturn[$index] = $record;
+                $i++;
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
+    
+    /**
+     * @author Simone Romano
+     * Return the max number of follower of an idea.
+     **/
+    function getMaxFollow(){
+         $conn = getConn();
+        
+        $sql = "select max(countIdea) from
+                (
+                    select idIdea,count(idIdea) as countIdea from follow
+                    group by idIdea
+                ) as maxFollow";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                $toReturn = $row['max(countIdea)'];
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
+    
+     /**
+     * @author Simone Romano
+     * Return the count user's ideas.
+     **/
+    function getUserIdeasCount($email){
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "select count(*) from idea where idUser='{$email}'";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                $toReturn = $row['count(*)'];
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
+    
+     /**
+     * @author Simone Romano
+     * Return last user activities. 
+     **/
+    function getLastUserActivities($email){
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "select date,text,idIdea,'comment' as type from comment where idUser='{$email}'
+                union all
+                select date,idIdea,idUser,'follow' as type from follow where idUser='{$email}' 
+                union all
+                select dateOfFinancing,id,idUser,'financier' as type from idea where financier='{$email}'
+                union all
+                select dateOfInsert,nome,id,'insert' as type from idea where idUser='{$email}' 
+                order by date;";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+    
+        mysqli_close($conn);
+        return $result;
+    }
+    
+    /**
+     * @author Simone Romano
+     * Return the count of financiers for idas of $email user.
+     **/
+    function getUserFinancier($email){        
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "select count(*) from idea where idUser='{$email}' and financier is not null";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                $toReturn = $row['count(*)'];
+            }
+        }
+        mysqli_close($conn);
+        return $toReturn;   
+    }
+    
     function insertComment ($idUser, $idIdea, $text) {
         $date = getTimeAndDate();
         $conn = getConn();
@@ -313,7 +562,6 @@
             $returnValues['User'] = getUserOfIdea($idIdea);
             $returnValues['Followers'] = getFollowersByIdIdea($idIdea);
             $returnValues['Comments'] = getCommentsByIdIdea($idIdea);
-            
             return $returnValues;
         } else {
             mysqli_close($conn);

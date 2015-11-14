@@ -3,7 +3,7 @@
     
 
 
-    function translate(){
+    function translateTest(){
 	require __DIR__ . '/vendor/autoload.php';	
 	echo "<h1>Translation</h1>";
 	$tr = new TranslateClient(); // Default is from 'auto' to 'en'

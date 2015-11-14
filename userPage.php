@@ -8,7 +8,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
     
-        <title>Shop Homepage - Start Bootstrap Template</title>
+        <title>OpenIdeas - pagina utente</title>
         <!-- Custom CSS -->
         <link href="css/shop-homepage.css" rel="stylesheet">        
         <link href="css/bootstrap.css" rel="stylesheet">       
@@ -45,16 +45,16 @@
                     <div class="col-sm-3"><!--left col-->
                   
               <ul class="list-group">
-                <li class="list-group-item text-muted">Profile</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span><?php echo"{$_SESSION['registrationDate']}"?></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span><?php echo"{$_SESSION['lastLogin']}"?></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Real name</strong></span><?php echo"{$_SESSION['name']} {$_SESSION['surname']}"?></li>
+                <li class="list-group-item text-muted">Profilo</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Registrato</strong></span><?php echo"{$_SESSION['registrationDate']}"?></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Ultimo accesso</strong></span><?php echo"{$_SESSION['lastLogin']}"?></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Nome completo</strong></span><?php echo"{$_SESSION['name']} {$_SESSION['surname']}"?></li>
                 
               </ul> 
                    
               <div class="panel panel-default">
-                <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i></div>
-                <div class="panel-body"><a href="http://bootply.com"><?php echo"{$_SESSION['webPage']}"?></a></div>
+                <div class="panel-heading">Pagina web <i class="fa fa-link fa-1x"></i></div>
+                <div class="panel-body"><a href="<?php echo"{$_SESSION['webPage']}"?>"><?php echo"{$_SESSION['webPage']}"?></a></div>
               </div>
               
               
@@ -201,121 +201,60 @@
                   
                   <hr>
                     
-                  <div class="row">
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
-                                <div class="caption">
-                                    <h4 class="pull-right">$24.99</h4>
-                                    <h4><a href="#">First Product</a>
-                                    </h4>
-                                    <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
-                                </div>
-                                <div class="ratings">
-                                    <p class="pull-right">15 reviews</p>
-                                    <p>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
-                                <div class="caption">
-                                    <h4 class="pull-right">$64.99</h4>
-                                    <h4><a href="#">Second Product</a>
-                                    </h4>
-                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                                <div class="ratings">
-                                    <p class="pull-right">12 reviews</p>
-                                    <p>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
-                                <div class="caption">
-                                    <h4 class="pull-right">$74.99</h4>
-                                    <h4><a href="#">Third Product</a>
-                                    </h4>
-                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                                <div class="ratings">
-                                    <p class="pull-right">31 reviews</p>
-                                    <p>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
-                                <div class="caption">
-                                    <h4 class="pull-right">$84.99</h4>
-                                    <h4><a href="#">Fourth Product</a>
-                                    </h4>
-                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                                <div class="ratings">
-                                    <p class="pull-right">6 reviews</p>
-                                    <p>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
-                                <div class="caption">
-                                    <h4 class="pull-right">$94.99</h4>
-                                    <h4><a href="#">Fifth Product</a>
-                                    </h4>
-                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                                <div class="ratings">
-                                    <p class="pull-right">18 reviews</p>
-                                    <p>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        
-    
-                    </div>
+                <div class="row">
+                        <?php
+                            //each position of $uerIdeas contains an array:
+                            //$userIdeas[k][0] = ideaId; $userIdeas[k][1] = followers number; 
+                            $userIdeas = getUserIdeasOrderedByFollowers($_SESSION['email']);
+                            $maxFollowers = getMaxFollow();
+                            for ($i=0; $i<sizeof($userIdeas); $i++){
+                                $idIdea = $userIdeas[$i][0];
+                                $idea = getIdeaById($idIdea);
+                                $ideaName = getIdeaName($idIdea);
+                                $ideaDescription = getIdeaDescription($idIdea);
+                                $followersNum = sizeof($idea['Followers']);
+                                $ideaScorePercentage = $followersNum/$maxFollowers;
+                                $starNum = ceil($ideaScorePercentage*5);
+                                $ideaImPath = getIdeaImPath($idIdea);
+                                if (strlen($ideaImPath) == 0){
+                                    $ideaImPath = "images/imNotFound.jpg";
+                                }
+                                ?>
+                                     <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <div class="thumbnail">
+                                            <img src="<?php echo"{$ideaImPath}";?>" style="width:320px;height:150px;" >
+                                            <div class="caption">
+                                                <h4 class="pull-right"></h4>
+                                                <h4><a href="<?php echo"idea.php?id={$idIdea}";?>"><?php echo"{$ideaName}";?></a>
+                                                </h4>
+                                                <p><?php echo"{$ideaDescription}";?></p>
+                                            </div>
+                                            <div class="ratings">
+                                                <p class="pull-right">
+                                                <?php                                                    
+                                                    echo"{$followersNum}";?> followers
+                                                </p>
+                                                <p>
+                                                    <?php
+                                                        for ($j=0; $j<$starNum; $j++){
+                                                            ?>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                            <?php
+                                                        }
+                                                        for ($j=5; $j>$starNum; $j--){
+                                                            ?>
+                                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                                            <?php
+                                                        }
+                                                    ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>            
+                                <?php
+                            }
+                        ?> 
+                </div>
                   
                   <hr>
                   
@@ -343,6 +282,57 @@
                         <tr>
                           <td><i class="pull-right fa fa-edit"></i> 2 Days Ago - Jeff Manzi liked your post.</td>
                         </tr>
+                        <?php
+                            $result = getLastUserActivities($_SESSION['email']);
+                            if (mysqli_num_rows($result) > 0) {
+                                // output data of each row
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                                    if($row['type'] == 'follow'){
+                                        $date = $row['date'];
+                                        $ideaName = getIdeaName($row['text']);
+                                        $ideaId = $row['text'];
+                                        $author = $row['idIdea'];  //query result column have different name (try query to understand value of each column)
+                                        ?>
+                                        <tr>
+                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - Hai iniziato a seguire l'idea <a href='idea.php?id={$ideaId}'>{$ideaName}</a> dell'utente <b>{$author}</b>";?></td>
+                                        </tr><?php
+                                    }
+                                    else if ($row['type'] == 'insert'){
+                                        $date = $row['date'];
+                                        $ideaName = $row['text'];
+                                        $ideaId = $row['idIdea'];
+                                        ?>
+                                        <tr>
+                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - Hai aggiunto l'idea <a href='idea.php?id={$ideaId}'>{$ideaName}</a>";?><td>
+                                        </tr><?php
+                                    }
+                                    else if ($row['type'] == 'financier'){
+                                        $date = $row['date'];
+                                        $ideaId = $row['text'];
+                                        $ideaName = getIdeaName($ideaId);
+                                        $author = $row['idIdea'];   //query result column have different name (try query to understand value of each column)
+                                        ?>
+                                        <tr>
+                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - Hai deciso di finanziare l'idea <a href='idea.php?id={$ideaId}'>{$ideaName}</a> dell'utente <b>{$author}</b>";?><td>
+                                        </tr><?php
+                                    }
+                                    else if ($row['type'] == 'comment'){
+                                        $date = $row['date'];
+                                        $comment = $row['text'];
+                                        $ideaName = getIdeaName($row['idIdea']);
+                                        $author = getUserOfIdea($row['idIdea'])['email'];
+                                        $ideaId = $row['idIdea'];
+                                        ?>
+                                        <tr>
+                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - Hai lasciato il messaggio <b>{$comment}</b> sull'idea <a href='idea.php?id={$ideaId}'>{$ideaName}</a> dell'utente <b>{$author}</b>";?><td>
+                                        </tr><?php
+                                    
+                                    }
+                                }
+                            }
+                        ?>
+                       
                       </tbody>
                     </table>
                   </div>
