@@ -3,13 +3,10 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
-
-
-
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Idea</title>
+<title> Storage ui kit Flat bootstrap Responsive  Website Template | Home :: w3layouts</title>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery-1.11.0.min.js"></script>
@@ -17,7 +14,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
 <!-- Custom Theme files -->
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Storage ui kit Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -58,46 +55,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	});	  
 });
 </script>
+
+
 </head>
 <body>
 <!--header start here-->
 <div class="header">
-	<h3 class="main-head"><?php
-						require 'manageDB.php';
-						$idea = getIdeaById("14");
-						$name = $idea['Idea']['nome'];
-						echo $name;
-				?></h3>
+	<h3 class="main-head">Storage Ui Kit</h3>
 	    <div class="head-strip">
 	    	<div class="head-strip-left">
 	    		<span class="joe"><img src="images/1.png" alt=""> </span>
 	    		<div class="joe-text">
-	    			<h2><?php
-						echo $name;
-				?></h2>
-	    			<p>
-				<?php
-						$description = $idea['Idea']['description'];
-						echo $description;
-				?>
-				</p>
+	    			<h2>Welcome back Joe Black</h2>
+	    			<p>Es bueno volver a verte de nuevo por acá!</p>
 	    		</div>
 	    	</div>
 	    	<div class="head-strip-right">
 	    		<ul class="strip-date">
-	    			<li><span class="cal"> </span><h4>
-				<?php
-						$date = $idea['Idea']['dateOfInsert'];
-						$newDate = date("d-m-Y", strtotime($date));
-						echo $newDate;
-				?>
-						
-				</h4></li>
-	    			<li><span class="clock"> </span><h4>
-				<?php
-						echo $time = date("H:i:s",strtotime($date));
-				?>
-				</h4></li>
+	    			<li><span class="cal"> </span><h4>Monday.July 02</h4></li>
+	    			<li><span class="clock"> </span><h4>10.30a.m</h4></li>
 	    			<li><span class="sun"> </span><h4>86F-Tampa,FL</h4></li>
 	    		</ul>
 	    		<div class="settiing">
@@ -131,7 +107,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    				    <img src="images/2.png" alt="">
 	    				</div>
 	    				<div class="col-md-8 user-prof-text">
-	    					<h3><?php echo ($idea['User']['name'] . " " . $idea['User']['surname']); ?></h3>
+	    					<h3>Mr.Joe Black</h3>
 	    				    <p>Puerto Cortes,Honduras</p>
 	    				</div>
 	    			  <div class="clearfix"> </div>
@@ -139,7 +115,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    			<div class="user-polio-bot">
 	    				<div class="col-md-4 user-prof-numb like-wt">
 	    					<span class="like-heart"> </span>
-	    					<h6><?php echo getNumberOfFollowers($idea['Idea']['id']);?></h6>
+	    					<h6>25,498</h6>
 	    				</div>
 	    				<div class="col-md-4 user-prof-numb fdback">
 	    					<span class="feedback"> </span>
@@ -147,7 +123,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    				</div>
 	    				<div class="col-md-4 user-prof-numb comment">
 	    					<span class="comment-mess"> </span>
-	    					<h6><?php echo getNumberOfComments($idea['Idea']['id']);?></h6>
+	    					<h6>2,487,521</h6>
 	    				</div>
 	    			  <div class="clearfix"> </div>
 	    			</div>
@@ -303,12 +279,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    			<div class="bann-left">
 	    				<span class="bann-part"> </span>
 	    				<div class="bann-text">
-	    					<h1>Vuoi finanziare l'idea?</h1>
-	    					<p>Mettiti in contatto con l'ideatore!</p>
+	    					<h1>Want to search Analitycs History?</h1>
+	    					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
 	    				</div>
 	    			</div>
 	    			<div class="bann-rit">
-	    				<a href="#">FINANZIA!</a>
+	    				<a href="#">EXPLORE</a>
 	    			</div>
 	    		  <div class="clearfix"> </div>
                           
@@ -337,7 +313,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    						<li><span class="box"> </span></li>
 	    						<li><span class="line"> </span></li>
 	    					</ul>
-	    					<!--<div class="latest-today">
+	    					<div class="latest-today">
 	    						<h4>Today,3.20AM</h4>
 	    						<h3>NEW INVOICE SUBMITED</h3>
 	    						<p>Viris phaedrum ad cum, in usu ipsum percipit. Ut ponderum percipitur este -by <span class="todt-joe"> Joe Black </span></p>
@@ -351,25 +327,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    						<h4>Today,5.15AM</h4>
 	    						<h3>PRICE CHANGE</h3>
 	    						<p>Viris phaedrum ad cum, in usu ipsum percipit. Ut ponderum percipitur este -by <span class="todt-joe"> Joe Black </span></p>
-						</div>-->
-						<?php
-								$comments = $idea['Comments'];
-								foreach ($comments as $comment) {
-										echo "<div class='latest-today'><h4>";
-										echo $comment['date'];
-										echo "</h4><p>";
-										echo $comment['text'];
-										echo "&nbsp;[<span class='todt-joe'>getUtenteById</span>]</p><hr>";
-								}
-						?>
+	    					</div>
 	    					<div class="latest-today">
 	    						<h4>Today,12.06AM</h4>
 	    						<h3>SITE UPDATE</h3>
 	    						<p>Viris phaedrum ad cum, in usu ipsum percipit. Ut ponderum percipitur este -by <span class="todt-joe"> Joe Black </span></p>
 	    					</div>
+	    					<div class="latest-today">
+	    						<h4>NEW PRODUCTS</h4>
+	    						<h3>NEW INVOICE SUBMITED</h3>
+	    						<p>Viris phaedrum ad cum, in usu ipsum percipit. Ut ponderum percipitur este -by <span class="todt-joe"> Joe Black </span></p>
+	    					</div>
 	    				</div>
 	    				<div class="late-btn">
-	    					<a href="#" class=".load_more">LOAD MORE</a>
+	    					<a href="#">LOAD MORE</a>
 	    				</div>
                                     </div>
                                 </div>

@@ -30,46 +30,36 @@
 
     <body>
        
-    <?php
-        include("navbar.php");
-        require "manageDB.php";
-    ?>
+    <?php include("navbar.php");?>
       <hr>
         <div class="container">
             <div class="row">
-                <?php
-                   echo "<div class='col-sm-10'><h1>{$_SESSION['name']}</h1></div>"; 
-                ?>                  
-            <div class="col-sm-2"><a href="<?php echo"{$_SESSION['picture']}" ?>" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="<?php echo"{$_SESSION['picture']}" ?>"/></a></div>
+                    <div class="col-sm-10"><h1>Joeuser</h1></div>
+            <div class="col-sm-2"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div>
         </div>
         <div class="row">
                     <div class="col-sm-3"><!--left col-->
                   
               <ul class="list-group">
                 <li class="list-group-item text-muted">Profile</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span><?php echo"{$_SESSION['registrationDate']}"?></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span><?php echo"{$_SESSION['lastLogin']}"?></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Real name</strong></span><?php echo"{$_SESSION['name']} {$_SESSION['surname']}"?></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span> 2.13.2014</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span> Yesterday</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Real name</strong></span> Joseph Doe</li>
                 
               </ul> 
                    
               <div class="panel panel-default">
                 <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i></div>
-                <div class="panel-body"><a href="http://bootply.com"><?php echo"{$_SESSION['webPage']}"?></a></div>
+                <div class="panel-body"><a href="http://bootply.com">bootply.com</a></div>
               </div>
               
               
               <ul class="list-group">
                 <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Received comments</strong></span> 125</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span>
-                    <?php
-                        $followers = getUserFollowers($_SESSION['email']);
-                        echo "{$followers}";
-                    ?>
-                </li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Financier</strong></span> 37</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>My ideas</strong></span> 78</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
               </ul> 
                    
               <div class="panel panel-default">
