@@ -3,7 +3,9 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
-
+<?php
+session_start();
+?>
 
 
 <!DOCTYPE HTML>
@@ -58,19 +60,47 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	});	  
 });
 </script>
+<script type="text/javascript">
+    $(document).on('click', '#insertComment', function()  {
+            var textcontent = $('#text-content').val();
+	    var idIdea = <?php echo $_GET['id'] ?>;
+            var dataString = 'content=' + textcontent + '&idIdea=' + idIdea;
+            if (textcontent == '') {
+		alert("Non hai scritto nulla!");
+		$("#text-content").focus(); }
+            else {
+
+		$.ajax({
+		    type: "POST",
+		    url: "./insertComment.php",
+		    data: dataString,
+		    cache: true,
+		    success: function(html){
+			document.getElementById('text-content').value='';
+			alert(html);
+				$('#divComments').html();
+		         $('#divComments').html(html);
+		    }  
+		});
+             }
+        return false;
+    });
+
+</script>
 </head>
 <body>
 <!--header start here-->
 <div class="header">
 	<h3 class="main-head"><?php
 						require 'manageDB.php';
-						$idea = getIdeaById("14");
+						$idea = getIdeaById($_GET['id']);
 						$name = $idea['Idea']['nome'];
 						echo $name;
 				?></h3>
 	    <div class="head-strip">
 	    	<div class="head-strip-left">
-	    		<span class="joe"><img src="images/1.png" alt=""> </span>
+		        <?php $imPath = $idea['Idea']['imPath'];?>
+	    		<span class="joe"><img src="<?php echo $imPath ?>" alt=""> </span>
 	    		<div class="joe-text">
 	    			<h2><?php
 						echo $name;
@@ -127,27 +157,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    		<div class="user-profile">
 	    			<div class="user-prof-top">
 	    				<span class="cros"> </span>
+					<?php $userImgPath = getUserOfIdea($idea['Idea']['id'])['imPath'];?>
 	    				<div class="col-md-5 user-prof-img">
-	    				    <img src="images/2.png" alt="">
+	    				    <img src="<?php echo $userImgPath;?>" alt="">
 	    				</div>
 	    				<div class="col-md-8 user-prof-text">
 	    					<h3><?php echo ($idea['User']['name'] . " " . $idea['User']['surname']); ?></h3>
-	    				    <p>Puerto Cortes,Honduras</p>
+	    				    <!--<p>Puerto Cortes,Honduras</p>-->
 	    				</div>
 	    			  <div class="clearfix"> </div>
 	    			</div>
 	    			<div class="user-polio-bot">
 	    				<div class="col-md-4 user-prof-numb like-wt">
 	    					<span class="like-heart"> </span>
+						<!-- numero di follower dell'idea -->
 	    					<h6><?php echo getNumberOfFollowers($idea['Idea']['id']);?></h6>
 	    				</div>
 	    				<div class="col-md-4 user-prof-numb fdback">
 	    					<span class="feedback"> </span>
-	    					<h6>145,369</h6>
+						<!-- numero di idee inserite dall'utente -->
+	    					<h6><?php echo getNumberOfUserIdeas($idea['Idea']['idUser']);?></h6>
 	    				</div>
 	    				<div class="col-md-4 user-prof-numb comment">
 	    					<span class="comment-mess"> </span>
+						<!-- numero di commenti all'idea -->
 	    					<h6><?php echo getNumberOfComments($idea['Idea']['id']);?></h6>
+						<?php $points = getPointsForIdeaComments($idea['Idea']['id']); ?>
 	    				</div>
 	    			  <div class="clearfix"> </div>
 	    			</div>
@@ -160,7 +195,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--analytic start here-->
 	    		<div class="analytic">
 	    			<div class="analytic-top">
-	    				<div class="infograpy"><h5>SALES INFOGRAPHIC</h5></div>
+	    				<div class="infograpy"><h5>ULTIMA SETTIMANA</h5></div>
 	    				<span class="share"> </span>
 	    			  <div class="clearfix"> </div>
 	    			</div>
@@ -172,11 +207,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<!--//graph-->
 					<script>
 										$(document).ready(function () {
-										
+											
 											// Graph Data ##############################################
 											var graphData = [{
-													// Returning Visits
-													data: [ [6, 4500], [7,3500], [8, 6550], [9, 7600], ],
+													data: [ [1, <?php echo $points[1] ?>], [2, <?php echo $points[2] ?>], [3, <?php echo $points[3] ?>], [4, <?php echo $points[4] ?>], [5, <?php echo $points[5] ?>], [6,<?php echo $points[6] ?>], [7, <?php echo $points[7] ?>]],
 													color: '#59676B',
 													points: { radius: 4, fillColor: '#59676B' }
 												}
@@ -203,9 +237,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												xaxis: {
 													tickColor: 'transparent',
 													tickDecimals: false
+													
 												},
 												yaxis: {
-													tickSize: 1200
+													tickSize: 1000
 												}
 											});
 										
@@ -269,8 +304,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 														previousPoint = item.dataIndex;
 														$('#tooltip').remove();
 														var x = item.datapoint[0],
-															y = item.datapoint[1];
-															showTooltip(item.pageX, item.pageY, y+ x );
+															y = item.datapoint[1],
+															z = item.datapoint[2];
+															//contents = y + " " + z;
+															/* modificato showTooltip(item.pageX, item.pageY, y+ x ); */ showTooltip(item.pageX, item.pageY, y);
 													}
 												} else {
 													$('#tooltip').remove();
@@ -292,9 +329,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
 					<div class="analytic-bottom">
 						<ul>
-							<li><h3><a href="#">$157,182</a></h3><p>Total Earnings</p></li>
-							<li><h3><a href="#">$38,952</a></h3><p>Revenue</p></li>
-							<li><h3><a href="#">+800k</a></h3><p>New Customers</p></li>
+							<li><h3><?php echo getNumberOfCommentsOfLastWeekByIdIdea($idea['Idea']['id']) ?></h3><p># Nuovi commenti</p></li>
+							<li><h3><?php echo getTotalScoreOfLastWeekByIdIdea($idea['Idea']['id']) ?></h3><p>+ Nuovo punteggio</p></li>
+							<!--<li><h3>+800k</h3><p>New Customers</p></li> -->
 						</ul>
 					</div>
 			 </div>
@@ -303,12 +340,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    			<div class="bann-left">
 	    				<span class="bann-part"> </span>
 	    				<div class="bann-text">
-	    					<h1>Vuoi finanziare l'idea?</h1>
-	    					<p>Mettiti in contatto con l'ideatore!</p>
+						<?php
+						       $condition = hasFinancier($idea['Idea']['id']);
+						       if($condition) : ?>
+								<h1>L'idea &egrave; stata già finanziata!</h1>
+						       <?php elseif(!$condition) : ?>
+								<h1>Vuoi finanziare l'idea?</h1>
+	    					                <p>Mettiti in contatto con l'ideatore!</p>
+								<div class="bann-rit">
+										<a href="#">FINANZIA!</a>
+								</div>
+								<?php endif; ?>
 	    				</div>
-	    			</div>
-	    			<div class="bann-rit">
-	    				<a href="#">FINANZIA!</a>
 	    			</div>
 	    		  <div class="clearfix"> </div>
                           
@@ -353,35 +396,51 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    						<p>Viris phaedrum ad cum, in usu ipsum percipit. Ut ponderum percipitur este -by <span class="todt-joe"> Joe Black </span></p>
 						</div>-->
 						<?php
-								$comments = $idea['Comments'];
-								foreach ($comments as $comment) {
-										echo "<div class='latest-today'><h4>";
-										echo $comment['date'];
+								$comments = getCommentsByIdIdea($idea['Idea']['id']);
+								$count = count($comments);
+								if($count == 1) :
+										echo '<script language="javascript">';
+echo 'alert("1")';
+echo '</script>';
+										echo "<div class='latest-today' id='divComments'><h4>";
+										echo $comments[0]['date'];
 										echo "</h4><p>";
-										echo $comment['text'];
-										echo "&nbsp;[<span class='todt-joe'>getUtenteById</span>]</p><hr>";
-								}
+										echo $comments[0]['text'];
+										$user = getUserById($comments[0]['idUser']);
+										$nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
+										echo "&nbsp;[<span class='todt-joe'>$nameSurname</span>]</p><hr>";
+								
+								elseif($count > 1):
+										foreach ($comments as $comment) {
+												echo "<div class='latest-today' id='divComments'><h4>";
+												echo $comment['date'];
+												echo "</h4><p>";
+												echo $comment['text'];
+												$user = getUserById($comment['idUser']);
+												$nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
+												echo "&nbsp;[<span class='todt-joe'>$nameSurname</span>]</p><hr>";
+										}
+								endif;
 						?>
-	    					<div class="latest-today">
-	    						<h4>Today,12.06AM</h4>
-	    						<h3>SITE UPDATE</h3>
-	    						<p>Viris phaedrum ad cum, in usu ipsum percipit. Ut ponderum percipitur este -by <span class="todt-joe"> Joe Black </span></p>
-	    					</div>
-	    				</div>
-	    				<div class="late-btn">
-	    					<a href="#" class=".load_more">LOAD MORE</a>
-	    				</div>
-                                    </div>
-                                </div>
-                 
-                        
-
-
-                <!--<div class="bar-kit">
-	    		<div class="col-md-4 header-bot-right-part-1">-->
-<!--latest activity strta here-->
-</div>
-</div>
+						
+												<p>Scrivi un tuo commento</p>
+													<form class="form-horizontal" role="form" id="addCommentForm" method="post" action="">
+														<div class="form-group">
+																<div class="col-sm-6">
+																		<textarea name="body" id="text-content" class="form-control"></textarea>
+																</div>
+														</div>
+														<div class="form-group">
+																<div class="late-btn col-sm-6">
+																		<a href="#" class=".load_more" id="insertComment">INSERISCI COMMENTO</a>
+																</div>
+														</div>
+													</form>
+										
+						
+					</div>
+				</div>
+			</div>
                    
 
 
