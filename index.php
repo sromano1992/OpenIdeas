@@ -8,7 +8,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
     
-        <title>Shop Homepage - Start Bootstrap Template</title>
+        <title>OpenIdeas - HomePage</title>
         <!-- Custom CSS -->
         <link href="css/shop-homepage.css" rel="stylesheet">        
         <link href="css/bootstrap.css" rel="stylesheet">       
@@ -35,7 +35,7 @@
             <div class="row">
     
                 <div class="col-md-3">
-                    <p class="lead">Shop Name</p>
+                    <p class="lead">Categorie</p>
                     <div class="list-group">
                         <a href="#" class="list-group-item">Category 1</a>
                         <a href="#" class="list-group-item">Category 2</a>

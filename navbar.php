@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php">App name</a>
+            <a class="navbar-brand" href="index.php">OpenIdeas</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -18,7 +18,7 @@
                     <a href="#">About</a>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="#">Contatti</a>
                 </li>
                 <?php
                     session_start();
