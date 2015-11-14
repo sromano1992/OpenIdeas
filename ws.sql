@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2015 alle 12:42
+-- Generation Time: Nov 15, 2015 alle 16:30
 -- Versione del server: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -52,18 +52,19 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `idIdea` int(11) DEFAULT NULL,
   `idUser` varchar(200) DEFAULT NULL,
   `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `text` text NOT NULL
+  `text` text NOT NULL,
+  `score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `comment`
 --
 
-INSERT INTO `comment` (`idIdea`, `idUser`, `date`, `text`) VALUES
-(1, 'email@email.it', '0000-00-00 00:00:00', 'Good'),
-(1, 'email@email.it', '2015-11-11 08:36:00', 'Good ideas :) !'),
-(1, 'a.leo@unisa.it', '2015-11-12 00:14:00', 'Bad Idea! It already exist!'),
-(2, 's.romano1992@gmail.com', '2015-11-20 00:00:00', 'I''m a genius');
+INSERT INTO `comment` (`idIdea`, `idUser`, `date`, `text`, `score`) VALUES
+(1, 'email@email.it', '0000-00-00 00:00:00', 'Good', 0),
+(1, 'email@email.it', '2015-11-11 08:36:00', 'Good ideas :) !', 0),
+(1, 'a.leo@unisa.it', '2015-11-12 00:14:00', 'Bad Idea! It already exist!', 0),
+(2, 's.romano1992@gmail.com', '2015-11-20 00:00:00', 'I''m a genius', 0);
 
 -- --------------------------------------------------------
 
@@ -152,7 +153,8 @@ CREATE TABLE IF NOT EXISTS `utente` (
 INSERT INTO `utente` (`name`, `surname`, `dateOfBirth`, `email`, `password`, `sex`, `imPath`, `lastLogin`, `confirmed`, `validationCode`, `registrationDate`, `webPage`) VALUES
 ('Amedeo', 'Leo', '1992-09-08', 'a.leo@unisa.it', 'aleo', 'm', '', '2015-11-13 00:00:00', 0, '', NULL, NULL),
 ('pippo', 'pluto', '2015-11-12', 'email@email.it', 'pwd', 'm', '', '2015-11-10 00:00:00', 0, '', NULL, NULL),
-('Simone', 'Romano', '0000-00-00', 's.romano1992@gmail.com', NULL, 'm', 'https://scontent.xx.fbcdn.net/hprofile-xpt1/v/t1.0-1/p50x50/11695888_851302401625643_2317299565397082538_n.jpg?oh=a7371e28b70771b0a1c084d3cd44b0ad&oe=56F0DF68', '2015-11-14 10:37:29', 1, '', '2015-11-13 07:25:54', 'http://www.sromano.altervista.org');
+('Simone', 'Romano', '1992-10-05', 'pianobarsimone@hotmail.it', 'ba534a841f6a30a8996c19681a787c17', '', 'userImg/pianobarsimone@hotmail.it.png', '2015-11-15 16:18:22', 1, '8873df96ff9fe44e47a69fc3acc0f89e', '2015-11-15 15:44:20', ''),
+('Simone', 'Romano', '0000-00-00', 's.romano1992@gmail.com', NULL, 'm', 'https://scontent.xx.fbcdn.net/hprofile-xpt1/v/t1.0-1/p50x50/11695888_851302401625643_2317299565397082538_n.jpg?oh=a7371e28b70771b0a1c084d3cd44b0ad&oe=56F0DF68', '2015-11-15 12:08:48', 1, '', '2015-11-13 07:25:54', 'http://www.sromano.altervista.org');
 
 --
 -- Indexes for dumped tables
