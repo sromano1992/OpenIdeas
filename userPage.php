@@ -30,36 +30,61 @@
 
     <body>
        
-    <?php include("navbar.php");?>
+    <?php
+        include("navbar.php");
+        require "manageDB.php";
+    ?>
       <hr>
         <div class="container">
             <div class="row">
-                    <div class="col-sm-10"><h1>Joeuser</h1></div>
-            <div class="col-sm-2"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div>
+                <?php
+                   echo "<div class='col-sm-10'><h1>{$_SESSION['name']}</h1></div>"; 
+                ?>                  
+            <div class="col-sm-2"><a href="<?php echo"{$_SESSION['picture']}" ?>" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="<?php echo"{$_SESSION['picture']}" ?>"/></a></div>
         </div>
         <div class="row">
                     <div class="col-sm-3"><!--left col-->
                   
               <ul class="list-group">
                 <li class="list-group-item text-muted">Profile</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span> 2.13.2014</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span> Yesterday</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Real name</strong></span> Joseph Doe</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span><?php echo"{$_SESSION['registrationDate']}"?></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span><?php echo"{$_SESSION['lastLogin']}"?></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Real name</strong></span><?php echo"{$_SESSION['name']} {$_SESSION['surname']}"?></li>
                 
               </ul> 
                    
               <div class="panel panel-default">
                 <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i></div>
-                <div class="panel-body"><a href="http://bootply.com">bootply.com</a></div>
+                <div class="panel-body"><a href="http://bootply.com"><?php echo"{$_SESSION['webPage']}"?></a></div>
               </div>
               
               
               <ul class="list-group">
                 <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Received comments</strong></span>
+                    <?php
+                        $comments = getCommentForUser($_SESSION['email']);
+                        echo "{$comments}";
+                    ?>
+                </li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span>
+                    <?php
+                        $followers = getUserFollowers($_SESSION['email']);
+                        echo "{$followers}";
+                    ?>
+                </li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Financier</strong></span>
+                    <?php
+                        $financier = getUserFinancier($_SESSION['email']);
+                        echo "{$financier}";
+                    ?>
+                </li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>My ideas</strong></span>
+                     <?php
+                        $numIdeas = getUserIdeasCount($_SESSION['email']);
+                        echo "{$numIdeas}";
+                    ?>
+                </li>
               </ul> 
                    
               <div class="panel panel-default">
@@ -321,24 +346,53 @@
                     <table class="table table-hover">
                       
                       <tbody>
-                        <tr>
-                          <td><i class="pull-right fa fa-edit"></i> Today, 1:00 - Jeff Manzi liked your post.</td>
-                        </tr>
-                        <tr>
-                          <td><i class="pull-right fa fa-edit"></i> Today, 12:23 - Mark Friendo liked and shared your post.</td>
-                        </tr>
-                        <tr>
-                          <td><i class="pull-right fa fa-edit"></i> Today, 12:20 - You posted a new blog entry title "Why social media is".</td>
-                        </tr>
-                        <tr>
-                          <td><i class="pull-right fa fa-edit"></i> Yesterday - Karen P. liked your post.</td>
-                        </tr>
-                        <tr>
-                          <td><i class="pull-right fa fa-edit"></i> 2 Days Ago - Philip W. liked your post.</td>
-                        </tr>
-                        <tr>
-                          <td><i class="pull-right fa fa-edit"></i> 2 Days Ago - Jeff Manzi liked your post.</td>
-                        </tr>
+                        <?php
+                            $result = getLastUserActivities($_SESSION['email']);
+                            if (mysqli_num_rows($result) > 0) {
+                                // output data of each row
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                                    if($row['type'] == 'follow'){
+                                        $date = $row['date'];
+                                        $ideaName = getIdeaName($row['text']); 
+                                        $author = $row['idIdea'];  //query result column have different name (try query to understand value of each column)
+                                        ?>
+                                        <tr>
+                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - Follow <b>{$ideaName}</b> of user <b>{$author}</b>";?></td>
+                                        </tr><?php
+                                    }
+                                    else if ($row['type'] == 'insert'){
+                                        $date = $row['date'];
+                                        $ideaName = $row['text'];
+                                        ?>
+                                        <tr>
+                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - You added <b>{$ideaName}</b>";?><td>
+                                        </tr><?php
+                                    }
+                                    else if ($row['type'] == 'financier'){
+                                        $date = $row['date'];
+                                        $ideaName = $row['text'];
+                                        $author = $row['idIdea'];   //query result column have different name (try query to understand value of each column)
+                                        ?>
+                                        <tr>
+                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - You funded <b>{$ideaName}</b> of user <b>{$author}</b>";?><td>
+                                        </tr><?php
+                                    }
+                                    else if ($row['type'] == 'comment'){
+                                        $date = $row['date'];
+                                        $comment = $row['text'];
+                                        $ideaName = getIdeaName($row['idIdea']);
+                                        $author = getUserOfIdea($row['idIdea'])['email'];
+                                        ?>
+                                        <tr>
+                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - You leave the comment <b>{$comment}</b> on <b>{$ideaName}</b> of user <b>{$author}</b>";?><td>
+                                        </tr><?php
+                                    
+                                    }
+                                }
+                            }
+                        ?>
+                       
                       </tbody>
                     </table>
                   </div>

@@ -67,16 +67,18 @@
   // successful.  See statusChangeCallback() for when this call is made.
   function loggedInWithFacebook() {
     console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me?fields=name,email', function(response) {
+    FB.api('/me?fields=name,email,birthday,gender,picture', function(response) {
       //console.log('Successful login for: ' + response.name);
       console.log(JSON.stringify(response));
-      if (window.location.href == "http://localhost/WebSemantico/login.php") {
-        //location.href = "index.php";
+      console.log(response.picture.data.url);
+      console.log(encodeURIComponent(response.picture.data.url));
+      checkSession(response);
+      if (window.location.href == "http://localhost/WebSemantico/OpenIdeas/login.php") {
+        location.href = "index.php";
       }
-      checkSession(response.email);
     });
     
-    function checkSession(email) {
+    function checkSession(userData) {
       var xhttp;
       if (window.XMLHttpRequest) {
         // code for modern browsers
@@ -91,8 +93,8 @@
           alert(xhttp.responseText);
         }
       }
-      xhttp.open("POST", "startSession.php", true);
+      xhttp.open("POST", "checkUserMemberFB.php", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhttp.send("email="+email);
+      xhttp.send("email="+userData.email+"&name="+userData.name+"&sex="+userData.gender+"&picture="+encodeURIComponent(userData.picture.data.url)+"&birthday="+userData.birthday);
     }
 }
