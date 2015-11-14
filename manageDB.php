@@ -1,6 +1,7 @@
 <?php
     
     require 'function.php';
+    require 'functions.php';
     
     function getConn(){
         global $conn;
@@ -133,7 +134,7 @@
     
     //mancano gli allegati
     //utente fb ok, utente normale?
-    function insertIdea($name, $description,  $idUser, $categories, $financier = NULL) {
+    function insertIdea($name, $description,  $idUser, $categories, $financier = NULL, $dateOfFinancing = NULL) {
         $date = getTimeAndDate();
         $conn = getConn();
         
@@ -141,15 +142,14 @@
         echo $date . '<br>';
         echo $description . '<br>';
         echo $idUser . '<br>';
+        print_r($categories) . '<br>';
         echo $financier . '<br>';
         
-        $sql = "INSERT INTO idea (nome, dateOfInsert, description,  idUser, financier) VALUES ('$name','$date','$description','$idUser', '$financier')";
-        $result = mysqli_query($conn, $sql) or die("Insert failed");
-        
+        $sql = "INSERT INTO idea (nome, dateOfInsert, description,  idUser) VALUES ('$name','$date','$description','$idUser')";
+        $result = mysqli_query($conn, $sql) or die ("Insert failed");
         
         $idIdea = mysqli_insert_id($conn);
          
-        
         $arrayOfIdCategories = array();
         foreach($categories as $category){
             $element = getCategory($category);
@@ -166,6 +166,7 @@
         }
         $stmt->close();
         mysqli_query($conn,"COMMIT");
+        mysqli_close($conn);
         return $result;
     }
     
@@ -187,8 +188,29 @@
         }
     }
     
+    function hasAlreadyFollower($idUser,$idIdea) {
+        $conn = getConn();
+        $sql = "SELECT * FROM follow WHERE idIdea = '$idIdea'";
+        $result = mysqli_query($conn, $sql) or die("Query failed");
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                if($row['idUser'] == $idUser) {
+                    mysqli_close($conn);
+                    return true;
+                }
+            }
+            return false;
+        }
+        else {
+            mysqli_close($conn);
+            return NULL;
+        }
+    }
+    
     function insertFollower ($idUser, $idIdea) {
         if(isIdeaOfUser($idUser, $idIdea))
+            return NULL;
+        if(hasAlreadyFollower($idUser, $idIdea))
             return NULL;
         $date = getTimeAndDate();
         $conn = getConn();
@@ -231,137 +253,7 @@
             return NULL;
         }
     }
-    
-    /**
-     * @author Simone Romano
-     **/
-    function getUserFollowers($email){        
-        $returnValues = array();
-        $conn = getConn();
-        
-        $sql = "Select count(*) from follow where idIdea in( SELECT id FROM idea WHERE idUser='{$email}')";
-        $result = mysqli_query($conn, $sql) or die("select failed");
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row
-            while($row = mysqli_fetch_assoc($result)) {
-                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
-                $toReturn = $row['count(*)'];
-            }
-        }
-    
-        mysqli_close($conn);
-        return $toReturn;
-    }
-    
-     /**
-     * @author Simone Romano
-     **/
-    function getIdeaName($idIdea){        
-        $returnValues = array();
-        $conn = getConn();
-        $toReturn = "";
-        
-        $sql = "select nome from idea where id='{$idIdea}'";
-        $result = mysqli_query($conn, $sql) or die("select failed");
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row
-            while($row = mysqli_fetch_assoc($result)) {
-                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
-                $toReturn = $row['nome'];
-            }
-        }
-    
-        mysqli_close($conn);
-        return $toReturn;
-    }
 
-    /**
-     * @author Simone Romano
-     * Return the count of comments for idas of $email user.
-     **/
-    function getCommentForUser($email){
-        $returnValues = array();
-        $conn = getConn();
-        
-        $sql = "select count(*) from comment where idIdea in (select id from idea where idUser='{$email}')";
-        $result = mysqli_query($conn, $sql) or die("select failed");
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row
-            while($row = mysqli_fetch_assoc($result)) {
-                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
-                $toReturn = $row['count(*)'];
-            }
-        }
-    
-        mysqli_close($conn);
-        return $toReturn;
-    }
-    
-     /**
-     * @author Simone Romano
-     * Return the count user's ideas.
-     **/
-    function getUserIdeasCount($email){
-        $returnValues = array();
-        $conn = getConn();
-        
-        $sql = "select count(*) from idea where idUser='{$email}'";
-        $result = mysqli_query($conn, $sql) or die("select failed");
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row
-            while($row = mysqli_fetch_assoc($result)) {
-                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
-                $toReturn = $row['count(*)'];
-            }
-        }
-    
-        mysqli_close($conn);
-        return $toReturn;
-    }
-    
-     /**
-     * @author Simone Romano
-     * Return last user activities. 
-     **/
-    function getLastUserActivities($email){
-        $returnValues = array();
-        $conn = getConn();
-        
-        $sql = "select date,text,idIdea,'comment' as type from comment where idUser='{$email}'
-                union all
-                select date,idIdea,idUser,'follow' as type from follow where idUser='{$email}' 
-                union all
-                select dateOfFinancing,nome,idUser,'financier' as type from idea where financier='{$email}'
-                union all
-                select dateOfInsert,nome,id,'insert' as type from idea where idUser='{$email}' 
-                order by date;";
-        $result = mysqli_query($conn, $sql) or die("select failed");
-    
-        mysqli_close($conn);
-        return $result;
-    }
-    
-    /**
-     * @author Simone Romano
-     * Return the count of financiers for idas of $email user.
-     **/
-    function getUserFinancier($email){        
-        $returnValues = array();
-        $conn = getConn();
-        
-        $sql = "select count(*) from idea where idUser='{$email}' and financier is not null";
-        $result = mysqli_query($conn, $sql) or die("select failed");
-        if (mysqli_num_rows($result) > 0) {
-            // output data of each row
-            while($row = mysqli_fetch_assoc($result)) {
-                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
-                $toReturn = $row['count(*)'];
-            }
-        }
-        mysqli_close($conn);
-        return $toReturn;   
-    }
-    
     function insertComment ($idUser, $idIdea, $text) {
         $date = getTimeAndDate();
         $conn = getConn();
@@ -480,7 +372,9 @@
     }
     
     function insertFinancier($idIdea, $idFinancier) {
+        $date = getTimeAndDate();
         $idea = getIdeaById($idIdea);
+        /* if $idea != null */
         /* if(exists($idFinancier) */
         if($idea['Idea']['idUser'] == $idFinancier)
             return "Non puoi finanziare una tua idea";
@@ -488,10 +382,37 @@
             return "Quest'idea ha già un finanziatore";
         else {
             $conn = getConn();
-            $sql = "UPDATE idea SET financier = '$idFinancier' WHERE id = '$idIdea'";
+            $sql = "UPDATE idea SET financier = '$idFinancier', dateOfFinancing = '$date' WHERE id = '$idIdea'";
             $result = mysqli_query($conn, $sql);
             mysqli_close($conn);
         }    
+    }
+    
+    function getNumberOfUserIdeas($idUser) {
+        $returnValues = array();
+        $conn = getConn();
+        $sql = "SELECT * FROM idea WHERE idUser = '$idUser'";
+        $result = mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return count($result);
+    }
+    
+    function getUserById($idUser) {
+        $returnValues = array();
+        $conn = getConn();
+        $sql = "SELECT * FROM utente WHERE email = '$idUser'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $returnValues['User'] = $row;              
+            }
+            mysqli_close($conn);
+            return $returnValues;
+        }
+        else {
+            mysqli_close($conn);
+            return NULL;
+        }
     }
     
     /** 

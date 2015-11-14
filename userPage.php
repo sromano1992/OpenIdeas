@@ -31,8 +31,7 @@
     <body>
        
     <?php
-        include("navbar.php");
-        require "manageDB.php";
+        include("navbar.php");     
     ?>
       <hr>
         <div class="container">
@@ -61,30 +60,10 @@
               
               <ul class="list-group">
                 <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Received comments</strong></span>
-                    <?php
-                        $comments = getCommentForUser($_SESSION['email']);
-                        echo "{$comments}";
-                    ?>
-                </li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span>
-                    <?php
-                        $followers = getUserFollowers($_SESSION['email']);
-                        echo "{$followers}";
-                    ?>
-                </li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Financier</strong></span>
-                    <?php
-                        $financier = getUserFinancier($_SESSION['email']);
-                        echo "{$financier}";
-                    ?>
-                </li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>My ideas</strong></span>
-                     <?php
-                        $numIdeas = getUserIdeasCount($_SESSION['email']);
-                        echo "{$numIdeas}";
-                    ?>
-                </li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
               </ul> 
                    
               <div class="panel panel-default">
@@ -346,53 +325,24 @@
                     <table class="table table-hover">
                       
                       <tbody>
-                        <?php
-                            $result = getLastUserActivities($_SESSION['email']);
-                            if (mysqli_num_rows($result) > 0) {
-                                // output data of each row
-                                while($row = mysqli_fetch_assoc($result)) {
-                                    //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
-                                    if($row['type'] == 'follow'){
-                                        $date = $row['date'];
-                                        $ideaName = getIdeaName($row['text']); 
-                                        $author = $row['idIdea'];  //query result column have different name (try query to understand value of each column)
-                                        ?>
-                                        <tr>
-                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - Follow <b>{$ideaName}</b> of user <b>{$author}</b>";?></td>
-                                        </tr><?php
-                                    }
-                                    else if ($row['type'] == 'insert'){
-                                        $date = $row['date'];
-                                        $ideaName = $row['text'];
-                                        ?>
-                                        <tr>
-                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - You added <b>{$ideaName}</b>";?><td>
-                                        </tr><?php
-                                    }
-                                    else if ($row['type'] == 'financier'){
-                                        $date = $row['date'];
-                                        $ideaName = $row['text'];
-                                        $author = $row['idIdea'];   //query result column have different name (try query to understand value of each column)
-                                        ?>
-                                        <tr>
-                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - You funded <b>{$ideaName}</b> of user <b>{$author}</b>";?><td>
-                                        </tr><?php
-                                    }
-                                    else if ($row['type'] == 'comment'){
-                                        $date = $row['date'];
-                                        $comment = $row['text'];
-                                        $ideaName = getIdeaName($row['idIdea']);
-                                        $author = getUserOfIdea($row['idIdea'])['email'];
-                                        ?>
-                                        <tr>
-                                            <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - You leave the comment <b>{$comment}</b> on <b>{$ideaName}</b> of user <b>{$author}</b>";?><td>
-                                        </tr><?php
-                                    
-                                    }
-                                }
-                            }
-                        ?>
-                       
+                        <tr>
+                          <td><i class="pull-right fa fa-edit"></i> Today, 1:00 - Jeff Manzi liked your post.</td>
+                        </tr>
+                        <tr>
+                          <td><i class="pull-right fa fa-edit"></i> Today, 12:23 - Mark Friendo liked and shared your post.</td>
+                        </tr>
+                        <tr>
+                          <td><i class="pull-right fa fa-edit"></i> Today, 12:20 - You posted a new blog entry title "Why social media is".</td>
+                        </tr>
+                        <tr>
+                          <td><i class="pull-right fa fa-edit"></i> Yesterday - Karen P. liked your post.</td>
+                        </tr>
+                        <tr>
+                          <td><i class="pull-right fa fa-edit"></i> 2 Days Ago - Philip W. liked your post.</td>
+                        </tr>
+                        <tr>
+                          <td><i class="pull-right fa fa-edit"></i> 2 Days Ago - Jeff Manzi liked your post.</td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>

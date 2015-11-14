@@ -58,13 +58,39 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	});	  
 });
 </script>
+<script type="text/javascript">
+    $(document).on('click', '#insertComment', function()  {
+            var textcontent = $("#text-content").val();
+	    var idIdea = "62";
+            var dataString = 'content=' + textcontent + '&idIdea=' + idIdea;
+            if (textcontent == '') {
+		alert("Non hai scritto nulla!");
+		$("#text-content").focus(); }
+            else {
+
+		$.ajax({
+		    type: "POST",
+		    url: "./insertComment.php",
+		    data: dataString,
+		    cache: true,
+		    success: function(html){
+			document.getElementById('text-content').value='';
+			 $('#divComments').html();
+		         $('#divComments').html(html);
+		    }  
+		});
+             }
+        return false;
+    });
+
+</script>
 </head>
 <body>
 <!--header start here-->
 <div class="header">
 	<h3 class="main-head"><?php
 						require 'manageDB.php';
-						$idea = getIdeaById("14");
+						$idea = getIdeaById("62");
 						$name = $idea['Idea']['nome'];
 						echo $name;
 				?></h3>
@@ -143,7 +169,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    				</div>
 	    				<div class="col-md-4 user-prof-numb fdback">
 	    					<span class="feedback"> </span>
-	    					<h6>145,369</h6>
+	    					<h6><?php echo getNumberOfUserIdeas($idea['Idea']['idUser']);?></h6>
 	    				</div>
 	    				<div class="col-md-4 user-prof-numb comment">
 	    					<span class="comment-mess"> </span>
@@ -303,12 +329,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    			<div class="bann-left">
 	    				<span class="bann-part"> </span>
 	    				<div class="bann-text">
-	    					<h1>Vuoi finanziare l'idea?</h1>
-	    					<p>Mettiti in contatto con l'ideatore!</p>
-	    				</div>
-	    			</div>
-	    			<div class="bann-rit">
+						<?php
+						       $condition = hasFinancier($idea['Idea']['id']);
+						       if($condition) : ?>
+								<h1>L'idea &egrave; stata già finanziata!</h1>
+						       <?php elseif(!$condition) : ?>
+								<h1>Vuoi finanziare l'idea?</h1>
+	    					                <p>Mettiti in contatto con l'ideatore!</p>
+								<div class="bann-rit">
 	    				<a href="#">FINANZIA!</a>
+	    			</div>
+						<?php endif; ?>
+	    				</div>
 	    			</div>
 	    		  <div class="clearfix"> </div>
                           
@@ -355,33 +387,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<?php
 								$comments = $idea['Comments'];
 								foreach ($comments as $comment) {
-										echo "<div class='latest-today'><h4>";
+										echo "<div class='latest-today' id='divComments'><h4>";
 										echo $comment['date'];
 										echo "</h4><p>";
 										echo $comment['text'];
-										echo "&nbsp;[<span class='todt-joe'>getUtenteById</span>]</p><hr>";
+										$user = getUserById($comment['idUser']);
+										$nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
+										echo "&nbsp;[<span class='todt-joe'>$nameSurname</span>]</p><hr>";
 								}
 						?>
-	    					<div class="latest-today">
-	    						<h4>Today,12.06AM</h4>
-	    						<h3>SITE UPDATE</h3>
-	    						<p>Viris phaedrum ad cum, in usu ipsum percipit. Ut ponderum percipitur este -by <span class="todt-joe"> Joe Black </span></p>
-	    					</div>
-	    				</div>
-	    				<div class="late-btn">
-	    					<a href="#" class=".load_more">LOAD MORE</a>
-	    				</div>
-                                    </div>
-                                </div>
-                 
-                        
-
-
-                <!--<div class="bar-kit">
-	    		<div class="col-md-4 header-bot-right-part-1">-->
-<!--latest activity strta here-->
-</div>
-</div>
+						
+												<p>Add a Comment</p>
+													<form class="form-horizontal" role="form" id="addCommentForm" method="post" action="">
+														<div class="form-group">
+																<div class="col-sm-6">
+																		<textarea name="body" id="text-content" class="form-control"></textarea>
+																</div>
+														</div>
+														<div class="form-group">
+																<div class="late-btn col-sm-6">
+																		<a href="#" class=".load_more" id="insertComment">INSERISCI COMMENTO</a>
+																</div>
+														</div>
+													</form>
+										
+						
+					</div>
+				</div>
+			</div>
                    
 
 
