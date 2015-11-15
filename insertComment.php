@@ -1,10 +1,10 @@
 <?php
-    /* SOSTITUIRE email@email.it con l'utente loggato */
-    
+    session_start();
     require 'manageDB.php';
     $content=$_POST['content'];
     $idIdea=$_POST['idIdea'];
-    insertComment("email@email.it", $idIdea, $content);
+    $idUser = $_SESSION['email'];
+    insertComment($idUser, $idIdea, $content);
     $comments = getCommentsByIdIdea($idIdea);
     $count = count($comments);
     
