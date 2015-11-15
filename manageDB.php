@@ -81,6 +81,10 @@
             session_start();
             if (!isset($_SESSION['email'])){
                 while($row = mysqli_fetch_assoc($result)) {
+                    $confirmed = $row['confirmed'];
+                    if ($confirmed == 0){
+                        return -3;
+                    }
                     $passwordInDb = $row['password'];
                     $test = md5($password);
                     if (md5($password)==$passwordInDb){
@@ -105,7 +109,7 @@
             }
         } else {    //insert user in db
             mysqli_close($conn);
-           return -2;
+            return -2;
         }
         
         mysqli_close($conn);
