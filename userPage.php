@@ -204,7 +204,8 @@
                 <div class="row">
                         <?php
                             //each position of $uerIdeas contains an array:
-                            //$userIdeas[k][0] = ideaId; $userIdeas[k][1] = followers number; 
+                            //$userIdeas[k][0] = ideaId; $userIdeas[k][1] = followers number;
+                            require 'manageDB.php';
                             $userIdeas = getUserIdeasOrderedByFollowers($_SESSION['email']);
                             $maxFollowers = getMaxFollow();
                             for ($i=0; $i<sizeof($userIdeas); $i++){

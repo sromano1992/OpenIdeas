@@ -134,18 +134,11 @@
     
     //mancano gli allegati
     //utente fb ok, utente normale?
-    function insertIdea($name, $description,  $idUser, $categories, $financier = NULL, $dateOfFinancing = NULL) {
+    function insertIdea($name, $description,  $idUser, $categories, $financier = NULL, $dateOfFinancing = NULL, $imPath) {
         $date = getTimeAndDate();
         $conn = getConn();
-        
-        echo $name . '<br>';
-        echo $date . '<br>';
-        echo $description . '<br>';
-        echo $idUser . '<br>';
-        print_r($categories) . '<br>';
-        echo $financier . '<br>';
-        
-        $sql = "INSERT INTO idea (nome, dateOfInsert, description,  idUser) VALUES ('$name','$date','$description','$idUser')";
+        /* if financier == NULL && $dateOfFinancing == NULL */
+        $sql = "INSERT INTO idea (nome, dateOfInsert, description,  idUser, imPath) VALUES ('$name','$date','$description','$idUser', '$imPath')";
         $result = mysqli_query($conn, $sql) or die ("Insert failed");
         
         $idIdea = mysqli_insert_id($conn);
@@ -503,10 +496,10 @@
         return $toReturn;   
     }
     
-    function insertComment ($idUser, $idIdea, $text) {
+    function insertComment ($idUser, $idIdea, $text, $score = NULL) {
         $date = getTimeAndDate();
         $conn = getConn();
-        $sql = "INSERT INTO comment (idIdea, idUser, date, text) VALUES ('$idIdea','$idUser','$date','$text')";
+        $sql = "INSERT INTO comment (idIdea, idUser, date, text, Score) VALUES ('$idIdea','$idUser','$date','$text', '$score')";
         $result = mysqli_query($conn, $sql) or die("Insert failed");
         return $result;
     }
@@ -662,6 +655,146 @@
             return NULL;
         }
     }
+    
+    function getPointsForIdeaComments($idIdea) {
+        $conn = getConn();
+        $today = strtotime(getTimeAndDate());
+        $ts = $today;
+        
+        // calculate the number of days since Monday
+        $dow = date('w', $ts);
+        $offset = $dow - 1;
+        if ($offset < 0) {
+            $offset = 6;
+        }
+        // calculate timestamp for the Monday
+        $ts = $ts - $offset*86400;
+        // loop from Monday till Sunday
+        $comments = array();
+        for ($i = 1; $i <= 7; $i++, $ts += 86400){
+            $current_date = date("d-m-Y", $ts);
+            $sql = "SELECT * FROM comment where idIdea = '$idIdea'";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    if(!isCommentOfOwner($row['idUser'],$idIdea)) {
+                        $comment_date = fromTimestampToDate(strtotime($row['date']));
+                        if($comment_date == $current_date) {
+                            $comments[$i][]= $row;
+                        }
+                    }
+                }
+            }
+        }
+        $values = array();
+        $comment = array();
+        for($i = 1; $i <= 7; $i++) {
+            if(!empty($comments[$i])) {
+                $j = 0;
+                $sum_score = 0;
+                foreach((array)$comments[$i] as $comment) {
+                    $sum_score = $sum_score +  $comment['Score'];
+                    $j++;
+                }
+                $values[$i] = $sum_score/$j;
+            }
+            else
+                $values[$i] = 0;
+        }
+        
+        return $values;
+    }
+    
+    /* comprende anche i commenti dell'utente */
+    function getNumberOfCommentsOfLastWeekByIdIdea($idIdea) {
+        $conn = getConn();
+        $today = strtotime(getTimeAndDate());
+        $ts = $today;
+        
+        // calculate the number of days since Monday
+        $dow = date('w', $ts);
+        $offset = $dow - 1;
+        if ($offset < 0) {
+            $offset = 6;
+        }
+        // calculate timestamp for the Monday
+        $ts = $ts - $offset*86400;
+        // loop from Monday till Sunday
+        $comments = array();
+        for ($i = 1; $i <= 7; $i++, $ts += 86400){
+            $current_date = date("d-m-Y", $ts);
+            $sql = "SELECT * FROM comment where idIdea = '$idIdea'";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    $comment_date = fromTimestampToDate(strtotime($row['date']));
+                    if($comment_date == $current_date) {
+                        $comments[$i][]= $row;
+                    }  
+                }
+            }
+        }
+        $return = 0;
+        for($i = 1; $i <= 7; $i++) {
+            if(!empty($comments[$i])) {
+                foreach((array)$comments[$i] as $comment) {
+                    $return++;
+                }
+            }
+        }
+        return $return;
+    }
+    
+    function getTotalScoreOfLastWeekByIdIdea($idIdea) {
+        $conn = getConn();
+        $today = strtotime(getTimeAndDate());
+        $ts = $today;
+        
+        // calculate the number of days since Monday
+        $dow = date('w', $ts);
+        $offset = $dow - 1;
+        if ($offset < 0) {
+            $offset = 6;
+        }
+        // calculate timestamp for the Monday
+        $ts = $ts - $offset*86400;
+        // loop from Monday till Sunday
+        $comments = array();
+        for ($i = 1; $i <= 7; $i++, $ts += 86400){
+            $current_date = date("d-m-Y", $ts);
+            $sql = "SELECT * FROM comment where idIdea = '$idIdea'";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    if(!isCommentOfOwner($row['idUser'],$idIdea)) {
+                        $comment_date = fromTimestampToDate(strtotime($row['date']));
+                        if($comment_date == $current_date) {
+                            $comments[$i][]= $row;
+                        }
+                    }
+                }
+            }
+        }
+        
+        $return = 0;
+        for($i = 1; $i <= 7; $i++) {
+            if(!empty($comments[$i])) {
+                foreach((array)$comments[$i] as $comment) {
+                    $return = $return + $comment['Score'];
+                }
+            }
+        }
+        return $return;
+    }
+    
+    function isCommentOfOwner($idUser, $idIdea) {
+        $user = getUserOfIdea($idIdea);
+        if($idUser == $user['email'])
+            return true;
+        return false;
+    }
+    
+   
     
     /** 
     * @author Simone Romano

@@ -8,11 +8,16 @@
         date_default_timezone_set('Europe/Rome');
         $date = date("Y-m-d H:i:s");                   
         return $date;
+    };
+    
+    function getToday() {
+        date_default_timezone_set('Europe/Rome');
+        $date = date("Y-m-d");                   
+        return $date;
     }
     
-    function fromTimestampToDate() {
-        $timestamp = getTimestamp();
-        return date('m/d/Y H:i:s', $timestamp);
+    function fromTimestampToDate($timestamp) {
+        return date('d-m-Y', $timestamp);
     }    
     
 ?>

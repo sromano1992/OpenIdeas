@@ -55,7 +55,7 @@
     //echo insertIdea($name = "social network", $description = "social network per artisti", $idUser = "lionheart.92@hotmail.it", $categories, $financier = NULL, $dateOfFinancing = NULL);
     //echo insertFinancier("62", "s.romano1992@gmail.com");
     //echo insertComment("s.romano1992@gmail.com","62", "Great idea!");
-    echo hasAlreadyFollower("email@email.it", "62");
+    //echo hasAlreadyFollower("email@email.it", "62");
     //echo insertFollower("email@email.it", "62");
 
     //echo (new \DateTime())->format('d-m-Y H:i:s');
@@ -65,4 +65,15 @@
     //print_r($userIdeas);
     //$n = 0.77*5;
     //echo"<br>{$n}";
+    
+    //$categories = ["category1"];
+    //echo insertIdea($name = "social network", $description = "social network per artisti", $idUser = "lionheart.92@hotmail.it", $categories, NULL, NULL, $imPath = "pathImg");
+    
+    //$comments = getCommentsByIdIdea("18");
+    //echo count($comments);
+    
+    //print_r(getPointsForIdeaComments("18"));
+    //echo getNumberOfCommentsOfLastWeekByIdIdea("18");
+    echo insertComment("lionheart.92@hotmail.it", "18", "bene", "6000");
+    
 ?>

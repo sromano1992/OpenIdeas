@@ -1,9 +1,12 @@
 <?php
+    /* SOSTITUIRE email@email.it con l'utente loggato */
+    
     require 'manageDB.php';
     $content=$_POST['content'];
     $idIdea=$_POST['idIdea'];
     insertComment("email@email.it", $idIdea, $content);
     $comments = getCommentsByIdIdea($idIdea);
+    $count = count($comments);
     
     foreach ($comments as $comment) {
         echo "<div class='latest-today' id='divComments'><h4>";
@@ -14,6 +17,7 @@
         $nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
         echo "&nbsp;[<span class='todt-joe'>$nameSurname</span>]</p><hr>";
     }
+
     echo "<p>Add a Comment</p>";
     echo "<form class='form-horizontal' role='form' id='addCommentForm' method='post' action=''>";
     echo "<div class='form-group'>";
