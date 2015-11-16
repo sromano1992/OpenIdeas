@@ -6,24 +6,24 @@
     $idUser = $_SESSION['email'];
     insertComment($idUser, $idIdea, $content);
     $comments = getCommentsByIdIdea($idIdea);
-    $count = count($comments);
     
     foreach ($comments as $comment) {
-        echo "<div class='latest-today' id='divComments'><h4>";
+        echo "<h4>";
         echo $comment['date'];
         echo "</h4><p>";
         echo $comment['text'];
-        $user = getUserById($comment['idUser']);
+        $user = getUserById($idUser);
         $nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
         echo "&nbsp;[<span class='todt-joe'>$nameSurname</span>]</p><hr>";
     }
 
-    echo "<p>Add a Comment</p>";
+    /* <p>Scrivi un tuo commento</p>";
     echo "<form class='form-horizontal' role='form' id='addCommentForm' method='post' action=''>";
     echo "<div class='form-group'>";
     echo "<div class='col-sm-6'>";
     echo "<textarea name='body' id='text-content' class='form-control'></textarea></div></div>";
     echo "<div class='form-group'>";
     echo "<div class='late-btn col-sm-6'>";
-    echo "<a href='#' class='.load_more' id='insertComment'>INSERISCI COMMENTO</a></div></div></form>";
+    echo "<a href='#' class='.load_more' id='insertComment'>INSERISCI COMMENTO</a>";
+    echo "</div></div></form>"; */
 ?>
