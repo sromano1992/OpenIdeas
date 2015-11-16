@@ -25,12 +25,11 @@ if (!$conn) {
 echo 'Connected successfully<br>';
 mysql_select_db("ws") or die(mysql_error());
 
-//$sql = "INSERT INTO idea (nome, dateOfInsert, description, idUser, path_foto, url_video) VALUES ('$nome', '$dataInserimento', '$descrizione', '$idUser', '$path_foto', '$url_video')";
-$sql="INSERT INTO idea(nome, dateOfInsert, description, idUser, path_foto, url_video) VALUES ('ciro','2014-01-01','ciro', 'ciro@gmail.com','ciro','ciro')";
-$result = mysql_query($sql);
-or die(mysql_error());  
+$sql = "INSERT INTO idea (nome, dateOfInsert, description, idUser, imPath, url_video) VALUES ('$nome', '$dataInserimento', '$descrizione', '$idUser', '$path_foto', '$url_video')";
+echo "{$sql}";
+$result = mysql_query($sql) or die(mysql_error());  
 
-$row = mysql_fetch_array( $result );
+//$row = mysql_fetch_array( $result );
 //echo "Name: ".$row['name'];
 echo 'Connected closed';
 mysql_close($conn);
