@@ -23,7 +23,25 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-        <script type="text/javascript" src="login.js"></script> 
+        <script type="text/javascript" src="login.js"></script>
+        <script type="text/javascript">
+            function refreshIdeas(id) {
+                //alert(id);
+                var dataString = 'category='+id;
+                $.ajax({
+		    type: "POST",
+		    url: "./refreshIdeas.php",
+		    data: dataString,
+		    cache: true,
+		    success: function(html){
+			alert(html);
+		        $('#divIdeas').html();
+		        $('#divIdeas').html(html);
+		    }
+		    
+		});
+            }
+        </script>
         
     </head>
     
@@ -37,9 +55,13 @@
                 <div class="col-md-3">
                     <p class="lead">Categorie</p>
                     <div class="list-group">
-                        <a href="#" class="list-group-item">Category 1</a>
-                        <a href="#" class="list-group-item">Category 2</a>
-                        <a href="#" class="list-group-item">Category 3</a>
+                        <?php
+                            error_reporting(0);
+                            require "manageDB.php";
+                            $categories = getCategories();
+                            foreach($categories as $category) {
+                                echo "<a href='#' onclick='refreshIdeas(this.id)' class='list-group-item' id='$category[name]'>$category[name]</a>";
+                            }?>
                     </div>
                 </div>
     
@@ -50,12 +72,34 @@
                         <div class="col-md-12">
                             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                                 <ol class="carousel-indicators">
-                                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                                    <?php $ideas = getThreeMaxFollow();
+                                          $j = 0;
+                                          foreach($ideas as $idea) {
+                                            if($j == 0) {
+                                                echo "<li data-target='#carousel-example-generic' data-slide-to='$j' class='active'></li>";
+                                            }
+                                            else {
+                                                echo "<li data-target='#carousel-example-generic' data-slide-to='$j'></li>";
+                                            }
+                                            $j++;
+                                          }
+                                    ?>
                                 </ol>
                                 <div class="carousel-inner">
-                                    <div class="item active">
+                                    <?php
+                                        $ideas = getThreeMaxFollow();
+                                        $j = 0;
+                                        foreach($ideas as $path) {
+                                            if($j == 0) {
+                                                echo "<div class='item active'>";
+                                            }
+                                            else echo "<div class='item'>";
+                                            echo "<img class='slide-image' src='$path' alt='' style='height:300px; width:800px'>";
+                                            echo "</div>";
+                                            $j++;
+                                        }
+                                    ?>
+                                    <!--<div class="item active">
                                         <img class="slide-image" src="http://placehold.it/800x300" alt="">
                                     </div>
                                     <div class="item">
@@ -63,7 +107,7 @@
                                     </div>
                                     <div class="item">
                                         <img class="slide-image" src="http://placehold.it/800x300" alt="">
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
                                     <span class="glyphicon glyphicon-chevron-left"></span>
@@ -76,132 +120,59 @@
     
                     </div>
     
-                    <div class="row">
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
-                                    <div class="caption">
-                                        <h4 class="pull-right">$24.99</h4>                              
-                                        <input type="hidden" name="id" value='1'/>
-                                        <h4><a href="idea.php?id=1" >First Product</a>      
-                                        </h4>
-                                        <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
-                                    </div> 
-                                <div class="ratings">
-                                    <p class="pull-right">15 reviews</p>
-                                    <p>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
-                                <div class="caption">
-                                    <h4 class="pull-right">$64.99</h4>
-                                    <h4><a href="#">Second Product</a>
-                                    </h4>
-                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                                <div class="ratings">
-                                    <p class="pull-right">12 reviews</p>
-                                    <p>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
-                                <div class="caption">
-                                    <h4 class="pull-right">$74.99</h4>
-                                    <h4><a href="#">Third Product</a>
-                                    </h4>
-                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                                <div class="ratings">
-                                    <p class="pull-right">31 reviews</p>
-                                    <p>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
-                                <div class="caption">
-                                    <h4 class="pull-right">$84.99</h4>
-                                    <h4><a href="#">Fourth Product</a>
-                                    </h4>
-                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                                <div class="ratings">
-                                    <p class="pull-right">6 reviews</p>
-                                    <p>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://placehold.it/320x150" alt="">
-                                <div class="caption">
-                                    <h4 class="pull-right">$94.99</h4>
-                                    <h4><a href="#">Fifth Product</a>
-                                    </h4>
-                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                                <div class="ratings">
-                                    <p class="pull-right">18 reviews</p>
-                                    <p>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star"></span>
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="col-sm-4 col-lg-4 col-md-4">
-                            <h4><a href="#">Like this template?</a>
-                            </h4>
-                            <p>If you like this template, then check out <a target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">this tutorial</a> on how to build a working review system for your online store!</p>
-                            <a class="btn btn-primary" target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">View Tutorial</a>
-                        </div>
-    
+                    <div class="row" id="divIdeas">
+                        <?php
+                        $ideas = getIdeasOrderedByFollowers();
+                            $maxFollowers = getMaxFollow();
+                            for ($i=0; $i<sizeof($ideas); $i++){
+                                $idIdea = $ideas[$i][0];
+                                $idea = getIdeaById($idIdea);
+                                $followersNum = sizeof($idea['Followers']);
+                                $ideaScorePercentage = $followersNum/$maxFollowers;
+                                $starNum = ceil($ideaScorePercentage*5);
+                                $ideaImPath = $idea['Idea']['imPath'];
+                                if (strlen($ideaImPath) == 0){
+                                    $ideaImPath = "images/imNotFound.jpg";
+                                }
+                                ?>
+                                     <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <div class="thumbnail">
+                                            <img src="<?php echo"{$ideaImPath}";?>" style="width:320px;height:150px;" >
+                                            <div class="caption">
+                                                <h4 class="pull-right"></h4>
+                                                <h4><a href="<?php echo"idea.php?id={$idIdea}";?>"><?php echo"{$idea['Idea']['nome']}";?></a>
+                                                </h4>
+                                                <p><?php echo"{$idea['Idea']['description']}";?></p>
+                                            </div>
+                                            <div class="ratings">
+                                                <p class="pull-right">
+                                                <?php                                                    
+                                                    echo"{$followersNum}";?> followers
+                                                </p>
+                                                <p>
+                                                    <?php
+                                                        for ($j=0; $j<$starNum; $j++){
+                                                            ?>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                            <?php
+                                                        }
+                                                        for ($j=5; $j>$starNum; $j--){
+                                                            ?>
+                                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                                            <?php
+                                                        }
+                                                    ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>            
+                                <?php
+                            }
+                        ?> 
+
                     </div>
-    
                 </div>
-    
             </div>
-    
         </div>
         <!-- /.container -->
     
@@ -213,7 +184,7 @@
             <footer>
                 <div class="row">
                     <div class="col-lg-12">
-                        <p>Copyright &copy; Your Website 2014</p>
+                        <p>Copyright &copy; OpenIdeas 2015</p>
                     </div>
                 </div>
             </footer>

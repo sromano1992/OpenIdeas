@@ -27,22 +27,23 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <script type="text/javascript" src="loginStandard.js"></script> 
 </head>
 <body>
+	<?php
+	    include("navbar.php");     
+	?>
 	<h1>OpenIdeas - registrazione e login</h1>
             <div class="wrap">
                 <div class="signup">
-                    <h2>Registrazione<span></span></h2>
+                    <h3>Registrazione<span></span></h3>
                     <div class="singup-info">
-                        <form enctype="multipart/form-data">
-			    <input id="reg_name" type="text" class="text" placeholder="Nome" >
-			    <input id="reg_surname" type="text" class="text" placeholder="Cognome" >			    
-			    <div class="users">
-				<input id="reg_email" type="email" class="text" placeholder="Email" >
-				<input id="reg_password" type="password" class="text" placeholder="Password" >
-				<input id="reg_imPath" type="file" class="text" placeholder="Immagine del profilo" >
-				<input id="reg_webPage" type="text" class="text" placeholder="Pagina web"  >
-				<input id="reg_dateOfBirth" type="date" class="text" placeholder="Data di nascita"  >
-			    </div>
-                        </form>
+			<input id="reg_name" type="text" class="text" placeholder="Nome" >
+			<input id="reg_surname" type="text" class="text" placeholder="Cognome" >			    
+			<div class="users">
+			    <input id="reg_email" type="email" class="text" placeholder="Email" >
+			    <input id="reg_password" type="password" class="text" placeholder="Password" >
+			    <input id="reg_imPath" type="file" class="text" placeholder="Immagine del profilo" >
+			    <input id="reg_webPage" type="text" class="text" placeholder="Pagina web"  >
+			    <input id="reg_dateOfBirth" type="date" class="text" placeholder="Data di nascita"  >
+			</div>
                         <div id="acceptedConditionDiv" class="p-container">
 			   <input id="acceptedCondition" type="checkbox" name="checkbox" checked><i> </i>Accetto i termini e le condizioni di utilizzo</label>
 			</div>
@@ -55,22 +56,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="login">
                         <h3>Login<span></span></h3>
                         <div class="login-info">
-			    <input id="log_email" type="text" class="text" placeholder="Email">
-			    <input id="log_password" type="password" placeholder="Password">
-			    <div class="p-container">
-				<label id="errorLabel" style="color: red; visibility: hidden">Credenziali errate</label>
-			    </div>
-			    <div class="btns">
-				<div class="btn-group btn-group-justified" role="group" >
-				    <div class="btn-group" role="group">
-					<fb:login-button data-size="xlarge" scope="public_profile,email" onlogin="checkLoginState();">
-					</fb:login-button>
-				    </div>
-				    <div class="btn-group" role="group">
-					<input type="submit" onclick="login()" value="login">
+			    <form enctype="multipart/form-data">
+				<input id="log_email" type="text" class="text" placeholder="Email">
+				<input id="log_password" type="password" placeholder="Password">
+				<div class="p-container">
+				    <label id="errorLabel" style="color: red; visibility: hidden">Credenziali errate</label>
+				</div>
+				<div class="btns">
+				    <div class="btn-group btn-group-justified" role="group" >
+					<div class="btn-group" role="group">
+					    <fb:login-button data-size="xlarge" scope="public_profile,email" onlogin="checkLoginState();">
+					    </fb:login-button>
+					</div>
+					<div class="btn-group" role="group">
+					    <input type="submit" onclick="login()" value="login">
+					</div>
 				    </div>
 				</div>
-			    </div>
+			    </form>
 			    </div>
 			    <p><a href="#" onclick="restorePassword()">Hai dimenticato la password?<span>Clicca qui</span></a></p>                
                         </div>

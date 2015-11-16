@@ -119,6 +119,11 @@ HTML;
     
     //print_r(getPointsForIdeaComments("18"));
     //echo getNumberOfCommentsOfLastWeekByIdIdea("18");
-    echo insertComment("lionheart.92@hotmail.it", "18", "bene", "6000");
+    //echo insertComment("lionheart.92@hotmail.it", "18", "bene", "6000");
+    //print_r(getCategories());
+    
+    //print_r(getIdeas());
+    //print_r(getThreeMaxFollow());
+    print_r(getIdeasOrderedByFollowersByCategory("category1"));
     
 ?>

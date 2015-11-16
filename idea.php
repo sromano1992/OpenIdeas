@@ -61,30 +61,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 });
 </script>
 <script type="text/javascript">
-    $(document).on('click', '#insertComment', function()  {
+$(document).ready(function(){
+    $('body').on('click', '#insertComment', function()  {
             var textcontent = $('#text-content').val();
 	    var idIdea = <?php echo $_GET['id'] ?>;
             var dataString = 'content=' + textcontent + '&idIdea=' + idIdea;
             if (textcontent == '') {
 		alert("Non hai scritto nulla!");
-		$("#text-content").focus(); }
+		$("#text-content").focus();
+            }
             else {
-
 		$.ajax({
 		    type: "POST",
 		    url: "./insertComment.php",
 		    data: dataString,
 		    cache: true,
 		    success: function(html){
-			document.getElementById('text-content').value='';
-			alert(html);
-				$('#divComments').html();
-		         $('#divComments').html(html);
-		    }  
+				alert(html);
+		        $('#divComments').html();
+		        $('#divComments').html(html);
+		        document.getElementById('text-content').value='';
+		    }
 		});
              }
         return false;
-    });
+    })
+});
 
 </script>
 </head>
@@ -380,39 +382,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	    						<li><span class="box"> </span></li>
 	    						<li><span class="line"> </span></li>
 	    					</ul>
-	    					<!--<div class="latest-today">
-	    						<h4>Today,3.20AM</h4>
-	    						<h3>NEW INVOICE SUBMITED</h3>
-	    						<p>Viris phaedrum ad cum, in usu ipsum percipit. Ut ponderum percipitur este -by <span class="todt-joe"> Joe Black </span></p>
-	    					</div>
-	    					<div class="latest-today">
-	    						<h4>Today,2.45AM</h4>
-	    						<h3>ORDER PLACED</h3>
-	    						<p>Viris phaedrum ad cum, in usu ipsum percipit. Ut ponderum percipitur este -by <span class="todt-joe"> Joe Black </span></p>
-	    					</div>
-	    					<div class="latest-today">
-	    						<h4>Today,5.15AM</h4>
-	    						<h3>PRICE CHANGE</h3>
-	    						<p>Viris phaedrum ad cum, in usu ipsum percipit. Ut ponderum percipitur este -by <span class="todt-joe"> Joe Black </span></p>
-						</div>-->
+						<div class='latest-today' id='divComments'>
 						<?php
 								$comments = getCommentsByIdIdea($idea['Idea']['id']);
-								$count = count($comments);
-								if($count == 1) :
-										echo '<script language="javascript">';
-echo 'alert("1")';
-echo '</script>';
-										echo "<div class='latest-today' id='divComments'><h4>";
-										echo $comments[0]['date'];
-										echo "</h4><p>";
-										echo $comments[0]['text'];
-										$user = getUserById($comments[0]['idUser']);
-										$nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
-										echo "&nbsp;[<span class='todt-joe'>$nameSurname</span>]</p><hr>";
-								
-								elseif($count > 1):
+								if(!empty($comments)) {
 										foreach ($comments as $comment) {
-												echo "<div class='latest-today' id='divComments'><h4>";
+												echo "<h4>";
 												echo $comment['date'];
 												echo "</h4><p>";
 												echo $comment['text'];
@@ -420,31 +395,24 @@ echo '</script>';
 												$nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
 												echo "&nbsp;[<span class='todt-joe'>$nameSurname</span>]</p><hr>";
 										}
-								endif;
+								}
 						?>
-						
-												<p>Scrivi un tuo commento</p>
-													<form class="form-horizontal" role="form" id="addCommentForm" method="post" action="">
-														<div class="form-group">
-																<div class="col-sm-6">
-																		<textarea name="body" id="text-content" class="form-control"></textarea>
-																</div>
-														</div>
-														<div class="form-group">
-																<div class="late-btn col-sm-6">
-																		<a href="#" class=".load_more" id="insertComment">INSERISCI COMMENTO</a>
-																</div>
-														</div>
-													</form>
-										
-						
-					</div>
-				</div>
-			</div>
-                   
-
-
-
-<!--header end here-->
+						</div> <!-- chiudo div latest-today -->
+						<p>Scrivi un tuo commento</p>
+						<form class="form-horizontal" role="form" id="addCommentForm" method="post" action="">
+								<div class="form-group">
+										<div class="col-sm-6">
+												<textarea name="body" id="text-content" class="form-control"></textarea>
+										</div>
+								</div>
+								<div class="form-group">
+										<div class="late-btn col-sm-6">
+												<a href="#" class=".load_more" id="insertComment">INSERISCI COMMENTO</a>
+										</div>
+								</div>
+						</form>
+					</div> <!-- div latest-act-bot -->
+				</div> <!-- div latest-activity -->
+			</div> <!-- div col-md-12 header-bot-right-part-1 -->
 </body>
 </html>
