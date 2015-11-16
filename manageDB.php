@@ -246,6 +246,23 @@
             return NULL;
         }
     }
+    
+    function getThreeMaxFollow(){
+        $returnValues = array();
+        $conn = getConn();
+        $sql = "SELECT * FROM (SELECT idIdea, COUNT( idIdea ) AS countIdea FROM follow GROUP BY idIdea ) AS maxFollows ORDER BY countIdea DESC LIMIT 3";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                $imPath = getIdeaById($row['idIdea'])['Idea']['imPath'];
+                $returnValues[] = $imPath;
+            }
+        }
+    
+        mysqli_close($conn);
+        return $returnValues;
+    }
 
     
     /**
@@ -501,6 +518,7 @@
         $conn = getConn();
         $sql = "INSERT INTO comment (idIdea, idUser, date, text, Score) VALUES ('$idIdea','$idUser','$date','$text', '$score')";
         $result = mysqli_query($conn, $sql) or die("Insert failed");
+        mysqli_close($conn);
         return $result;
     }
     
@@ -794,8 +812,137 @@
         return false;
     }
     
-   
+    function getIdeas() {
+        $returnValues = array();
+        $conn = getConn();
+        $sql = "SELECT * FROM idea";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $returnValues['Idea'] = $row;
+            }
+            mysqli_close($conn);
+            $returnValues['User'] = getUserOfIdea($returnValues['Idea']['id']);
+            $returnValues['Followers'] = getFollowersByIdIdea($returnValues['Idea']['id']);
+            $returnValues['Comments'] = getCommentsByIdIdea($returnValues['Idea']['id']);
+            return $returnValues;
+        } else {
+            mysqli_close($conn);
+            return NULL;
+        }
+    }
     
+    
+    function getIdeasByCategory($category) {
+        $returnValues = array();
+        $conn = getConn();
+        $idCategory = getCategory($category)[0]['id'];
+        print_r($idCategory);
+        
+        $sql = "SELECT * FROM hasCategory WHERE idCategory = '$idCategory'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $returnValues[] = $row;
+            }
+            mysqli_close($conn);
+            return $returnValues;
+        } else {
+            mysqli_close($conn);
+            return NULL;
+        }
+    }
+    
+    function getIdeasOrderedByFollowers(){
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "select id from idea";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        $toReturn = array();
+        $i = 0;
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                $sql_followers = "select count(*) from follow where idIdea='{$row['id']}'";
+                $result_followers_num = mysqli_query($conn, $sql_followers) or die("select failed");
+                $followers_numb = 0;
+                if (mysqli_num_rows($result_followers_num) > 0) {
+                    // output data of each row
+                    while($row_followers = mysqli_fetch_assoc($result_followers_num)) {
+                        $followers_numb = $row_followers['count(*)'];                        
+                    }
+                }
+                $record = array();
+                $record[0] = $row['id'];
+                $record[1] = $followers_numb;
+                $index = 0;
+                //inserting in crescent order
+                //get index of new element
+                for($j = 0; $j < sizeOf($toReturn); $j++) {
+                    if ($toReturn[$j][1] > $record[1]){
+                        $index = $j;
+                        break;
+                    }
+                }
+                //shifit of right part of array
+                for($j = sizeOf($toReturn)-1; $j >= $index; $j--) {
+                    $toReturn[$j+1] = $toReturn[$j];             
+                }
+                //insert new element
+                $toReturn[$index] = $record;
+                $i++;
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
+    
+    function getIdeasOrderedByFollowersByCategory($category){
+        $returnValues = array();
+        $conn = getConn();
+        $category = getCategory($category)[0]['id'];
+        $sql = "SELECT id FROM idea WHERE id IN ( SELECT idIdea FROM hasCategory WHERE idCategory =  '$category')";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        $toReturn = array();
+        $i = 0;
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                $sql_followers = "select count(*) from follow where idIdea='{$row['id']}'";
+                $result_followers_num = mysqli_query($conn, $sql_followers) or die("select failed");
+                $followers_numb = 0;
+                if (mysqli_num_rows($result_followers_num) > 0) {
+                    while($row_followers = mysqli_fetch_assoc($result_followers_num)) {
+                        $followers_numb = $row_followers['count(*)'];                        
+                    }
+                }
+                $record = array();
+                $record[0] = $row['id'];
+                $record[1] = $followers_numb;
+                $index = 0;
+                //inserting in crescent order
+                //get index of new element
+                for($j = 0; $j < sizeOf($toReturn); $j++) {
+                    if ($toReturn[$j][1] > $record[1]){
+                        $index = $j;
+                        break;
+                    }
+                }
+                //shifit of right part of array
+                for($j = sizeOf($toReturn)-1; $j >= $index; $j--) {
+                    $toReturn[$j+1] = $toReturn[$j];             
+                }
+                //insert new element
+                $toReturn[$index] = $record;
+                $i++;
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
     /** 
     * @author Simone Romano
     */
