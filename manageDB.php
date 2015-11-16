@@ -26,13 +26,10 @@
         $sql = "SELECT * from utente where email='{$email}'";
         $result = mysqli_query($conn, $sql);
         
-        echo "searching user";
         if (mysqli_num_rows($result) > 0) { //user in db
-            echo "found user";
             session_start();
             if (!isset($_SESSION['email'])){
                 $_SESSION['email'] =  $_POST['email'];
-                echo "setted session";
                 while($row = mysqli_fetch_assoc($result)) {
                     $_SESSION['name'] = $row["name"];
                     $_SESSION['surname'] = $row["surname"];
@@ -71,6 +68,53 @@
         
         mysqli_close($conn);
     }
+     /** 
+    * @author Simone Romano
+    */
+    function checkUserPassword($email, $password) {
+        $conn = getConn();
+        
+        $sql = "SELECT * from utente where email='{$email}'";
+        $result = mysqli_query($conn, $sql);
+        
+        if (mysqli_num_rows($result) > 0) { //user in db
+            session_start();
+            if (!isset($_SESSION['email'])){
+                while($row = mysqli_fetch_assoc($result)) {
+                    $confirmed = $row['confirmed'];
+                    if ($confirmed == 0){
+                        return -3;
+                    }
+                    $passwordInDb = $row['password'];
+                    $test = md5($password);
+                    if (md5($password)==$passwordInDb){
+                        $_SESSION['email'] =  $email;
+                        $_SESSION['name'] = $row["name"];
+                        $_SESSION['surname'] = $row["surname"];
+                        $_SESSION['sex'] = $row["sex"];
+                        $_SESSION['picture'] = $row["imPath"];
+                        $_SESSION['birthday'] = $row["birthday"];
+                        $_SESSION['registrationDate'] = $row["registrationDate"];
+                        $_SESSION['lastLogin'] = $row["lastLogin"];
+                        $_SESSION['webPage'] = $row["webPage"];
+                        $now = (new \DateTime())->format('Y-m-d H:i:s');
+                        updateLastLogin($email, $now);
+                    }
+                    else{
+                        mysqli_close($conn);
+                        return -1;
+                    }
+                }
+                
+            }
+        } else {    //insert user in db
+            mysqli_close($conn);
+            return -2;
+        }
+        
+        mysqli_close($conn);
+        return 1;
+    }
     
     /** 
     * @author Simone Romano
@@ -84,6 +128,33 @@
         mysqli_close($conn);
     }
     
+    /** 
+    * @author Simone Romano
+    */
+    function updatePassword($email, $password){        
+        $conn = getConn();
+        
+        $password = md5($password);
+        
+        $sql = "UPDATE utente set password='{$password}' where email='{$email}'";
+        $result = mysqli_query($conn, $sql);
+        
+        mysqli_close($conn);
+    }
+    
+    
+    /** 
+    * @author Simone Romano
+    * Confirm user.
+    */
+    function confirmUser($email){        
+        $conn = getConn();
+        
+        $sql = "UPDATE utente set confirmed='1' where email='{$email}'";
+        $result = mysqli_query($conn, $sql);
+        
+        mysqli_close($conn);
+    }
     
     function getCategory($category = NULL) {
         
@@ -110,7 +181,7 @@
             mysqli_close($conn);
             return NULL;
         }
-    }
+    }    
     
     function getCategories() {
         return getCategory();
@@ -961,11 +1032,111 @@
         mysqli_close($conn);
     }
     
-    /** 
-    * @author Simone Romano
-    */
-    function insertUser(){
+    /**
+     * @author Simone Romano
+     * Register new User into system
+     **/
+    function insertUser($email,$password, $name, $surname, $picture, $birthday, $webPage){
+        $conn = getConn();
         
+        $validationCode = md5($email . $name);        
+        $nameSurname = explode (" " ,$name); 
+        $now = (new \DateTime())->format('Y-m-d H:i:s');
+        
+        //check user already in db
+        $sql = "select confirmed from utente where email='{$email}'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $confirmed = $row['confirmed'];
+                if ($confirmed == 1){
+                    mysqli_close($conn);
+                    return -1;
+                }
+                else{
+                    mysqli_close($conn);
+                    return -2;
+                }
+            }            
+        }       
+        $password = md5($password);
+        $sql = "INSERT INTO utente(name,surname,dateOfBirth,webPage,email,password,imPath,confirmed,registrationDate,validationCode) values('{$name}','${surname}','{$birthday}','{$webPage}','{$email}','{$password}','{$picture}','0','{$now}', '{$validationCode}')";
+        
+        $result = mysqli_query($conn, $sql);
+        
+        mysqli_close($conn);
+        
+        
+        //send confirmation email
+        $validationLink = "<a href='http://localhost/WebSemantico/OpenIdeas/validation.php?email={$email}&name={$name}'>Conferma</a></body></html>";
+        
+        // definisco mittente e destinatario della mail
+        $nome_mittente = "OpenIdeas";
+        $mail_mittente = "";
+        $mail_destinatario = "{$email}";
+
+        // definisco il subject
+        $mail_oggetto = "Registrazione";
+        
+        // definisco il messaggio formattato in HTML
+        $mail_corpo = <<<HTML
+        <html>
+        <head>
+          <title>Registrazione al portale OpenIdeas</title>
+        </head>
+        <body>
+        La tua registrazione al portale <a href='http://localhost/WebSemantico/OpenIdeas/index.php'>OpenIdeas</a>
+            è quasi completa. Clicca al link seguente per confermare<br>
+            {$validationLink}
+        </body>
+        </html>
+HTML;
+
+        // aggiusto un po' le intestazioni della mail
+        // E' in questa sezione che deve essere definito il mittente (From)
+        // ed altri eventuali valori come Cc, Bcc, ReplyTo e X-Mailer
+        $mail_headers = "From: " .  $nome_mittente . " <" .  $mail_mittente . ">\r\n";
+        $mail_headers .= "Reply-To: " .  $mail_mittente . "\r\n";
+        $mail_headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+    
+        // Aggiungo alle intestazioni della mail la definizione di MIME-Version,
+        // Content-type e charset (necessarie per i contenuti in HTML)
+        $mail_headers .= "MIME-Version: 1.0\r\n";
+        $mail_headers .= "Content-type: text/html; charset=iso-8859-1";
+        
+        if (mail($mail_destinatario, $mail_oggetto, $mail_corpo, $mail_headers))
+          echo "Messaggio inviato con successo a " . $mail_destinatario;
+        else
+          echo "Errore. Nessun messaggio inviato.";
+    }
+    
+    /**
+     * @author Simone Romano
+     * Validate user registration
+     **/
+    function checkValidation($email, $name){
+        $conn = getConn();
+        
+        $validationCode = md5($email . $name);       
+        $now = (new \DateTime())->format('Y-m-d H:i:s');
+        
+        $sql = "select validationCode from utente where email='{$email}'";
+        
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $validationCodeInDb = $row['validationCode'];
+                echo"{$validationCode} {$validationCodeInDb}";
+                if ($validationCode == $validationCodeInDb){
+                    return true;
+                }
+                else
+                    return false;
+            }
+        }
+        return false;
+        
+        mysqli_close($conn);
     }
     
     function getTest($email){

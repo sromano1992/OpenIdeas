@@ -90,11 +90,13 @@
       xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
           //ok
-          alert(xhttp.responseText);
+          //alert(xhttp.responseText);
         }
       }
       xhttp.open("POST", "checkUserMemberFB.php", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send("email="+userData.email+"&name="+userData.name+"&sex="+userData.gender+"&picture="+encodeURIComponent(userData.picture.data.url)+"&birthday="+userData.birthday);
     }
+    
+
 }

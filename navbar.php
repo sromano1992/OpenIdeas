@@ -42,9 +42,6 @@
                 <li>
                     <a style="visibility: hidden" href="#" onclick="logOut();" id="logout">Logout</a>
                 </li>
-                <li>
-                    <a href="userPage.php" id="status"/>
-                </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
