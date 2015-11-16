@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2015 alle 16:30
+-- Generation Time: Nov 16, 2015 alle 08:56
 -- Versione del server: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -112,18 +112,19 @@ CREATE TABLE IF NOT EXISTS `idea` (
   `idUser` varchar(200) NOT NULL,
   `financier` varchar(200) DEFAULT NULL,
   `dateOfFinancing` datetime NOT NULL,
-  `imPath` text NOT NULL
+  `imPath` text NOT NULL,
+  `url_video` text NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dump dei dati per la tabella `idea`
 --
 
-INSERT INTO `idea` (`nome`, `id`, `dateOfInsert`, `description`, `idUser`, `financier`, `dateOfFinancing`, `imPath`) VALUES
-('ip multi socket 220v', 1, '2015-11-13 09:33:17', 'this idea want to realize a muilti socket with an ip address and possibility of switch it in on/off mdoe by using internet.', 's.romano1992@gmail.com', 's.romano1992@gmail.com', '2015-11-14 16:00:00', ''),
-('vision tool', 2, '2015-11-17 08:12:46', 'idea is to realiza a tool for vision tasks. ', 's.romano1992@gmail.com', 'a.leo@unisa.it', '0000-00-00 00:00:00', ''),
-('name1', 7, '2015-11-14 10:57:53', 'descr', 's.romano1992@gmail.com', NULL, '0000-00-00 00:00:00', ''),
-('idea9', 8, '2015-11-06 00:00:00', 'descri idea 9', 's.romano1992@gmail.com', NULL, '0000-00-00 00:00:00', 'http://www.sromano.altervista.org/progetto_smartwatch/home.jpg');
+INSERT INTO `idea` (`nome`, `id`, `dateOfInsert`, `description`, `idUser`, `financier`, `dateOfFinancing`, `imPath`, `url_video`) VALUES
+('ip multi socket 220v', 1, '2015-11-13 09:33:17', 'this idea want to realize a muilti socket with an ip address and possibility of switch it in on/off mdoe by using internet.', 's.romano1992@gmail.com', 's.romano1992@gmail.com', '2015-11-14 16:00:00', '', ''),
+('vision tool', 2, '2015-11-17 08:12:46', 'idea is to realiza a tool for vision tasks. ', 's.romano1992@gmail.com', 'a.leo@unisa.it', '0000-00-00 00:00:00', '', ''),
+('name1', 7, '2015-11-14 10:57:53', 'descr', 's.romano1992@gmail.com', NULL, '0000-00-00 00:00:00', '', ''),
+('idea9', 8, '2015-11-06 00:00:00', 'descri idea 9', 's.romano1992@gmail.com', NULL, '0000-00-00 00:00:00', 'http://www.sromano.altervista.org/progetto_smartwatch/home.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -153,8 +154,9 @@ CREATE TABLE IF NOT EXISTS `utente` (
 INSERT INTO `utente` (`name`, `surname`, `dateOfBirth`, `email`, `password`, `sex`, `imPath`, `lastLogin`, `confirmed`, `validationCode`, `registrationDate`, `webPage`) VALUES
 ('Amedeo', 'Leo', '1992-09-08', 'a.leo@unisa.it', 'aleo', 'm', '', '2015-11-13 00:00:00', 0, '', NULL, NULL),
 ('pippo', 'pluto', '2015-11-12', 'email@email.it', 'pwd', 'm', '', '2015-11-10 00:00:00', 0, '', NULL, NULL),
-('Simone', 'Romano', '1992-10-05', 'pianobarsimone@hotmail.it', 'ba534a841f6a30a8996c19681a787c17', '', 'userImg/pianobarsimone@hotmail.it.png', '2015-11-15 16:18:22', 1, '8873df96ff9fe44e47a69fc3acc0f89e', '2015-11-15 15:44:20', ''),
-('Simone', 'Romano', '0000-00-00', 's.romano1992@gmail.com', NULL, 'm', 'https://scontent.xx.fbcdn.net/hprofile-xpt1/v/t1.0-1/p50x50/11695888_851302401625643_2317299565397082538_n.jpg?oh=a7371e28b70771b0a1c084d3cd44b0ad&oe=56F0DF68', '2015-11-15 12:08:48', 1, '', '2015-11-13 07:25:54', 'http://www.sromano.altervista.org');
+('Luigia', 'Leo', '0000-00-00', 'luigialeo94@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '', 'userImg/luigialeo94@gmail.com.png', '2015-11-15 21:26:37', 1, 'cbcaf7255dcc6087410ad50a9d0abb22', '2015-11-15 16:46:24', ''),
+('Simone', 'Romano', '0000-00-00', 'pianobarsimone@hotmail.it', '58e75ed3e996fa86b037920c1626b9ce', '', 'userImg/pianobarsimone@hotmail.it.png', '2015-11-16 08:50:27', 1, '8873df96ff9fe44e47a69fc3acc0f89e', '2015-11-16 08:20:15', ''),
+('Simone', 'Romano', '0000-00-00', 's.romano1992@gmail.com', NULL, 'm', 'https://scontent.xx.fbcdn.net/hprofile-xpt1/v/t1.0-1/p50x50/11695888_851302401625643_2317299565397082538_n.jpg?oh=a7371e28b70771b0a1c084d3cd44b0ad&oe=56F0DF68', '2015-11-16 08:39:55', 1, '', '2015-11-13 07:25:54', 'http://www.sromano.altervista.org');
 
 --
 -- Indexes for dumped tables
