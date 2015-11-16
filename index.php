@@ -26,7 +26,6 @@
         <script type="text/javascript" src="login.js"></script>
         <script type="text/javascript">
             function refreshIdeas(id) {
-                //alert(id);
                 var dataString = 'category='+id;
                 $.ajax({
 		    type: "POST",
@@ -34,7 +33,6 @@
 		    data: dataString,
 		    cache: true,
 		    success: function(html){
-			alert(html);
 		        $('#divIdeas').html();
 		        $('#divIdeas').html(html);
 		    }

@@ -77,7 +77,6 @@ $(document).ready(function(){
 		    data: dataString,
 		    cache: true,
 		    success: function(html){
-				alert(html);
 		        $('#divComments').html();
 		        $('#divComments').html(html);
 		        document.getElementById('text-content').value='';
