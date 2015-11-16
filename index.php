@@ -54,6 +54,7 @@
                     <p class="lead">Categorie</p>
                     <div class="list-group">
                         <?php
+                            error_reporting(0);
                             require "manageDB.php";
                             $categories = getCategories();
                             foreach($categories as $category) {

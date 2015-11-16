@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2015 alle 08:56
+-- Generation Time: Nov 16, 2015 alle 09:18
 -- Versione del server: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -40,7 +40,15 @@ CREATE TABLE IF NOT EXISTS `attachment` (
 CREATE TABLE IF NOT EXISTS `category` (
   `name` varchar(200) NOT NULL,
 `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dump dei dati per la tabella `category`
+--
+
+INSERT INTO `category` (`name`, `id`) VALUES
+('Software', 1),
+('Art', 2);
 
 -- --------------------------------------------------------
 
@@ -53,14 +61,14 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `idUser` varchar(200) DEFAULT NULL,
   `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `text` text NOT NULL,
-  `score` int(11) NOT NULL
+  `Score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `comment`
 --
 
-INSERT INTO `comment` (`idIdea`, `idUser`, `date`, `text`, `score`) VALUES
+INSERT INTO `comment` (`idIdea`, `idUser`, `date`, `text`, `Score`) VALUES
 (1, 'email@email.it', '0000-00-00 00:00:00', 'Good', 0),
 (1, 'email@email.it', '2015-11-11 08:36:00', 'Good ideas :) !', 0),
 (1, 'a.leo@unisa.it', '2015-11-12 00:14:00', 'Bad Idea! It already exist!', 0),
@@ -111,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `idea` (
   `description` text NOT NULL,
   `idUser` varchar(200) NOT NULL,
   `financier` varchar(200) DEFAULT NULL,
-  `dateOfFinancing` datetime NOT NULL,
+  `dateOfFinancing` datetime DEFAULT NULL,
   `imPath` text NOT NULL,
   `url_video` text NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
@@ -155,8 +163,8 @@ INSERT INTO `utente` (`name`, `surname`, `dateOfBirth`, `email`, `password`, `se
 ('Amedeo', 'Leo', '1992-09-08', 'a.leo@unisa.it', 'aleo', 'm', '', '2015-11-13 00:00:00', 0, '', NULL, NULL),
 ('pippo', 'pluto', '2015-11-12', 'email@email.it', 'pwd', 'm', '', '2015-11-10 00:00:00', 0, '', NULL, NULL),
 ('Luigia', 'Leo', '0000-00-00', 'luigialeo94@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '', 'userImg/luigialeo94@gmail.com.png', '2015-11-15 21:26:37', 1, 'cbcaf7255dcc6087410ad50a9d0abb22', '2015-11-15 16:46:24', ''),
-('Simone', 'Romano', '0000-00-00', 'pianobarsimone@hotmail.it', '58e75ed3e996fa86b037920c1626b9ce', '', 'userImg/pianobarsimone@hotmail.it.png', '2015-11-16 08:50:27', 1, '8873df96ff9fe44e47a69fc3acc0f89e', '2015-11-16 08:20:15', ''),
-('Simone', 'Romano', '0000-00-00', 's.romano1992@gmail.com', NULL, 'm', 'https://scontent.xx.fbcdn.net/hprofile-xpt1/v/t1.0-1/p50x50/11695888_851302401625643_2317299565397082538_n.jpg?oh=a7371e28b70771b0a1c084d3cd44b0ad&oe=56F0DF68', '2015-11-16 08:39:55', 1, '', '2015-11-13 07:25:54', 'http://www.sromano.altervista.org');
+('Simone', 'Romano', '0000-00-00', 'pianobarsimone@hotmail.it', '58e75ed3e996fa86b037920c1626b9ce', '', 'userImg/pianobarsimone@hotmail.it.png', '2015-11-16 09:15:25', 1, '8873df96ff9fe44e47a69fc3acc0f89e', '2015-11-16 08:20:15', ''),
+('Simone', 'Romano', '0000-00-00', 's.romano1992@gmail.com', NULL, 'm', 'https://scontent.xx.fbcdn.net/hprofile-xpt1/v/t1.0-1/p50x50/11695888_851302401625643_2317299565397082538_n.jpg?oh=a7371e28b70771b0a1c084d3cd44b0ad&oe=56F0DF68', '2015-11-16 09:15:45', 1, '', '2015-11-13 07:25:54', 'http://www.sromano.altervista.org');
 
 --
 -- Indexes for dumped tables
@@ -212,7 +220,7 @@ ALTER TABLE `utente`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `idea`
 --
