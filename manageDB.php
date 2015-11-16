@@ -970,11 +970,15 @@
         return $toReturn;
     }
     
-    function getIdeasOrderedByFollowersByCategory($category){
+    function getIdeasOrderedByFollowersByCategory($category = NULL){
         $returnValues = array();
         $conn = getConn();
-        $category = getCategory($category)[0]['id'];
-        $sql = "SELECT id FROM idea WHERE id IN ( SELECT idIdea FROM hasCategory WHERE idCategory =  '$category')";
+        if($category == NULL)
+            $sql = "SELECT id FROM idea WHERE id IN ( SELECT idIdea FROM hasCategory)";
+        else {
+            $category = getCategory($category)[0]['id'];
+            $sql = "SELECT id FROM idea WHERE id IN ( SELECT idIdea FROM hasCategory WHERE idCategory =  '$category')";
+        }
         $result = mysqli_query($conn, $sql) or die("select failed");
         $toReturn = array();
         $i = 0;

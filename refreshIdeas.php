@@ -2,7 +2,11 @@
     session_start();
     require 'manageDB.php';
     $category=$_POST['category'];
-    $ideas=getIdeasOrderedByFollowersByCategory($category);
+    if($category == "null")
+        $ideas=getIdeasOrderedByFollowers();
+    else
+        $ideas=getIdeasOrderedByFollowersByCategory($category);
+        
     $maxFollowers = getMaxFollow();
     for ($i=0; $i<sizeof($ideas); $i++){
         $idIdea = $ideas[$i][0];
