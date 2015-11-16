@@ -64,6 +64,7 @@
     //$userIdeas = getUserIdeasOrderedByFollowers("s.romano1992@gmail.com");
     //print_r($userIdeas);
     
+    /*
     $n = 0.77*5;
     echo"<br>{$n}<br>";
     
@@ -107,7 +108,7 @@ HTML;
     if (mail($mail_destinatario, $mail_oggetto, $mail_corpo, $mail_headers))
       echo "Messaggio inviato con successo a " . $mail_destinatario;
     else
-      echo "Errore. Nessun messaggio inviato.";
+      echo "Errore. Nessun messaggio inviato.";*/
     //$n = 0.77*5;
     //echo"<br>{$n}";
     
@@ -124,6 +125,9 @@ HTML;
     
     //print_r(getIdeas());
     //print_r(getThreeMaxFollow());
-    print_r(getIdeasOrderedByFollowersByCategory("category1"));
+    //print_r(getIdeasOrderedByFollowersByCategory("category1"));
+    //print_r(getUserOfIdea('8'));
+    
+    echo deleteFollower("amedeo.leo92@gmail.com", "8");
     
 ?>

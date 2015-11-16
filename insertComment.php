@@ -6,6 +6,8 @@
     $idUser = $_SESSION['email'];
     insertComment($idUser, $idIdea, $content);
     $comments = getCommentsByIdIdea($idIdea);
+    $idea = getIdeaById($idIdea);
+    $user_comment = getUserById($idUser);
     
     foreach ($comments as $comment) {
         echo "<h4>";
@@ -15,6 +17,19 @@
         $user = getUserById($idUser);
         $nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
         echo "&nbsp;[<span class='todt-joe'>$nameSurname</span>]</p><hr>";
+    }
+    
+    
+    $followers = getFollowersByIdIdea($idIdea);
+    foreach($followers as $follower) {
+        if($follower['idUtente'] != $idUser) {
+            $mail_destinatario = "{$follower['idUser']}";
+            $mail_oggetto = "C'è un nuovo commento ad un'idea che stai seguendo!";
+            $title = "L'idea {$idea['Idea']['nome']} ha un nuovo commento!";
+            $nameSurname = $user_comment['User']['name'] . " " . $user_comment['User']['surname'];
+            $body = "L'idea {$idea['Idea']['nome']} ha un nuovo commento: [{$nameSurname}]: {$content}";
+            sendMail($mail_destinatario, $mail_oggetto, $title, $body);
+        }
     }
 
     /* <p>Scrivi un tuo commento</p>";
