@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-
+<?php
+	session_start();
+    $_SESSION['email']="ciro@gmail.com";
+?>  
 <html>
     <head>
         <meta charset="utf-8">
@@ -8,7 +11,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
     
-        <title>Shop Homepage - Start Bootstrap Template</title>
+        <title>OpenIdeas</title>
         <!-- Custom CSS -->
         <link href="css/shop-homepage.css" rel="stylesheet">        
         <link href="css/bootstrap.css" rel="stylesheet">       
@@ -24,33 +27,38 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script type="text/javascript" src="login.js"></script>
-        
-        
+        <script type="text/javascript" src="js/insert_idea.js"></script>
+
+  
     </head>
 
     <body>
        
-    <?php include("navbar.php");?>
+    <?php
+        include("navbar.php");     
+    ?>
       <hr>
         <div class="container">
             <div class="row">
-                    <div class="col-sm-10"><h1>Joeuser</h1></div>
-            <div class="col-sm-2"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div>
+                <?php
+                   echo "<div class='col-sm-10'><h1>{$_SESSION['name']}</h1></div>"; 
+                ?>                  
+            <div class="col-sm-2"><a href="<?php echo"{$_SESSION['picture']}" ?>" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="<?php echo"{$_SESSION['picture']}" ?>"/></a></div>
         </div>
         <div class="row">
                     <div class="col-sm-3"><!--left col-->
                   
               <ul class="list-group">
-                <li class="list-group-item text-muted">Profile</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span> 2.13.2014</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span> Yesterday</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Real name</strong></span> Joseph Doe</li>
+                <li class="list-group-item text-muted">Profilo Utente</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span><?php echo"{$_SESSION['registrationDate']}"?></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span><?php echo"{$_SESSION['lastLogin']}"?></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Real name</strong></span><?php echo"{$_SESSION['name']} {$_SESSION['surname']}"?></li>
                 
               </ul> 
                    
               <div class="panel panel-default">
                 <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i></div>
-                <div class="panel-body"><a href="http://bootply.com">bootply.com</a></div>
+                <div class="panel-body"><a href="http://bootply.com"><?php echo"{$_SESSION['webPage']}"?></a></div>
               </div>
               
               
@@ -65,7 +73,12 @@
               <div class="panel panel-default">
                 <div class="panel-heading">Social Media</div>
                 <div class="panel-body">
-                    <i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i class="fa fa-google-plus fa-2x"></i>
+                    
+                    <img src="images/tw.png">
+                    <img src="images/fb.png">
+                    <img src="images/li.jpg">
+                    <img src="images/g.png">
+                    
                 </div>
               </div>
               
@@ -73,120 +86,30 @@
             <div class="col-sm-9">
               
               <ul class="nav nav-tabs" id="myTab">
-                <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-                <li><a href="#messages" data-toggle="tab">Messages</a></li>
-                <li><a href="#settings" data-toggle="tab">Settings</a></li>
+                <li class="active"><a href="#step1" data-toggle="tab">Step 1</a></li>
+                <li class="disabled" id="step2_li"><a id="step2_a">Step 2</a></li>
+                <li class="disabled" id="summary_li"><a id="summary_a">Summary</a></li>
+                <!--
+				<li class="disabled"><a href="#step2" data-toggle="tab">Step 2</a></li>
+                <li class="disabled"><a href="#summary" data-toggle="tab">Summary</a></li>
+                -->
               </ul>
                   
               <div class="tab-content">
-                <div class="tab-pane active" id="home">
+                <div class="tab-pane active" id="step1">
                   <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Label 1</th>
-                          <th>Label 2</th>
-                          <th>Label 3</th>
-                          <th>Label </th>
-                          <th>Label </th>
-                          <th>Label </th>
-                        </tr>
-                      </thead>
-                      <tbody id="items">
-                        <tr>
-                          <td>1</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                        </tr>
-                        <tr>
-                          <td>5</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                        </tr>
-                        <tr>
-                          <td>6</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                        </tr>
-                        <tr>
-                          <td>7</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                        </tr>
-                         <tr>
-                          <td>8</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                        </tr>
-                        <tr>
-                          <td>9</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                        </tr>
-                        <tr>
-                          <td>10</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                          <td>Table cell</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <br>
+                      <input type="text" id="name_idea" class="form-control" placeholder="Insert your idea's name">
+                      <br>
+                      <textarea id="description" class="form-control" rows="5" placeholder="Description"></textarea>
+                      <br>
+                      <nav>
+                        <ul class="pager">
+                        <li class="next"><a onClick="nextToStep2()">Next<span aria-hidden="true">&rarr;</span></a></li>
+                        </ul>
+                      </nav>
                     <hr>
+
                     <div class="row">
                       <div class="col-md-4 col-md-offset-4 text-center">
                             <ul class="pagination" id="myPager"></ul>
@@ -344,95 +267,67 @@
                   </div>
                   
                  </div><!--/tab-pane-->
-                 <div class="tab-pane" id="messages">
-                   
-                   <h2></h2>
-                   
-                   <ul class="list-group">
-                      <li class="list-group-item text-muted">Inbox</li>
-                      <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
-                      <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
-                      <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                      <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                      <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                      <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                      <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                      <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                      
-                    </ul> 
-                   
+                 <div class="tab-pane" id="summary"><br>
+                 <form enctype="multipart/form-data" action="insert_idea.php?idUser=<?php echo $_SESSION['email'];?>" target="iframe_insert" method="post">
+					<h4>Riepilogo:</h4><br>
+                	  <dl class="dl-horizontal">
+                   		 <dt >Nome</dt>
+                   		 <dd><input type="text" id="name_summary" name="nome_summary"></dd>
+                   		 <dt>Descrizione</dt>
+                   		 <dd><input type="text" id="description_summary" name="descr_summary"></dd>
+                   	  </dl>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <img id="image_summary" src="gallery/bg.jpg" alt="Allegato" class="img-thumbnail">
+                    </div>
+                    <div class="col-md-6">
+                      <iframe id="video_summary" height="253" width="438" src="http://www.youtube.com/embed/XGSy3_Czz8k" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                  </div><br>
+                  <input type="text" id="path_sum" name="path_summary" style="display:none">
+                  <input type="text" id="url_sum" name="url_summary"style="display:none">
+                  <input type="submit" value="conferma">
+                    <!--<button type="button" class="btn btn-primary pull-right" >Conferma</button>-->
+                    <br>
+                   <hr>
+                 </form>
+                 <iframe name="iframe_insert" src="insert_idea.php" style="height:50px;width:300px;" s></iframe>
+
+
+
                  </div><!--/tab-pane-->
-                 <div class="tab-pane" id="settings">
-                            
-                    
-                      <hr>
-                      <form class="form" action="##" method="post" id="registrationForm">
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="first_name"><h4>First name</h4></label>
-                                  <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any.">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                <label for="last_name"><h4>Last name</h4></label>
-                                  <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any.">
-                              </div>
-                          </div>
-              
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="phone"><h4>Phone</h4></label>
-                                  <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any.">
-                              </div>
-                          </div>
-              
-                          <div class="form-group">
-                              <div class="col-xs-6">
-                                 <label for="mobile"><h4>Mobile</h4></label>
-                                  <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="email"><h4>Email</h4></label>
-                                  <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="email"><h4>Location</h4></label>
-                                  <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="password"><h4>Password</h4></label>
-                                  <input type="password" class="form-control" name="password" id="password" placeholder="password" title="enter your password.">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                <label for="password2"><h4>Verify</h4></label>
-                                  <input type="password" class="form-control" name="password2" id="password2" placeholder="password2" title="enter your password2.">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                               <div class="col-xs-12">
-                                    <br>
-                                    <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                                    <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
-                                </div>
-                          </div>
-                    </form>
-                  </div>
+                 <div class="tab-pane" id="step2">
+                  <br>
+                   <div class="form-group">
+    				<label for="exampleInputFile">Attach image </label>
+            <form enctype="multipart/form-data" action="uploadPhoto.php" target="my-iframe" method="post">
+    				<input type="file" id="p" name="photo">
+            <input type="submit" value="post">
+            </form>
+            <iframe name="my-iframe" src="uploadPhoto.php" id="iframe_text" style="height:50px;width:300px"></iframe>
+  					</div>
+                  <!-- <a class='btn btn-primary' href='javascript:;'>
+
+                    Allega File...
+                    <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+                  </a>
+                    &nbsp;
+                    <span class='label label-info' id="upload-file-info"></span>
+                    <br>
+                    <br>-->
+                    <label for="basic-url">URL Video</label>
+                      <div class="input-group">
+                       <span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
+                        <input id="video_upload" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                      </div>
+                      <br>
+                   <nav>
+                     <ul class="pager">
+                      <!--<li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Prev</a></li>-->
+                      <li class="next"><a onClick="nextToSummary()">Next <span aria-hidden="true">&rarr;</span></a></li>
+                     </ul>
+                    </nav>   
+                </div>
                    
                   </div><!--/tab-pane-->
               </div><!--/tab-content-->
