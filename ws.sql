@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2015 alle 16:20
+-- Generation Time: Nov 16, 2015 alle 08:56
 -- Versione del server: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -19,6 +19,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `ws`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `attachment`
+--
+
+CREATE TABLE IF NOT EXISTS `attachment` (
+  `idIdea` int(11) NOT NULL,
+  `url` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -40,9 +51,20 @@ CREATE TABLE IF NOT EXISTS `category` (
 CREATE TABLE IF NOT EXISTS `comment` (
   `idIdea` int(11) DEFAULT NULL,
   `idUser` varchar(200) DEFAULT NULL,
-  `date` date NOT NULL DEFAULT '0000-00-00',
-  `text` text NOT NULL
+  `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `text` text NOT NULL,
+  `score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `comment`
+--
+
+INSERT INTO `comment` (`idIdea`, `idUser`, `date`, `text`, `score`) VALUES
+(1, 'email@email.it', '0000-00-00 00:00:00', 'Good', 0),
+(1, 'email@email.it', '2015-11-11 08:36:00', 'Good ideas :) !', 0),
+(1, 'a.leo@unisa.it', '2015-11-12 00:14:00', 'Bad Idea! It already exist!', 0),
+(2, 's.romano1992@gmail.com', '2015-11-20 00:00:00', 'I''m a genius', 0);
 
 -- --------------------------------------------------------
 
@@ -53,8 +75,17 @@ CREATE TABLE IF NOT EXISTS `comment` (
 CREATE TABLE IF NOT EXISTS `follow` (
   `idUser` varchar(200) DEFAULT NULL,
   `idIdea` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL
+  `date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `follow`
+--
+
+INSERT INTO `follow` (`idUser`, `idIdea`, `date`) VALUES
+('a.leo@unisa.it', 1, '2015-11-11 00:00:00'),
+('email@email.it', 2, '2015-11-05 12:25:00'),
+('s.romano1992@gmail.com', 1, '2015-11-04 08:00:00');
 
 -- --------------------------------------------------------
 
@@ -76,11 +107,24 @@ CREATE TABLE IF NOT EXISTS `hascategory` (
 CREATE TABLE IF NOT EXISTS `idea` (
   `nome` varchar(200) NOT NULL,
 `id` int(11) NOT NULL,
-  `dateOfInsert` date NOT NULL,
+  `dateOfInsert` datetime NOT NULL,
   `description` text NOT NULL,
   `idUser` varchar(200) NOT NULL,
-  `financier` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `financier` varchar(200) DEFAULT NULL,
+  `dateOfFinancing` datetime NOT NULL,
+  `imPath` text NOT NULL,
+  `url_video` text NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Dump dei dati per la tabella `idea`
+--
+
+INSERT INTO `idea` (`nome`, `id`, `dateOfInsert`, `description`, `idUser`, `financier`, `dateOfFinancing`, `imPath`, `url_video`) VALUES
+('ip multi socket 220v', 1, '2015-11-13 09:33:17', 'this idea want to realize a muilti socket with an ip address and possibility of switch it in on/off mdoe by using internet.', 's.romano1992@gmail.com', 's.romano1992@gmail.com', '2015-11-14 16:00:00', '', ''),
+('vision tool', 2, '2015-11-17 08:12:46', 'idea is to realiza a tool for vision tasks. ', 's.romano1992@gmail.com', 'a.leo@unisa.it', '0000-00-00 00:00:00', '', ''),
+('name1', 7, '2015-11-14 10:57:53', 'descr', 's.romano1992@gmail.com', NULL, '0000-00-00 00:00:00', '', ''),
+('idea9', 8, '2015-11-06 00:00:00', 'descri idea 9', 's.romano1992@gmail.com', NULL, '0000-00-00 00:00:00', 'http://www.sromano.altervista.org/progetto_smartwatch/home.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -96,19 +140,33 @@ CREATE TABLE IF NOT EXISTS `utente` (
   `password` varchar(200) DEFAULT NULL,
   `sex` char(1) NOT NULL,
   `imPath` text NOT NULL,
-  `lastLogin` date NOT NULL
+  `lastLogin` datetime NOT NULL,
+  `confirmed` tinyint(1) NOT NULL,
+  `validationCode` text NOT NULL,
+  `registrationDate` datetime DEFAULT NULL,
+  `webPage` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `utente`
 --
 
-INSERT INTO `utente` (`name`, `surname`, `dateOfBirth`, `email`, `password`, `sex`, `imPath`, `lastLogin`) VALUES
-('pippo', 'pluto', '2015-11-12', 'email@email.it', 'pwd', 'm', '', '2015-11-10');
+INSERT INTO `utente` (`name`, `surname`, `dateOfBirth`, `email`, `password`, `sex`, `imPath`, `lastLogin`, `confirmed`, `validationCode`, `registrationDate`, `webPage`) VALUES
+('Amedeo', 'Leo', '1992-09-08', 'a.leo@unisa.it', 'aleo', 'm', '', '2015-11-13 00:00:00', 0, '', NULL, NULL),
+('pippo', 'pluto', '2015-11-12', 'email@email.it', 'pwd', 'm', '', '2015-11-10 00:00:00', 0, '', NULL, NULL),
+('Luigia', 'Leo', '0000-00-00', 'luigialeo94@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '', 'userImg/luigialeo94@gmail.com.png', '2015-11-15 21:26:37', 1, 'cbcaf7255dcc6087410ad50a9d0abb22', '2015-11-15 16:46:24', ''),
+('Simone', 'Romano', '0000-00-00', 'pianobarsimone@hotmail.it', '58e75ed3e996fa86b037920c1626b9ce', '', 'userImg/pianobarsimone@hotmail.it.png', '2015-11-16 08:50:27', 1, '8873df96ff9fe44e47a69fc3acc0f89e', '2015-11-16 08:20:15', ''),
+('Simone', 'Romano', '0000-00-00', 's.romano1992@gmail.com', NULL, 'm', 'https://scontent.xx.fbcdn.net/hprofile-xpt1/v/t1.0-1/p50x50/11695888_851302401625643_2317299565397082538_n.jpg?oh=a7371e28b70771b0a1c084d3cd44b0ad&oe=56F0DF68', '2015-11-16 08:39:55', 1, '', '2015-11-13 07:25:54', 'http://www.sromano.altervista.org');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `attachment`
+--
+ALTER TABLE `attachment`
+ ADD KEY `idIdea` (`idIdea`);
 
 --
 -- Indexes for table `category`
@@ -159,10 +217,16 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `idea`
 --
 ALTER TABLE `idea`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Limiti per le tabelle scaricate
 --
+
+--
+-- Limiti per la tabella `attachment`
+--
+ALTER TABLE `attachment`
+ADD CONSTRAINT `attachment_ibfk_1` FOREIGN KEY (`idIdea`) REFERENCES `idea` (`id`);
 
 --
 -- Limiti per la tabella `comment`

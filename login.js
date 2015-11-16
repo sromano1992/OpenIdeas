@@ -70,10 +70,12 @@
     FB.api('/me?fields=name,email,birthday,gender,picture', function(response) {
       //console.log('Successful login for: ' + response.name);
       console.log(JSON.stringify(response));
-      if (window.location.href == "http://localhost/WebSemantico/login.php") {
+      console.log(response.picture.data.url);
+      console.log(encodeURIComponent(response.picture.data.url));
+      checkSession(response);
+      if (window.location.href == "http://localhost/WebSemantico/OpenIdeas/login.php") {
         location.href = "index.php";
       }
-      checkSession(response);
     });
     
     function checkSession(userData) {
@@ -88,11 +90,13 @@
       xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
           //ok
-          alert(xhttp.responseText);
+          //alert(xhttp.responseText);
         }
       }
       xhttp.open("POST", "checkUserMemberFB.php", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhttp.send("email="+userData.email+"&name="+userData.name+"&sex="+userData.gender+"&picture="+userData.picture.data.url+"&birthday="+userData.birthday);
+      xhttp.send("email="+userData.email+"&name="+userData.name+"&sex="+userData.gender+"&picture="+encodeURIComponent(userData.picture.data.url)+"&birthday="+userData.birthday);
     }
+    
+
 }
