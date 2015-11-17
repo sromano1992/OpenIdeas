@@ -245,7 +245,7 @@
                                         ?>
                                         <tr>
                                             <td><i class="pull-right fa fa-edit"></i> <?php echo"{$date} - Hai lasciato il messaggio <b>{$comment}</b> sull'idea <a href='idea.php?id={$ideaId}'>{$ideaName}</a> dell'utente <b>{$author}</b>";?><td>
-                                        </tr><?php
+                                        </tr
                                     
                                     }
                                 }

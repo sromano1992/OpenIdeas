@@ -3,10 +3,6 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
-<?php
-session_start();
-?>
-
 
 <!DOCTYPE HTML>
 <html>
@@ -80,6 +76,8 @@ $(document).ready(function(){
 		        $('#divComments').html();
 		        $('#divComments').html(html);
 		        document.getElementById('text-content').value='';
+			loadChart();
+			console.log("loaded");
 		    }
 		});
              }
@@ -88,12 +86,59 @@ $(document).ready(function(){
 });
 
 </script>
+
+<script type="text/javascript" src="js/canvasjs.min.js"></script>
 </head>
 <body>
+
+	<?php
+	    error_reporting(0);
+	    include("navbar.php");
+	?>
+		
+        <?php
+		require 'manageDB.php';
+		$score = getIdeaScores($_GET['id']);
+	?>
+<script type="text/javascript">
+  function loadChart() {
+    console.log("refresh chart");
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+      title:{
+        text: "Punteggi della tua idea"    
+      },
+      animationEnabled: true,
+      axisY: {
+        title: "Totali"
+      },
+      legend: {
+        verticalAlign: "bottom",
+        horizontalAlign: "center"
+      },
+      theme: "theme2",
+      data: [
+      {        
+        type: "column",  
+        showInLegend: true, 
+        legendMarkerColor: "grey",
+        legendText: "Andamento",
+        dataPoints: [
+        {y: <?php echo "{$score['neg']}";?>, label: "Negativi"},
+        {y: <?php echo "{$score['neu']}";?>,  label: "Neutri"},        
+        {y: <?php echo "{$score['pos']}";?>,  label: "Positivi"}     
+        ]
+      }   
+      ]
+    });
+
+    chart.render();
+  }
+  window.onload = loadChart;
+  </script>
 <!--header start here-->
 <div class="header">
 	<h3 class="main-head"><?php
-						require 'manageDB.php';
 						$idea = getIdeaById($_GET['id']);
 						$name = $idea['Idea']['nome'];
 						echo $name;
@@ -183,7 +228,6 @@ $(document).ready(function(){
 	    					<span class="comment-mess"> </span>
 						<!-- numero di commenti all'idea -->
 	    					<h6><?php echo getNumberOfComments($idea['Idea']['id']);?></h6>
-						<?php $points = getPointsForIdeaComments($idea['Idea']['id']); ?>
 	    				</div>
 	    			  <div class="clearfix"> </div>
 	    			</div>
@@ -194,148 +238,8 @@ $(document).ready(function(){
 <!--header-bot-right start here-->
 	    	<div class="col-md-8 header-bot-right">
 <!--analytic start here-->
-	    		<div class="analytic">
-	    			<div class="analytic-top">
-	    				<div class="infograpy"><h5>ULTIMA SETTIMANA</h5></div>
-	    				<span class="share"> </span>
-	    			  <div class="clearfix"> </div>
-	    			</div>
-	    				<div class="analttic-right">
-	    					 <div class="graph-grid">
-	    			<!--graph-->
-								<link rel="stylesheet" href="css/graph.css">
-								<script src="js/jquery.flot.min.js"></script>
-					<!--//graph-->
-					<script>
-										$(document).ready(function () {
-											
-											// Graph Data ##############################################
-											var graphData = [{
-													data: [ [1, <?php echo $points[1] ?>], [2, <?php echo $points[2] ?>], [3, <?php echo $points[3] ?>], [4, <?php echo $points[4] ?>], [5, <?php echo $points[5] ?>], [6,<?php echo $points[6] ?>], [7, <?php echo $points[7] ?>]],
-													color: '#59676B',
-													points: { radius: 4, fillColor: '#59676B' }
-												}
-											];
-										
-											// Lines Graph #############################################
-											$.plot($('#graph-lines'), graphData, {
-												series: {
-													points: {
-														show: true,
-														radius: 1
-													},
-													lines: {
-														show: true
-													},
-													shadowSize: 0
-												},
-												grid: {
-													color: '#59676B',
-													borderColor: 'transparent',
-													borderWidth: 10,
-													hoverable: true
-												},
-												xaxis: {
-													tickColor: 'transparent',
-													tickDecimals: false
-													
-												},
-												yaxis: {
-													tickSize: 1000
-												}
-											});
-										
-											// Bars Graph ##############################################
-											$.plot($('#graph-bars'), graphData, {
-												series: {
-													bars: {
-														show: true,
-														barWidth: .9,
-														align: 'center'
-													},
-													shadowSize: 0
-												},
-												grid: {
-													color: '#fff',
-													borderColor: 'transparent',
-													borderWidth: 20,
-													hoverable: true
-												},
-												xaxis: {
-													tickColor: 'transparent',
-													tickDecimals: 2
-												},
-												yaxis: {
-													tickSize: 1000
-												}
-											});
-										
-											// Graph Toggle ############################################
-											$('#graph-bars').hide();
-										
-											$('#lines').on('click', function (e) {
-												$('#bars').removeClass('active');
-												$('#graph-bars').fadeOut();
-												$(this).addClass('active');
-												$('#graph-lines').fadeIn();
-												e.preventDefault();
-											});
-										
-											$('#bars').on('click', function (e) {
-												$('#lines').removeClass('active');
-												$('#graph-lines').fadeOut();
-												$(this).addClass('active');
-												$('#graph-bars').fadeIn().removeClass('hidden');
-												e.preventDefault();
-											});
-										
-											// Tooltip #################################################
-											function showTooltip(x, y, contents) {
-												$('<div id="tooltip">' + contents + '</div>').css({
-													top: y - 16,
-													left: x + 20
-												}).appendTo('body').fadeIn();
-											}
-										
-											var previousPoint = null;
-										
-											$('#graph-lines, #graph-bars').bind('plothover', function (event, pos, item) {
-												if (item) {
-													if (previousPoint != item.dataIndex) {
-														previousPoint = item.dataIndex;
-														$('#tooltip').remove();
-														var x = item.datapoint[0],
-															y = item.datapoint[1],
-															z = item.datapoint[2];
-															//contents = y + " " + z;
-															/* modificato showTooltip(item.pageX, item.pageY, y+ x ); */ showTooltip(item.pageX, item.pageY, y);
-													}
-												} else {
-													$('#tooltip').remove();
-													previousPoint = null;
-												}
-											});
-										
-										});
-										</script>
-					<!-- Graph HTML -->
-								<div id="graph-wrapper">
-									<div class="graph-container">
-										<div id="graph-lines"> </div>
-										<div id="graph-bars"> </div>
-									</div>
-								</div>
-							<!-- end Graph HTML -->
-                     </div>
-                    </div>
-					<div class="analytic-bottom">
-						<ul>
-							<li><h3><?php echo getNumberOfCommentsOfLastWeekByIdIdea($idea['Idea']['id']) ?></h3><p># Nuovi commenti</p></li>
-							<li><h3><?php echo getTotalScoreOfLastWeekByIdIdea($idea['Idea']['id']) ?></h3><p>+ Nuovo punteggio</p></li>
-							<!--<li><h3>+800k</h3><p>New Customers</p></li> -->
-						</ul>
-					</div>
-			 </div>
+		<div id="chartContainer" style="height: 300px; width: 100%;">
+		</div>
 <!--banner start here-->
 	    		<div class="banner">
 	    			<div class="bann-left">

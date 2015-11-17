@@ -19,3 +19,8 @@ Note:
 		1)email = user@email.it	pwd = pwd
 	3) pagina user:
 		-inserimento idea: titolo, descr, link video, periodo, img
+
+Note fuseki:
+	Istallare un endpoint sparql fuseki su un server e lanciarlo col seguente link.
+	Caricare l'ontologia presente in doc/KnowledgeBase.ttl
+	1) start with sudo java -jar fuseki-server.jar --update 
