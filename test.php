@@ -107,7 +107,7 @@ HTML;
     if (mail($mail_destinatario, $mail_oggetto, $mail_corpo, $mail_headers))
       echo "Messaggio inviato con successo a " . $mail_destinatario;
     else
-      echo "Errore. Nessun messaggio inviato.";
+      echo "Errore. Nessun messaggio inviato.";*/
     //$n = 0.77*5;
     //echo"<br>{$n}";
     
@@ -124,7 +124,7 @@ HTML;
     
     //print_r(getIdeas());
     //print_r(getThreeMaxFollow());
-    print_r(getIdeasOrderedByFollowersByCategory("category1"));*/
+    //print_r(getIdeasOrderedByFollowersByCategory("category1"));
     
     //require "function.php";
     //translateTest();
@@ -133,6 +133,10 @@ HTML;
     
     
     require "endpointSPARQL/manageEndpointSparql.php";
+    uploadIdeaInSparqlEndpoint("20","www.idea19.com","art","idea15name");
+    //print_r(getIdeasOrderedByFollowersByCategory("category1"));
+    //print_r(getUserOfIdea('8'));
     
-    uploadIdeaInSparqlEndpoint("19","www.idea19.com","art","idea15name");
+    //echo deleteFollower("amedeo.leo92@gmail.com", "8");
+    
 ?>

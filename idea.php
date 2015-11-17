@@ -58,6 +58,69 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
+    $('body').on('click', '#financeIt', function()  {
+	    var idIdea = <?php echo $_GET['id'] ?>;
+            var dataString = 'idIdea=' + idIdea;
+            $.ajax({
+		    type: "POST",
+		    url: "./financeIdea.php",
+		    data: dataString,
+		    cache: true,
+		    success: function(html){
+			if (html.indexOf("successo") > -1) {
+				$('#divFinance').html();
+				$('#divFinance').html("<h1>L'idea &egrave; stata già finanziata!</h1>");
+			}
+			alert(html);
+		    }
+		});
+        return false;
+    })
+});
+
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('body').on('click', '#followIt', function()  {
+	    var idIdea = <?php echo $_GET['id'] ?>;
+            var dataString = 'idIdea=' + idIdea + '&idButton=followIt';
+            $.ajax({
+		    type: "POST",
+		    url: "./followIt.php",
+		    data: dataString,
+		    cache: true,
+		    success: function(html){
+			$('#listFollow').html();
+			$('#listFollow').html(html);
+		    }
+		});
+        return false;
+    })
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('body').on('click', '#notFollowIt', function()  {
+	    var idIdea = <?php echo $_GET['id'] ?>;
+            var dataString = 'idIdea=' + idIdea + '&idButton=notFollowIt';
+            $.ajax({
+		    type: "POST",
+		    url: "./notFollowIt.php",
+		    data: dataString,
+		    cache: true,
+		    success: function(html){
+			$('#listFollow').html();
+			$('#listFollow').html(html);
+		    }
+		});
+        return false;
+    })
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
     $('body').on('click', '#insertComment', function()  {
             var textcontent = $('#text-content').val();
 	    var idIdea = <?php echo $_GET['id'] ?>;
@@ -176,22 +239,26 @@ $(document).ready(function(){
 				</h4></li>
 	    			<li><span class="sun"> </span><h4>86F-Tampa,FL</h4></li>
 	    		</ul>
-	    		<div class="settiing">
-	    			<div class="menu2">
-					<span class="menu-at-on"><img src="images/setter.png" alt=""> </span>	
-					<ul>
-						<li><a href="#">Profile</a></li>
-						<li><a href="#" >Login</a></li>	
-						<li><a href="#" >Log Out</a></li>							
-					</ul>
-					<script>
-						$("span.menu-at-on").click(function(){
-							$(".menu2 ul").slideToggle(500, function(){
-							});
-						});
-					</script>
-				</div>
+			<?php if(!isIdeaOfUser($_SESSION['email'],$_GET['id'])) { ?>
+				<div class="settiing">
+						<div class="menu2">
+							<span class="menu-at-on"><img src="images/setter.png" alt=""> </span>	
+							<ul id="listFollow">
+								<?php $hasAlreadyFollower = hasAlreadyFollower($_SESSION['email'],$_GET['id']);
+								if(!$hasAlreadyFollower)
+								      echo "<li><a href='#' id='followIt'>Segui</a></li>";
+								else
+								      echo "<li><a href='#' id='notFollowIt'>Non seguire più</a></li>"; ?>		
+							</ul>
+							<script>
+								$("span.menu-at-on").click(function(){
+									$(".menu2 ul").slideToggle(500, function(){
+									});
+								});
+							</script>
 						</div>
+				</div>
+				<?php } ?>
 	    		</div>
 	    		  <div class="clearfix"> </div>
 	    	</div>
@@ -244,26 +311,24 @@ $(document).ready(function(){
 	    		<div class="banner">
 	    			<div class="bann-left">
 	    				<span class="bann-part"> </span>
-	    				<div class="bann-text">
+	    				<div class="bann-text" id="divFinance">
 						<?php
-						       $condition = hasFinancier($idea['Idea']['id']);
-						       if($condition) : ?>
+						       $hasFinancier = hasFinancier($idea['Idea']['id']);
+						       if($hasFinancier) : ?>
 								<h1>L'idea &egrave; stata già finanziata!</h1>
-						       <?php elseif(!$condition) : ?>
-								<h1>Vuoi finanziare l'idea?</h1>
-	    					                <p>Mettiti in contatto con l'ideatore!</p>
-								<div class="bann-rit">
-										<a href="#">FINANZIA!</a>
-								</div>
-								<?php endif; ?>
+						       <?php elseif(!$hasFinancier) :
+								if(isIdeaOfUser($_SESSION['email'], $_GET['id'])) {?>
+										<h1>Non puoi finanziare una tua idea</h1>
+
+								<?php } else { ?> <h1>Vuoi finanziare l'idea?</h1>
+										<p>Mettiti in contatto con l'ideatore!</p>
+										<div class="bann-rit">
+												<a href="#" id="financeIt">FINANZIA!</a>
+										</div>
+								<?php } endif; ?>
 	    				</div>
-	    			</div>
+				</div>
 	    		  <div class="clearfix"> </div>
-                          
-                          
-                          
-                          
-	    		
                 </div>
                         <div class="col-md-12 header-bot-right-part-1">
 	    			<div class="latest-activity">

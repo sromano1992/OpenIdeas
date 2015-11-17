@@ -26,7 +26,13 @@
         <script type="text/javascript" src="login.js"></script>
         <script type="text/javascript">
             function refreshIdeas(id) {
-                var dataString = 'category='+id;
+                
+                if (id == "noCategory") {
+                    var dataString = 'category=null';
+                }
+                else {
+                    var dataString = 'category='+id;
+                }
                 $.ajax({
 		    type: "POST",
 		    url: "./refreshIdeas.php",
@@ -36,7 +42,6 @@
 		        $('#divIdeas').html();
 		        $('#divIdeas').html(html);
 		    }
-		    
 		});
             }
         </script>
@@ -57,6 +62,7 @@
                             error_reporting(0);
                             require "manageDB.php";
                             $categories = getCategories();
+                            echo "<a href='#' onclick='refreshIdeas(this.id)' class='list-group-item active' id='noCategory'>Tutte</a>";
                             foreach($categories as $category) {
                                 echo "<a href='#' onclick='refreshIdeas(this.id)' class='list-group-item' id='$category[name]'>$category[name]</a>";
                             }?>

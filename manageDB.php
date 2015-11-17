@@ -272,6 +272,14 @@
         }
     }
     
+    function deleteFollower($idUser,$idIdea) {
+        $conn = getConn();
+        $sql = "DELETe FROM follow WHERE idIdea = '$idIdea' AND idUser = '$idUser'" ;
+        $result = mysqli_query($conn, $sql) or die("Delete failed");
+        mysqli_close($conn);
+        return true;
+    }
+    
     function insertFollower ($idUser, $idIdea) {
         if(isIdeaOfUser($idUser, $idIdea))
             return NULL;
@@ -281,6 +289,7 @@
         $conn = getConn();
         $sql = "INSERT INTO follow (idUser, idIdea, date) VALUES ('$idUser','$idIdea','$date')";
         $result = mysqli_query($conn, $sql) or die("Insert failed");
+        mysqli_close($conn);
         return $result;
     }
     
@@ -741,6 +750,7 @@
             $sql = "UPDATE idea SET financier = '$idFinancier', dateOfFinancing = '$date' WHERE id = '$idIdea'";
             $result = mysqli_query($conn, $sql);
             mysqli_close($conn);
+            return "ok";
         }    
     }
     
@@ -996,11 +1006,15 @@
         return $toReturn;
     }
     
-    function getIdeasOrderedByFollowersByCategory($category){
+    function getIdeasOrderedByFollowersByCategory($category = NULL){
         $returnValues = array();
         $conn = getConn();
-        $category = getCategory($category)[0]['id'];
-        $sql = "SELECT id FROM idea WHERE id IN ( SELECT idIdea FROM hasCategory WHERE idCategory =  '$category')";
+        if($category == NULL)
+            $sql = "SELECT id FROM idea WHERE id IN ( SELECT idIdea FROM hasCategory)";
+        else {
+            $category = getCategory($category)[0]['id'];
+            $sql = "SELECT id FROM idea WHERE id IN ( SELECT idIdea FROM hasCategory WHERE idCategory =  '$category')";
+        }
         $result = mysqli_query($conn, $sql) or die("select failed");
         $toReturn = array();
         $i = 0;
@@ -1040,6 +1054,34 @@
         mysqli_close($conn);
         return $toReturn;
     }
+    
+    function sendMail($mail_destinatario, $mail_oggetto, $title, $body) {
+        $nome_mittente = "OpenIdeas";
+        $mail_mittente = "";
+        
+        $mail_corpo = <<<HTML
+        <html>
+        <head>
+          <title>{$title}</title>
+        </head>
+        <body>
+            {$body}
+        </body>
+        </html>
+HTML;
+        
+        $mail_headers = "From: " .  $nome_mittente . " <" .  $mail_mittente . ">\r\n";
+        $mail_headers .= "Reply-To: " .  $mail_mittente . "\r\n";
+        $mail_headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+        $mail_headers .= "MIME-Version: 1.0\r\n";
+        $mail_headers .= "Content-type: text/html; charset=iso-8859-1";
+        
+        if (mail($mail_destinatario, $mail_oggetto, $mail_corpo, $mail_headers))
+          return "Messaggio inviato con successo a " . $mail_destinatario;
+        else
+          return "Errore. Nessun messaggio inviato.";
+    }
+    
     /** 
     * @author Simone Romano
     */
