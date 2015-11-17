@@ -121,8 +121,6 @@ $(document).ready(function(){
     })
 });
 </script>
-
-
 <script type="text/javascript">
 $(document).ready(function(){
     $('body').on('click', '#insertComment', function()  {
