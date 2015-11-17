@@ -231,6 +231,7 @@
         $stmt->close();
         mysqli_query($conn,"COMMIT");
         mysqli_close($conn);
+        
         return $result;
     }
     
@@ -530,6 +531,31 @@
     
      /**
      * @author Simone Romano
+     * Return all idea's scores.
+     **/
+    function getIdeaScores($idIdea){
+        $conn = getConn();
+        $toReturn = array();
+        
+        $sql = "select sum(score_neg),sum(score_neu),sum(score_pos) from comment where idIdea='{$idIdea}'";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+                $toReturn['pos'] = $row['sum(score_pos)'];
+                $toReturn['neg'] = $row['sum(score_neg)'];
+                $toReturn['neu'] = $row['sum(score_neu)'];
+            }
+        }
+    
+        mysqli_close($conn);
+        return $toReturn;
+    }
+    
+    
+     /**
+     * @author Simone Romano
      * Return the count user's ideas.
      **/
     function getUserIdeasCount($email){
@@ -593,10 +619,10 @@
         return $toReturn;   
     }
     
-    function insertComment ($idUser, $idIdea, $text, $score = NULL) {
+    function insertComment ($idUser, $idIdea, $text, $score) {
         $date = getTimeAndDate();
         $conn = getConn();
-        $sql = "INSERT INTO comment (idIdea, idUser, date, text, Score) VALUES ('$idIdea','$idUser','$date','$text', '$score')";
+        $sql = "INSERT INTO comment (idIdea, idUser, date, text, score_dom, score_neg, score_neu, score_pos) VALUES ('$idIdea','$idUser','$date','$text', '{$score['dom']}','{$score['neg']}','{$score['neu']}','{$score['pos']}')";
         $result = mysqli_query($conn, $sql) or die("Insert failed");
         mysqli_close($conn);
         return $result;
@@ -918,6 +944,7 @@
         $returnValues = array();
         $conn = getConn();
         $idCategory = getCategory($category)[0]['id'];
+        print_r($idCategory);
         
         $sql = "SELECT * FROM hasCategory WHERE idCategory = '$idCategory'";
         $result = mysqli_query($conn, $sql);
@@ -1053,55 +1080,6 @@ HTML;
           return "Messaggio inviato con successo a " . $mail_destinatario;
         else
           return "Errore. Nessun messaggio inviato.";
-    }
-    
-    function insertNotice($idDestinatario, $idIdea, $text, $type, $confirmed = 0) {
-        $date = getTimeAndDate();
-        $conn = getConn();
-        $sql = "INSERT INTO notice (idDestinatario, idIdea, date,  text, type, confirmed) VALUES ('$idDestinatario','$idIdea','$date','$text', '$type', '$confirmed')";
-        $result = mysqli_query($conn, $sql) or die ("Insert failed");
-        return $result;
-    }
-    
-    function getWritersOfIdea($idIdea) {
-        $toReturn = array();
-        $comments = getCommentsByIdIdea($idIdea);
-        if($comments == NULL)
-            return NULL;
-        else {
-            foreach($comments as $comment) {
-                if(!in_array($comment['idUser'], $toReturn)) {
-                    $toReturn[] = $comment['idUser'];
-                }
-            }
-        }
-        return $toReturn;
-    }
-    
-    function getNoticesOfUser($idUser) {
-        $returnValues = array();
-        $conn = getConn();
-        
-        $sql = "SELECT * FROM notice WHERE idDestinatario = '$idUser' AND confirmed = 0";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            while($row = mysqli_fetch_assoc($result)) {
-                $returnValues[] = $row;
-            }
-            mysqli_close($conn);
-            return $returnValues;
-        } else {
-            mysqli_close($conn);
-            return NULL;
-        }
-    }
-    
-    function updateNotice($idDestinatario, $idIdea, $date, $text, $type, $confirmed = 1) {
-        $conn = getConn();
-        $sql = "UPDATE notice SET confirmed = '$confirmed' WHERE idIdea = '$idIdea' AND idDestinatario = '$idDestinatario' AND date='$date' AND text='$text' AND type='$type'";
-        $result = mysqli_query($conn, $sql);
-        mysqli_close($conn);
-        return "ok";
     }
     
     /** 

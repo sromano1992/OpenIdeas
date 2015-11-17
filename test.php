@@ -138,14 +138,5 @@ HTML;
     //print_r(getUserOfIdea('8'));
     
     //echo deleteFollower("amedeo.leo92@gmail.com", "8");
-    //echo insertNotice("amedeo.leo92@gmail.com", "8", "prova", "Comment");
     
-    //print_r(getWriterOfIdea("8"));
-    //print_r(getFollowersByIdIdea("1"));
-    
-   //echo insertNotice("a.leo@unisa.it","8",mysqli_real_escape_string("L'idea idea9 che hai commentato ha un nuovo commento: [Amedeo Leo]: 6"),"Comment");
-    
-    //print_r(getNoticesOfUser("amedeo.leo92@gmail.com"));
-    
-    //echo updateNotice("amedeo.leo92@gmail.com", "8", "2015-11-17 11:53:09", "", "Financier");
 ?>
