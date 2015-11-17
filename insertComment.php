@@ -21,17 +21,37 @@
     
     
     $followers = getFollowersByIdIdea($idIdea);
+    $alreadySent = array();
+    
     foreach($followers as $follower) {
-        if($follower['idUtente'] != $idUser) {
+        if($follower['idUser'] != $idUser) {
             $mail_destinatario = "{$follower['idUser']}";
             $mail_oggetto = "C'è un nuovo commento ad un'idea che stai seguendo!";
             $title = "L'idea {$idea['Idea']['nome']} ha un nuovo commento!";
             $nameSurname = $user_comment['User']['name'] . " " . $user_comment['User']['surname'];
             $body = "L'idea {$idea['Idea']['nome']} ha un nuovo commento: [{$nameSurname}]: {$content}";
-            sendMail($mail_destinatario, $mail_oggetto, $title, $body);
+            
+            $alreadySent[] = $follower['idUser'];
+            $text_idea = $idea['Idea']['nome'];
+            $text = mysqli_real_escape_string("La idea".$text_idea."che hai commentato ha un nuovo commento:[".$nameSurname."]:".$content);
+            
+            /* togliere i commenti! invia la mail! */ //sendMail($mail_destinatario, $mail_oggetto, $title, $body);
+            insertNotice($follower['idUser'], $idIdea, $text, "Comment");
         }
     }
-
+    
+    $writers = getWritersOfIdea($idIdea);
+    foreach($writers as $writer) {
+        if($writer != $idUser) {
+            if(!in_array($writer, $alreadySent)) {
+                $text_idea = $idea['Idea']['nome'];
+                $text = mysqli_real_escape_string("La idea".$text_idea."che hai commentato ha un nuovo commento:[".$nameSurname."]:".$content);
+                echo $writer ."<br>".$idIdea."<br>".$text."<br>";
+                insertNotice($writer, $idIdea, $text, "Comment");
+            }
+        }
+    }
+    
     /* <p>Scrivi un tuo commento</p>";
     echo "<form class='form-horizontal' role='form' id='addCommentForm' method='post' action=''>";
     echo "<div class='form-group'>";

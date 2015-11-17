@@ -918,7 +918,6 @@
         $returnValues = array();
         $conn = getConn();
         $idCategory = getCategory($category)[0]['id'];
-        print_r($idCategory);
         
         $sql = "SELECT * FROM hasCategory WHERE idCategory = '$idCategory'";
         $result = mysqli_query($conn, $sql);
@@ -1054,6 +1053,55 @@ HTML;
           return "Messaggio inviato con successo a " . $mail_destinatario;
         else
           return "Errore. Nessun messaggio inviato.";
+    }
+    
+    function insertNotice($idDestinatario, $idIdea, $text, $type, $confirmed = 0) {
+        $date = getTimeAndDate();
+        $conn = getConn();
+        $sql = "INSERT INTO notice (idDestinatario, idIdea, date,  text, type, confirmed) VALUES ('$idDestinatario','$idIdea','$date','$text', '$type', '$confirmed')";
+        $result = mysqli_query($conn, $sql) or die ("Insert failed");
+        return $result;
+    }
+    
+    function getWritersOfIdea($idIdea) {
+        $toReturn = array();
+        $comments = getCommentsByIdIdea($idIdea);
+        if($comments == NULL)
+            return NULL;
+        else {
+            foreach($comments as $comment) {
+                if(!in_array($comment['idUser'], $toReturn)) {
+                    $toReturn[] = $comment['idUser'];
+                }
+            }
+        }
+        return $toReturn;
+    }
+    
+    function getNoticesOfUser($idUser) {
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "SELECT * FROM notice WHERE idDestinatario = '$idUser' AND confirmed = 0";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $returnValues[] = $row;
+            }
+            mysqli_close($conn);
+            return $returnValues;
+        } else {
+            mysqli_close($conn);
+            return NULL;
+        }
+    }
+    
+    function updateNotice($idDestinatario, $idIdea, $date, $text, $type, $confirmed = 1) {
+        $conn = getConn();
+        $sql = "UPDATE notice SET confirmed = '$confirmed' WHERE idIdea = '$idIdea' AND idDestinatario = '$idDestinatario' AND date='$date' AND text='$text' AND type='$type'";
+        $result = mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return "ok";
     }
     
     /** 
