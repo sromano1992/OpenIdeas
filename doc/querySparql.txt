@@ -1,0 +1,16 @@
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+
+SELECT ?subject 
+WHERE {
+  ?subject rdf:type <http://www.OpenIdeas.org/openIdeasKB#Idea> 
+}
+LIMIT 25
+
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+prefix :<http://www.OpenIdeas.org/openIdeasKB#> 
+
+INSERT DATA{ 
+  :11 rdf:type :Idea
+}
+
+curl -X POST -H Content-Type:text/turtle -T idea.ttl -G http://simrom.ddns.net:3030/OpenIdeas/data --data-urlencode graph=default

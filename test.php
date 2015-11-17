@@ -63,7 +63,6 @@
     //insertIdea('name1','descr','s.romano1992@gmail.com','cat');
     //$userIdeas = getUserIdeasOrderedByFollowers("s.romano1992@gmail.com");
     //print_r($userIdeas);
-    
     /*
     $n = 0.77*5;
     echo"<br>{$n}<br>";
@@ -125,6 +124,16 @@ HTML;
     
     //print_r(getIdeas());
     //print_r(getThreeMaxFollow());
+    //print_r(getIdeasOrderedByFollowersByCategory("category1"));
+    
+    //require "function.php";
+    //translateTest();
+    
+     // create curl resource 
+    
+    
+    require "endpointSPARQL/manageEndpointSparql.php";
+    uploadIdeaInSparqlEndpoint("20","www.idea19.com","art","idea15name");
     //print_r(getIdeasOrderedByFollowersByCategory("category1"));
     //print_r(getUserOfIdea('8'));
     
