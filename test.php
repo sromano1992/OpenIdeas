@@ -132,11 +132,13 @@ HTML;
      // create curl resource 
     
     
-    require "endpointSPARQL/manageEndpointSparql.php";
-    uploadIdeaInSparqlEndpoint("20","www.idea19.com","art","idea15name");
+    //require "endpointSPARQL/manageEndpointSparql.php";
+    //uploadIdeaInSparqlEndpoint("20","www.idea19.com","art","idea15name");
     //print_r(getIdeasOrderedByFollowersByCategory("category1"));
     //print_r(getUserOfIdea('8'));
     
     //echo deleteFollower("amedeo.leo92@gmail.com", "8");
+    
+    print_r(getPointsForIdeaComments("8", "score_pos"));
     
 ?>

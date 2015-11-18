@@ -781,7 +781,78 @@
         }
     }
     
-    function getPointsForIdeaComments($idIdea) {
+    function getPointsForIdeaComments($idIdea, $score) {
+        $conn = getConn();
+        $today = strtotime(getTimeAndDate());
+        $ts = $today;
+        
+        // calculate the number of days since Monday
+        $dow = date('w', $ts);
+        $offset = $dow - 1;
+        if ($offset < 0) {
+            $offset = 6;
+        }
+        // calculate timestamp for the Monday
+        $ts = $ts - $offset*86400;
+        // loop from Monday till Sunday
+        //$comments = array();
+        $return = 0;
+        for ($i = 1; $i <= 7; $i++, $ts += 86400){
+            $current_date = date("d-m-Y", $ts);
+            
+            $sql = "SELECT * FROM comment where idIdea = '$idIdea' ORDER BY date DESC";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    if(!isCommentOfOwner($row['idUser'],$idIdea)) {
+                        $comment_date = fromTimestampToDate(strtotime($row['date']));
+                        if($comment_date == $current_date) {
+                            //$comments[$i][]= $row;
+                            $return = $return + $row[$score];
+                        }
+                    }
+                }
+            }
+            /*else
+                $comments[$i] = [];*/
+        }
+        
+        return $return;
+        /*
+        $sort = array();
+        for($i = 1; $i <= 7; $i++) {
+            $sort[$i] = array();
+            foreach ($comments[$i] as $key => $row)
+            {
+                $sort[$key] = $row['date'];
+            }
+        }
+        array_multisort($sort, SORT_DESC, $comments);
+        $values = array();
+        $comment = array();
+        for($i = 1; $i <= 7; $i++) {
+            if(!empty($sort[$i])) {
+                $date = $sort[$i][0]['date'];
+                $j = 0;
+                $sum_score = 0;
+                foreach((array)$sort[$i] as $comment) {
+                    $sum_score = $sum_score +  $comment['score_pos'];
+                    $j++;
+                }
+                $values[$i] = $sum_score/$j;
+            }
+            else
+                $values[$i] = 0;
+        }
+        
+        $total = 0;
+        for($i = 1; $i <= 7; $i++) {
+            $total = $total + $values[$i];
+        }
+        return $total;*/
+    }
+    
+    function getNumberOfCommentsOfLastWeekByIdIdea($idIdea) {
         $conn = getConn();
         $today = strtotime(getTimeAndDate());
         $ts = $today;
@@ -805,57 +876,9 @@
                     if(!isCommentOfOwner($row['idUser'],$idIdea)) {
                         $comment_date = fromTimestampToDate(strtotime($row['date']));
                         if($comment_date == $current_date) {
-                            $comments[$i][]= $row;
+                            $comments[$i][] = $row;
                         }
                     }
-                }
-            }
-        }
-        $values = array();
-        $comment = array();
-        for($i = 1; $i <= 7; $i++) {
-            if(!empty($comments[$i])) {
-                $j = 0;
-                $sum_score = 0;
-                foreach((array)$comments[$i] as $comment) {
-                    $sum_score = $sum_score +  $comment['Score'];
-                    $j++;
-                }
-                $values[$i] = $sum_score/$j;
-            }
-            else
-                $values[$i] = 0;
-        }
-        
-        return $values;
-    }
-    
-    /* comprende anche i commenti dell'utente */
-    function getNumberOfCommentsOfLastWeekByIdIdea($idIdea) {
-        $conn = getConn();
-        $today = strtotime(getTimeAndDate());
-        $ts = $today;
-        
-        // calculate the number of days since Monday
-        $dow = date('w', $ts);
-        $offset = $dow - 1;
-        if ($offset < 0) {
-            $offset = 6;
-        }
-        // calculate timestamp for the Monday
-        $ts = $ts - $offset*86400;
-        // loop from Monday till Sunday
-        $comments = array();
-        for ($i = 1; $i <= 7; $i++, $ts += 86400){
-            $current_date = date("d-m-Y", $ts);
-            $sql = "SELECT * FROM comment where idIdea = '$idIdea'";
-            $result = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($result) > 0) {
-                while($row = mysqli_fetch_assoc($result)) {
-                    $comment_date = fromTimestampToDate(strtotime($row['date']));
-                    if($comment_date == $current_date) {
-                        $comments[$i][]= $row;
-                    }  
                 }
             }
         }
@@ -1081,6 +1104,82 @@ HTML;
         else
           return "Errore. Nessun messaggio inviato.";
     }
+    
+    function insertNotice($idDestinatario, $idIdea, $text, $type, $confirmed = 0) {
+        $date = getTimeAndDate();
+        $conn = getConn();
+        $sql = "INSERT INTO notice (idDestinatario, idIdea, date,  text, type, confirmed) VALUES ('$idDestinatario','$idIdea','$date','$text', '$type', '$confirmed')";
+        $result = mysqli_query($conn, $sql) or die ("Insert failed");
+        return $result;
+    }
+    
+    function getWritersOfIdea($idIdea) {
+        $toReturn = array();
+        $comments = getCommentsByIdIdea($idIdea);
+        if($comments == NULL)
+            return NULL;
+        else {
+            foreach($comments as $comment) {
+                if(!in_array($comment['idUser'], $toReturn)) {
+                    $toReturn[] = $comment['idUser'];
+                }
+            }
+        }
+        return $toReturn;
+    }
+    
+    function getNoticesOfUser($idUser) {
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "SELECT * FROM notice WHERE idDestinatario = '$idUser' AND confirmed = 0";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $returnValues[] = $row;
+            }
+            mysqli_close($conn);
+            return $returnValues;
+        } else {
+            mysqli_close($conn);
+            return NULL;
+        }
+    }
+    
+    function getNoticeById($idNotice) {
+        $returnValues;
+        $conn = getConn();
+        
+        $sql = "SELECT * FROM notice WHERE idNotice = '$idNotice'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $returnValues = $row;
+            }
+            mysqli_close($conn);
+            return $returnValues;
+        } else {
+            mysqli_close($conn);
+            return NULL;
+        }
+    }
+    
+    function updateAllNoticesOfUSer($idDestinatario, $confirmed = 1) {
+        $conn = getConn();
+        $sql = "UPDATE notice SET confirmed = 1 WHERE idDestinatario = '$idDestinatario'";
+        $result = mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return "ok";
+    }
+    
+    function updateNotice($idDestinatario, $idIdea, $date, $text, $type, $confirmed = 1) {
+        $conn = getConn();
+        $sql = "UPDATE notice SET confirmed = '$confirmed' WHERE idIdea = '$idIdea' AND idDestinatario = '$idDestinatario' AND date='$date' AND text='$text' AND type='$type'";
+        $result = mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return "ok";
+    }
+       
     
     /** 
     * @author Simone Romano
