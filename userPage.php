@@ -29,7 +29,7 @@
         
     </head>
 
-    <body>
+    <body style="background:#eeeeee; ">
        
     <?php
         error_reporting(0);

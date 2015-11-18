@@ -30,7 +30,7 @@
                         ?>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="userImg/pianobarsimone@hotmail.it.png" style="width: 18px; height: 18px;" class="profile-image img-circle"> Username <b class="caret"></b></a>
+                            <img src="<?php echo $_SESSION['picture'];?>" style="width: 18px; height: 18px;" class="profile-image img-circle"> Username <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="userPage.php">Profilo</a></li>
                                 <li class="divider"></li>
