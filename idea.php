@@ -237,7 +237,8 @@ $(document).ready(function(){
 						echo $time = date("H:i:s",strtotime($date));
 				?>
 				</h4></li>
-	    			<li><span class="sun"> </span><h4>86F-Tampa,FL</h4></li>
+				<?php $categories = getCategoriesOfIdea($_GET['id']); ?>
+	    			<li><span class="sun"></span><h4><?php echo implode($categories, " ") ?></h4></li>
 	    		</ul>
 			<?php if(!isIdeaOfUser($_SESSION['email'],$_GET['id'])) { ?>
 				<div class="settiing">
@@ -307,28 +308,25 @@ $(document).ready(function(){
 		<div id="chartContainer" style="height: 300px; width: 100%;">
 		</div>
 <!--banner start here-->
-	    		<div class="banner">
-	    			<div class="bann-left">
-	    				<span class="bann-part"> </span>
-	    				<div class="bann-text" id="divFinance">
-						<?php
-						       $hasFinancier = hasFinancier($idea['Idea']['id']);
-						       if($hasFinancier) : ?>
-								<h1>L'idea &egrave; stata già finanziata!</h1>
-						       <?php elseif(!$hasFinancier) :
-								if(isIdeaOfUser($_SESSION['email'], $_GET['id'])) {?>
-										<h1>Non puoi finanziare una tua idea</h1>
-
-								<?php } else { ?> <h1>Vuoi finanziare l'idea?</h1>
-										<p>Mettiti in contatto con l'ideatore!</p>
-										<div class="bann-rit">
-												<a href="#" id="financeIt">FINANZIA!</a>
-										</div>
-								<?php } endif; ?>
-	    				</div>
-				</div>
-	    		  <div class="clearfix"> </div>
-                </div>
+	    		
+					<?php if(!isIdeaOfUser($_SESSION['email'], $_GET['id'])) {
+						echo "<div class='banner'><div class='bann-left'><span class='bann-part'></span>";
+						echo "<div class='bann-text' id='divFinance'>";
+						$hasFinancier = hasFinancier($idea['Idea']['id']);
+						if($hasFinancier) {
+								echo "<h1>L'idea &egrave; stata gi&agrave; finanziata!</h1></div>";
+						}
+						else {
+								if(!isIdeaOfUser($_SESSION['email'], $_GET['id'])) {
+										echo "<h1>Vuoi finanziare l'idea?</h1>";
+										echo "<p>Mettiti in contatto con l'ideatore!</p>";
+										echo "<div class='bann-rit'>";
+										echo "<a href='#' id='financeIt'>FINANZIA!</a>'</div></div>";
+								}
+						}
+						echo "</div><div class='clearfix'></div></div>";
+				          }?>
+				
                         <div class="col-md-12 header-bot-right-part-1">
 	    			<div class="latest-activity">
 	    				<div class="latest-act-top">
@@ -365,19 +363,18 @@ $(document).ready(function(){
 								}
 						?>
 						</div> <!-- chiudo div latest-today -->
-						<p>Scrivi un tuo commento</p>
-						<form class="form-horizontal" role="form" id="addCommentForm" method="post" action="">
-								<div class="form-group">
-										<div class="col-sm-6">
-												<textarea name="body" id="text-content" class="form-control"></textarea>
-										</div>
-								</div>
-								<div class="form-group">
-										<div class="late-btn col-sm-6">
-												<a href="#" class=".load_more" id="insertComment">INSERISCI COMMENTO</a>
-										</div>
-								</div>
-						</form>
+						<?php if(!isIdeaOfUser($_SESSION['email'], $_GET['id'])) {
+								echo "<p>Scrivi un tuo commento</p>";
+								echo "<form class='form-horizontal' role='form' id='addCommentForm' method='post' action=''>";
+								echo "<div class='form-group'>";
+								echo "<div class='col-sm-6'>";
+								echo "<textarea name='body' id='text-content' class='form-control'></textarea>";
+								echo "</div></div>";
+								echo "<div class='form-group'>";
+								echo "<div class='late-btn col-sm-6'>";
+								echo "<a href='#' class='.load_more' id='insertComment'>INSERISCI COMMENTO</a>";
+								echo "</div></div></form>";
+						} ?>
 					</div> <!-- div latest-act-bot -->
 				</div> <!-- div latest-activity -->
 			</div> <!-- div col-md-12 header-bot-right-part-1 -->
