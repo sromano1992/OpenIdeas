@@ -52,7 +52,7 @@
         
     </head>
     
-    <body>
+    <body style="background:#eeeeee; ">
         <?php include("navbar.php");?>
         <!-- Page Content -->
         <div class="container">
