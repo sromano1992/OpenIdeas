@@ -10,24 +10,32 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="index.php">OpenIdeas</a>
+            <a class="navbar-brand" rel="home" href="#">
+                <img style="width:18px;" src="images/logo.png"/>
+            </a>
+    
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav">                
                 <li>
                     <a href="#">About</a>
                 </li>
                 <li>
-                    <a href="#">Contatti</a>
+                    <a href="linkedData.php">Linked-data</a>
                 </li>
                 <?php
                     session_start();
                     if (isset($_SESSION['email'])){
                         ?>
-                         <li>
-                            <a href="logout.php">
-                              Logout
-                            </a>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="userImg/pianobarsimone@hotmail.it.png" style="width: 18px; height: 18px;" class="profile-image img-circle"> Username <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="userPage.php">Profilo</a></li>
+                                <li class="divider"></li>
+                                <li><a href="logOut.php">Log-out</a></li>
+                            </ul>
                         </li> 
                         <?php
                     }
@@ -38,10 +46,8 @@
                             </a>
                         </li> <?php
                     }
-                ?>                      
-                <li>
-                    <a style="visibility: hidden" href="#" onclick="logOut();" id="logout">Logout</a>
-                </li>
+                ?>           
+                
             </ul>
         </div>
         <!-- /.navbar-collapse -->

@@ -5,7 +5,7 @@
      * new idea added in OpenIedas portal.
      */
     $endpoint =  "http://simrom.ddns.net:3030/OpenIdeas/update?";
-    
+    $endpointQuery = "http://simrom.ddns.net:3030/OpenIdeas/query?";
     function uploadIdeaInSparqlEndpoint($id, $url, $category, $name){
         if (!function_exists('curl_init')){ 
            die('CURL is not installed!');
@@ -33,6 +33,27 @@
         curl_close($ch);
         
         return $response;      
+    }
+    
+    function sparqlQuery($query,$format = 'xml' ){     
+        global $endpointQuery;
+        //$format = 'xml';
+        
+         if (!function_exists('curl_init')){ 
+           die('CURL is not installed!');
+        }
+        
+        // get curl handle
+        $ch= curl_init();
+        $url = $endpointQuery . "query=".urlencode($query)."&format=".$format;
+        curl_setopt($ch, CURLOPT_URL, $url);        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);        
+     
+        $response = curl_exec($ch);
+        //print_r($response);
+        curl_close($ch);
+        
+        return $response;
     }
     
     function getUrl($id, $url, $category, $name){        

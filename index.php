@@ -41,6 +41,10 @@
 		    success: function(html){
 		        $('#divIdeas').html();
 		        $('#divIdeas').html(html);
+                        $('#categoriesGroup a').each(function() {
+                            $(this).removeClass("active");                            
+                        });
+                        $('#'+id).addClass("active");          
 		    }
 		});
             }
@@ -48,7 +52,7 @@
         
     </head>
     
-    <body>
+    <body style="background:#eeeeee; ">
         <?php include("navbar.php");?>
         <!-- Page Content -->
         <div class="container">
@@ -57,7 +61,7 @@
     
                 <div class="col-md-3">
                     <p class="lead">Categorie</p>
-                    <div class="list-group">
+                    <div class="list-group" id="categoriesGroup">
                         <?php
                             error_reporting(0);
                             require "manageDB.php";
