@@ -1,5 +1,5 @@
 <?php
-    session_start();
+     session_start();
     require 'manageDB.php';
     $idButton=$_POST['idButton'];
     $idIdea=$_POST['idIdea'];
@@ -11,6 +11,15 @@
             return("Non puoi seguire una tua idea");
         }
         else {
+            $user_follower = getUserById($idUser);
+            $nameSurname = $user_follower['User']['name'] . " " . $user_follower['User']['surname'];
+
+            $idea = getIdeaById($idIdea);
+            $id_user_idea = $idea['User']['email'];
+            $text_idea = $idea['Idea']['nome'];
+            $text = "La tua idea".$text_idea."ha un nuovo follower: .$nameSurname.";
+
+            insertNotice($id_user_idea, $idIdea, $text, "Follower");
             echo "<li><a href='#' id='notFollowIt'>Non seguire pi&ugrave;</a></li>";
         }
     }

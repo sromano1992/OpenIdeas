@@ -132,6 +132,9 @@ HTML;
      // create curl resource 
     
     
+    //require "endpointSPARQL/manageEndpointSparql.php";
+    //uploadIdeaInSparqlEndpoint("20","www.idea19.com","art","idea15name");
+
     /*require "endpointSPARQL/manageEndpointSparql.php";
     //uploadIdeaInSparqlEndpoint("20","www.idea19.com","art","idea15name");
     $query = "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
@@ -146,6 +149,12 @@ HTML;
     //print_r(getUserOfIdea('8'));
     
     //echo deleteFollower("amedeo.leo92@gmail.com", "8");
+
+    
+    print_r(getPointsForIdeaComments("8", "score_pos"));
+    
+
     echo "test";    
     header('Content-Disposition: attachment; filename="result.txt"');
+
 ?>

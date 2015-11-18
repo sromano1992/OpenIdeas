@@ -300,7 +300,6 @@ $(document).ready(function(){
 	    			</div>
 	    		</div>
 <!--user-profile end here-->
-
 	    	</div>
 <!--header-bot-right start here-->
 	    	<div class="col-md-8 header-bot-right">
@@ -379,6 +378,42 @@ $(document).ready(function(){
 										</div>
 								</div>
 						</form>
+					</div> <!-- div latest-act-bot -->
+				</div> <!-- div latest-activity -->
+			</div> <!-- div col-md-12 header-bot-right-part-1 -->
+			<div class="col-md-12 header-bot-right-part-1">
+	    			<div class="latest-activity">
+	    				<div class="latest-act-top">
+	    					<h4>Ultima settimana</h4>
+	    					<span class="rocket"> </span>
+	    				  <div class="clearfix"> </div>
+	    				</div>
+	    				<div class="latest-act-bot">
+						<div class='latest-today' id='divLastWeek'>
+						<?php
+								$totalPoints = getPointsForIdeaComments($idea['Idea']['id'], "score_pos");
+								$avgPoints = $totalPoints / 7;
+								
+								echo "<h4>";
+								echo "Media punteggi positivi ultima settimana";
+								echo "</h4><p>";
+								echo "&nbsp;<span class='todt-joe'>$avgPoints</span></p><hr>";
+								
+								
+								echo "<h4>";
+								echo "Totale punteggi positivi ultima settimana";
+								echo "</h4><p>";
+								echo "&nbsp;<span class='todt-joe'>$totalPoints</span></p><hr>";
+								
+								$totalComments = getNumberOfCommentsOfLastWeekByIdIdea($idea['Idea']['id']);
+								echo "<h4>";
+								echo "Totale commenti ultima settimana";
+								echo "</h4><p>";
+								echo "&nbsp;<span class='todt-joe'>$totalComments</span></p><hr>";
+								
+								
+						?>
+						</div> <!-- chiudo div latest-today -->
 					</div> <!-- div latest-act-bot -->
 				</div> <!-- div latest-activity -->
 			</div> <!-- div col-md-12 header-bot-right-part-1 -->
