@@ -72,10 +72,7 @@
       console.log(JSON.stringify(response));
       console.log(response.picture.data.url);
       console.log(encodeURIComponent(response.picture.data.url));
-      checkSession(response);
-      if (window.location.href == "http://localhost/WebSemantico/OpenIdeas/login.php") {
-        location.href = "index.php";
-      }
+      checkSession(response);      
     });
     
     function checkSession(userData) {
@@ -91,6 +88,9 @@
         if (xhttp.readyState == 4 && xhttp.status == 200) {
           //ok
           //alert(xhttp.responseText);
+          if (window.location.href == "http://localhost/WebSemantico/OpenIdeas/login.php") {
+            location.href = "index.php";
+          }
         }
       }
       xhttp.open("POST", "checkUserMemberFB.php", true);

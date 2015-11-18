@@ -30,10 +30,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<?php
 	    include("navbar.php");     
 	?>
-	<h1>OpenIdeas - registrazione e login</h1>
             <div class="wrap">
                 <div class="signup">
-                    <h3>Registrazione<span></span></h3>
                     <div class="singup-info">
 			<input id="reg_name" type="text" class="text" placeholder="Nome" >
 			<input id="reg_surname" type="text" class="text" placeholder="Cognome" >			    
@@ -47,16 +45,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div id="acceptedConditionDiv" class="p-container">
 			   <input id="acceptedCondition" type="checkbox" name="checkbox" checked><i> </i>Accetto i termini e le condizioni di utilizzo</label>
 			</div>
-			    <input type="submit" onclick="signUp()" value="signup" >
+			    <input type="submit" onclick="signUp()" value="Registrati" >
 			<div class="clear"> </div>
 			<p>Hai già un account?<a href="#">Effettua il login</a></p>
 			<div class="clear"> </div>
                         </div>
                     </div>
                 <div class="login">
-                        <h3>Login<span></span></h3>
                         <div class="login-info">
-			    <form enctype="multipart/form-data">
 				<input id="log_email" type="text" class="text" placeholder="Email">
 				<input id="log_password" type="password" placeholder="Password">
 				<div class="p-container">
@@ -73,7 +69,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</div>
 				    </div>
 				</div>
-			    </form>
 			    </div>
 			    <p><a href="#" onclick="restorePassword()">Hai dimenticato la password?<span>Clicca qui</span></a></p>                
                         </div>

@@ -37,8 +37,7 @@
         require "manageDB.php";
         if (!isset($_SESSION['email'])){
             header("location: index.php");
-        }
-        include("navbar.php");     
+        }   
     ?>
       <hr>
         <div class="container">
