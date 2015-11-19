@@ -27,8 +27,9 @@
         <script type="text/javascript" src="login.js"></script>
         <script type="text/javascript" src="js/insert_idea.js"></script>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
- <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>        
+        <script async="" src="//www.google-analytics.com/analytics.js"></script>
+        <!--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>-->
+        <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>        
         <!-- JavaScript jQuery code from Bootply.com editor  -->
         
         <script type="text/javascript">
