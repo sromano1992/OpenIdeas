@@ -1,3 +1,4 @@
 -Rdfa?
--SentimentAnalysis con traduzione con grafico
--Sparql endpoint (fuseki server)
+-SentimentAnalysis con traduzione e generazione grafico
+-DB Sql + Sparql endpoint (fuseki server) con ontoloagia
+-Login with Facebook
