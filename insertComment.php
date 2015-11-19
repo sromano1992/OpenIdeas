@@ -47,7 +47,6 @@
             if(!in_array($writer, $alreadySent)) {
                 $text_idea = $idea['Idea']['nome'];
                 $text = "La idea".$text_idea." che hai commentato ha un nuovo commento:[".$nameSurname."]: ".$content;
-                echo $writer ."<br>".$idIdea."<br>".$text."<br>";
                 insertNotice($writer, $idIdea, $text, "Comment");
             }
         }

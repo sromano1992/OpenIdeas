@@ -187,6 +187,24 @@
         return getCategory();
     }
     
+    function getCategoryById($idCategory) {
+        $returnValues = array();
+        $conn = getConn();
+        $sql = "SELECT * FROM category WHERE id = '$idCategory'";            
+        $result = mysqli_query($conn, $sql);
+        
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $returnValues[] = $row;
+            }
+            mysqli_close($conn);
+            return $returnValues;
+        } else {
+            mysqli_close($conn);
+            return NULL;
+        }
+    }  
+    
     function insertCategory($name) {
         $conn = getConn();
         $sql = "INSERT INTO category (name) VALUES ('$name')";
@@ -201,6 +219,26 @@
         $result = mysqli_query($conn, $sql) or die("Delete failed");
         return $result;
         /* restituisce sempre true */
+    }
+    
+    function getCategoriesOfIdea($idIdea) {
+        $returnValues = array();
+        $conn = getConn();
+        
+        $sql = "SELECT * FROM hasCategory WHERE idIdea = '$idIdea'";
+        $result = mysqli_query($conn, $sql);
+        
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $category = getCategoryById($row['idCategory']);
+                $returnValues[] = $category[0]['name'];
+            }
+            mysqli_close($conn);
+            return $returnValues;
+        } else {
+            mysqli_close($conn);
+            return NULL;
+        }
     }
     
     //mancano gli allegati
@@ -331,7 +369,8 @@
     function getThreeMaxFollow(){
         $returnValues = array();
         $conn = getConn();
-        $sql = "SELECT * FROM (SELECT idIdea, COUNT( idIdea ) AS countIdea FROM follow GROUP BY idIdea ) AS maxFollows ORDER BY countIdea DESC LIMIT 3";
+        //$sql = "SELECT * FROM (SELECT idIdea, COUNT( idIdea ) AS countIdea FROM follow GROUP BY idIdea ) AS maxFollows ORDER BY countIdea DESC LIMIT 3";
+        $sql = "SELECT idIdea, COUNT( idIdea ) FROM follow GROUP BY idIdea ORDER BY COUNT( idIdea ) DESC LIMIT 3";
         $result = mysqli_query($conn, $sql) or die("select failed");
         if (mysqli_num_rows($result) > 0) {
             // output data of each row

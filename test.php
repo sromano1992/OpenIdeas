@@ -151,10 +151,12 @@ HTML;
     //echo deleteFollower("amedeo.leo92@gmail.com", "8");
 
     
-    print_r(getPointsForIdeaComments("8", "score_pos"));
+    //print_r(getPointsForIdeaComments("8", "score_pos"));
     
 
-    echo "test";    
-    header('Content-Disposition: attachment; filename="result.txt"');
+    //echo "test";    
+    //header('Content-Disposition: attachment; filename="result.txt"');
+    
+    //print_r(implode(getCategoriesOfIdea('1'), " "));
 
 ?>
