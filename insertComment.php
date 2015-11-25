@@ -11,16 +11,33 @@
     $comments = getCommentsByIdIdea($idIdea);
     $idea = getIdeaById($idIdea);
     $user_comment = getUserById($idUser);
+    $flag=0;
     
     foreach ($comments as $comment) {
-        echo "<h4>";
-        echo $comment['date'];
-        echo "</h4><p>";
-        echo $comment['text'];
-        $user = getUserById($comment['idUser']);
-        $nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
-        echo "&nbsp;[<span class='todt-joe'>$nameSurname</span>]</p><hr>";
-    }
+                                            if($flag%2==0){
+                                                echo "<li><div class='tldate'>";
+                                                echo $comment['date'];
+                                                echo "</div></li><li><div class='timeline-panel'><div class='tl-heading'><p><small class='text-muted'><i class='glyphicon glyphicon-time'></i>";
+                                                echo $comment['date'];
+                                                echo "</small></p></div><div class='tl-body'><p>";
+                                                echo $comment['text'];
+                                                $user = getUserById($comment['idUser']);
+                                                $nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
+                                                echo "&nbsp;[$nameSurname]</p></div></div></li>";
+                                            }
+                                            else{
+                                                echo "<li><div class='tldate'>";
+                                                echo $comment['date'];
+                                                echo "</div></li><li class='timeline-inverted'><div class='timeline-panel'><div class='tl-heading'><p><small class='text-muted'><i class='glyphicon glyphicon-time'></i>";
+                                                echo $comment['date'];
+                                                echo "</small></p></div><div class='tl-body'><p>";
+                                                echo $comment['text'];
+                                                $user = getUserById($comment['idUser']);
+                                                $nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
+                                                echo "&nbsp;[$nameSurname]</p></div></div></li>";
+                                            }
+                                            $flag=$flag+1;
+                                        }
     
     $followers = getFollowersByIdIdea($idIdea);
     $alreadySent = array();

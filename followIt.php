@@ -20,7 +20,7 @@
             $text = "La tua idea".$text_idea."ha un nuovo follower: .$nameSurname.";
 
             insertNotice($id_user_idea, $idIdea, $text, "Follower");
-            echo "<li><a href='#' id='notFollowIt'>Non seguire pi&ugrave;</a></li>";
+            echo "<button type='button' onClick='notFollowIt();' id='notFollowIt' class='btn btn-default btn-lg' style='background: red'><span class='glyphicon glyphicon-remove' aria-hidden='true' ></span> Unfollow</button>";
         }
     }
 ?>

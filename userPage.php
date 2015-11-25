@@ -1,32 +1,28 @@
-
 <!DOCTYPE html>
+<html lang="en">
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+   
+    <title>OpenIdeas - User Page</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/business-casual.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
     
-        <title>OpenIdeas - pagina utente</title>
-        <!-- Custom CSS -->
-        <link href="css/shop-homepage.css" rel="stylesheet">        
-        <link href="css/bootstrap.css" rel="stylesheet">       
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/bootstrap-social.css" rel="stylesheet">
-        <link href="css/font-awesome.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-    
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-        <script type="text/javascript" src="login.js"></script>
+    <script type="text/javascript" src="login.js"></script>
         <script type="text/javascript" src="js/insert_idea.js"></script>
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
         <script async="" src="//www.google-analytics.com/analytics.js"></script>
         <!--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>-->
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>        
@@ -76,10 +72,13 @@
                 });
             }
         </script>
-    </head>
+    
+</head>
 
-    <body style="background:#eeeeee; " onload="getCategories()">
-       
+<body onload="getCategories()">
+ <div class="brand">OpenIdeas</div>
+    <div class="address-bar">Insert your idea HERE!</div>
+    
     <?php
         error_reporting(0);
         include("navbar.php");
@@ -88,33 +87,26 @@
             header("location: index.php");
         }   
     ?>
-      <hr>
-        <div class="container">
-            <div class="row">
-                <?php
-                   echo "<div class='col-sm-10'><h1>{$_SESSION['name']}</h1></div>"; 
-                ?>                  
-            <div class="col-sm-2"><a href="<?php echo"{$_SESSION['picture']}" ?>" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="<?php echo"{$_SESSION['picture']}" ?>"/></a></div>
-        </div>
-        <div class="row">
-                    <div class="col-sm-3"><!--left col-->
-                  
-              <ul class="list-group">
-                <li class="list-group-item text-muted">Profilo</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Registrato</strong></span><?php echo"{$_SESSION['registrationDate']}"?></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Ultimo accesso</strong></span><?php echo"{$_SESSION['lastLogin']}"?></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Nome completo</strong></span><?php echo"{$_SESSION['name']} {$_SESSION['surname']}"?></li>
-                
-              </ul> 
-                   
-              <div class="panel panel-default">
-                <div class="panel-heading">Pagina web <i class="fa fa-link fa-1x"></i></div>
-                <div class="panel-body"><a href="<?php echo"{$_SESSION['webPage']}"?>"><?php echo"{$_SESSION['webPage']}"?></a></div>
-              </div>
-              
-              
-              <ul class="list-group">
-                <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4">
+            <div class="box">
+                <hr><h2 class="intro-text text-center"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<strong><?php echo"{$_SESSION['name']}"?></strong></h2><hr>
+                <a href="<?php echo"{$_SESSION['picture']}" ?>"><img title="profile image" class="img-circle img-responsive" src="<?php echo"{$_SESSION['picture']}" ?>"/></a>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Registrato</strong></span><?php echo"{$_SESSION['registrationDate']}"?></li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Ultimo accesso</strong></span><?php echo"{$_SESSION['lastLogin']}"?></li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Nome completo</strong></span><?php echo"{$_SESSION['name']} {$_SESSION['surname']}"?></li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Pagina web</strong></span><?php echo"{$_SESSION['webPage']}"?></li>
+                </ul>   
+            </div>
+        </div> 
+        <div class="col-sm-6 col-md-4">
+            <div class="box">
+                <hr><h2 class="intro-text text-center"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>&nbsp;<strong>Activity</strong></h2><hr>
+                <ul class="list-group">
                 <li class="list-group-item text-right"><span class="pull-left"><strong>Received comments</strong></span>
                     <?php
                         $comments = getCommentForUser($_SESSION['email']);
@@ -140,11 +132,13 @@
                     ?>
                 </li>
               </ul> 
-                 
-              <div class="panel panel-default">
-                <div class="panel-heading">Notifiche</div>
-                <div class="panel-body">
-                    <div class="btn-group" role="group">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+            <div class="box">
+                <hr><h2 class="intro-text text-center"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;<strong>Notifiche</strong></h2><hr>         
+                <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default" onclick="readAll();">Lette</button>
                         <div class="btn-group" role="group">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -199,28 +193,24 @@
                         </ul>
                         </div>
                     </div>
-                </div>
-              </div>
-              
             </div>
-            <div class="col-sm-9">
-              
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr><h2 class="intro-text text-center"><strong>Inserisci un'idea</strong></h2><hr>
                 <ul class="nav nav-pills nav-justified" id="myTab">
-                <li class="active" id="step1_li"><a href="#step1" class="" id="step1_a" data-toggle="tab">Step 1</a></li>
-                <li class="disabled" id="step2_li"><a id="step2_a" class="" >Step 2</a></li>
-                <li class="disabled" id="summary_li"><a id="summary_a">Summary</a></li>
-                <!--
-        <li class="disabled"><a href="#step2" data-toggle="tab">Step 2</a></li>
-                <li class="disabled"><a href="#summary" data-toggle="tab">Summary</a></li>
-                -->
-              </ul>
-                                    
-              <div class="tab-content">
+                    <li class="active" id="step1_li"><a href="#step1" class="" id="step1_a" data-toggle="tab">Step 1</a></li>
+                    <li class="disabled" id="step2_li"><a id="step2_a" class="" >Step 2</a></li>
+                    <li class="disabled" id="summary_li"><a id="summary_a">Summary</a></li>
+                </ul>
+                 <div class="tab-content">
                 <div class="tab-pane active" id="step1">
                   <div class="table-responsive">
                     <br>
                       <input type="text" id="name_idea" class="form-control" placeholder="Insert your idea's name" onchange="checkParameterStep1()">
-                      
                       <br>
                       <textarea id="description" class="form-control" rows="5" placeholder="Description" onchange="checkParameterStep1()"></textarea>
                       <br>
@@ -231,8 +221,8 @@
                         <li class="next"><div class="disabled" id="step1_div"> <a class="btn cont" href="#">Next<span aria-hidden="true">&rarr;</span></a></div></li>
                         </ul>
                       </nav>
-                    <hr>
-                    <div class="row">
+                    
+                    <div class="row" style="display:none;">
                       <div class="col-md-4 col-md-offset-4 text-center">
                             <ul class="pagination" id="myPager"></ul>
                       </div>
@@ -240,7 +230,7 @@
                   </div><!--/table-resp-->
                   
                   
-                  <hr>
+                  
                     
                 <div class="row">
                         <?php
@@ -297,9 +287,8 @@
                         ?> 
                 </div>
                   
-                  <hr>
+                  <hr><h2 class="intro-text text-center"><strong>Recent Activity</strong></h2><hr>
                   
-                  <h4>Recent Activity</h4>
                   
                   <div class="table-responsive">
                     <table class="table table-hover">
@@ -408,7 +397,7 @@
                         <dt><label for="descr_summary">Description</label></dt>
                             <dd><textarea type="text" rows="20" id="description_summary" class="form-control" name="descr_summary" placeholder="descrizione" readonly onchange="setReadonly(this)"></textarea></dd>
                         <dt><label for="descr_summary">Category</label></dt>
-                           <dd><select id="select_cat1" readonly name="selectSum" class="form-control" ></select></dd>
+                           <dd><select id="select_cat1" readonly name="selectSum" class="form-control" onchange="checkSummary()" ></select></dd>
                      </dl>
                   <div class="row">
                     <div class="col-md-6">
@@ -427,7 +416,7 @@
                   <input type="text" id="urlvideo_sum" name="url_summary" style="display:none">
                  <br><br><br><br>
                   <button type="button" class="btn btn-warning pull-right" onclick="modify()"><span class="glyphicon glyphicon-pencil"></span>Modifica</button>
-                  <input type="submit" value="Conferma"  class="btn btn-primary pull-right">
+                  <input type="submit" id="submit_conferma" value="Conferma"  class="btn btn-primary pull-right">
 
                     <!--<button type="button" class="btn btn-primary pull-right" >Conferma</button>-->
                     <br>
@@ -440,7 +429,7 @@
                             <input type="submit" value="Carica" class="btn btn-primary" onclick="viewButtonView()">
                  </form><br>
                         
-                 <iframe name="my-iframe2" src="uploadPhoto.php" id="iframe_text2" style="height:100px; width:600px; border: 0;" scrolling="no" ></iframe>
+                 <iframe name="my-iframe2" src="uploadPhoto.php" id="iframe_text2" style="height:100px; width:600px; border: 2;" scrolling="no" ></iframe>
                           
                 <!--<iframe name="iframe_insert" src="insert_idea.php" style="height:1px;width:1px; background: transparent; border: 0;" scrolling="no"></iframe>-->
                 <iframe name="iframe_insert" src="insert_idea.php" style="height:350px;width:400px; " scrolling="no"></iframe>
@@ -452,14 +441,28 @@
                    
                   </div><!--/tab-pane-->
               </div><!--/tab-content-->
-    
-            </div><!--/col-9-->
-        </div><!--/row-->
-    
-        <!-- jQuery -->
-        <script src="js/jquery.js"></script>
-    
-        <!-- Bootstrap Core JavaScript -->
-        <script src="js/bootstrap.min.js"></script>
-    </body>
+
+
+
+
+            </div><!--col-lg-12 -->
+        </div><!--box -->
+    </div> <!--row idea -->                              
+</div><!-- /.container -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; OpenIdeas 2015</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
 </html>

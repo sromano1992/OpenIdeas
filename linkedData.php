@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Clean Free Ui Kit Flat Bootstrap responsive Website Template | Home :: w3layouts</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Clean Free Ui Kit Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
-    Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>OpenIdeas - About</title>
+
     <link href="css/bootstrap_endpoint.css" rel='stylesheet' type='text/css' />
     <link href="css/style_endpoint.css" rel='stylesheet' type='text/css' />
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
-    <link href="css/style.css" rel='stylesheet' type='text/css' />
-    <script src="js/jquery.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/business-casual.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+    
+     <script src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/Chart.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <!--<script src="endpointSPARQL/sparqlQuery.js"></script>-->
@@ -90,19 +101,19 @@
     </script>   
 </head>
 <body>
-    <?php
+    <div class="brand">OpenIdeas</div>
+    <div class="address-bar">Insert your idea HERE!</div>
+ <?php
         error_reporting(0);
         include("navbar.php");
         require "manageDB.php";
     ?>
-	<!--content-starts-->
-	<div class="content">
-            <div class="container">
-                <div class="content-top">
-                        <div class="col-md-6 content-left">				
+<div class="container">
+    <div class="row">
+         <div class="col-md-6 content-left">                
                             <div class="contact">                                
                                 <h3>ENDPOINT</h3>
-                                <input type="text" value="http://simrom.ddns.net/OpenIdeas/query" readonly />
+                                <input id="fname" name="name" type="text" class="form-control" value="http://simrom.ddns.net/OpenIdeas/query" readonly>
                                 <h3>TESTO DELLA QUERY</h3>
                                 <textarea id="queryArea" style="color: black" value="Inserisci la query" ></textarea>
                                                                                       
@@ -117,9 +128,8 @@
                                 <input id="querySparql" type="submit" value="QUERY"/>
                                 <textarea id="result" style="color: black" readonly></textarea>
                                 
-                            </div>					
+                            </div>                  
                         </div>
-                        
                         <div class="col-md-6 content-right">
                             <div class="contact">                                
                                 <h3>QUERY</h3>
@@ -127,14 +137,23 @@
                                 <input type="submit" id="allCategories" value="Visualizza tutte le categorie" >
                                 <input type="submit" id="allSoftwareIdeas" value="Visualizza tutte le idee della categoria software" >  
                                 
-                            </div>	
+                            </div>  
                         </div>
+        
+
+    </div> <!--row -->
+<br>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; OpenIdeas 2015</p>
                 </div>
-            </div>                    
-                
-		<div class="footer">
-			<p> Copyright &copy; OpenIdeas 2015</p>
-		</div>
-	<!--content-end-->
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
