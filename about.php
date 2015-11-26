@@ -30,9 +30,9 @@
 
 </head>
 
-<body>
+<body vocab="http://schema.org/" typeof="SoftwareApplication" >
 
-    <div class="brand">OpenIdeas</div>
+    <div class="brand" property="name">OpenIdeas</div>
     <div class="address-bar">Insert your idea HERE!</div>
     <?php include("navbar.php");?>
 
@@ -42,8 +42,8 @@
             <div class="box">
               
                     <hr>
-                    <h2 class="intro-text text-center">About
-                        <strong>OpenIdeas</strong>
+                    <h2 class="intro-text text-center" property="applicationCategory">About
+                        <strong property="operatingSystem">OpenIdeas</strong>
                     </h2>
                     <hr>
                
@@ -51,17 +51,24 @@
                     <img class="img-responsive img-border-left" src="img/idea.png" alt="">
                 </div>
                 <div class="col-md-6">
-                    <p>
+                    <p property="description">
                         Scopo del portale OpenIdeas è dare la possibilità ad utenti che hanno voglia di realizzare un progetto (di qualsiasi tipologia) di renderlo pubblico, avere un feedback sul giudizio degli utenti e trovare eventuali finanziatori.
-
                     </p>
                 </div>
-                <div class="clearfix"></div>
+                <div property="aggregateRating" typeof="AggregateRating" style="display:none;">
+                    <span property="ratingValue">4.6</span> (
+                    <span property="ratingCount">8864</span> ratings )
+                </div>
+                <div property="offers" typeof="Offer" style="display:none;">
+                Price: $<span property="price">1.00</span>
+                <meta property="priceCurrency" content="USD" />
+                </div>
+                 <div class="clearfix" ></div>
             </div>
         </div>
 
         <div class="row">
-            <div class="box">
+            <div class="box" property="author">
                 <div class="col-lg-12">
                     <hr>
                     <h2 class="intro-text text-center">Our
