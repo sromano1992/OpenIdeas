@@ -66,7 +66,7 @@
                             <div class="btns">
                                 <div class="btn-group btn-group-justified" role="group" >
                                     <div class="btn-group" role="group" >
-                                        <input type="button" value="Login with Facebook" class="btn btn-lg btn-primary" scope="public_profile,email" onclick="checkLoginState();">
+                                        <input type="button" value="Login with Facebook" class="btn btn-lg btn-primary" scope="public_profile,email" onclick="checkLoginState();"> 	
                                     </div>
                                 <div class="btn-group" role="group">
                                     <input type="submit" onclick="login()" value="Login" class="btn btn-lg btn-primary">
@@ -74,7 +74,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p style="text-align:center">Hai dimenticato la password?<a href="#" onclick="restorePassword()"><span> Clicca qui</span></a></p>                
+                        <p style="text-align:center">Hai dimenticato la password?<a href="" onclick="restorePassword()"><span> Clicca qui</span></a></p>                
                     </div>
                 </div>
 

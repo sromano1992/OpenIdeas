@@ -17,7 +17,7 @@
           console.log(xhttp.responseText);
           if (parseInt(xhttp.responseText)<0) {
             //alert("Credenziali errate");
-            document.getElementById("errorLabel").style.visibility = "visible";
+            //document.getElementById("errorLabel").style.visibility = "visible";
             document.getElementById("log_email").style.border ="1px solid #ff3333";
             document.getElementById("log_password").style.border ="1px solid #ff3333";
           }
