@@ -88,7 +88,7 @@ function modify(){
     document.getElementById('video_uploadM').disabled = false;
     document.getElementById('select_cat1').disabled = false;
     document.getElementById('formModifyImage').style.visibility="visible"
-    
+    document.getElementById('submit_conferma').disabled = true;
     getCategoriesM()
 }
 
@@ -117,6 +117,7 @@ function setNewVideo(){
 function setReadonly(x){
     elemId = x.id
     document.getElementById(elemId).readOnly=true
+    checkSummary()
 }
 
 function getCategoriesM() {
@@ -161,5 +162,20 @@ function cancelDisabled(){
     document.getElementById("name_summary").disabled=true
     document.getElementById("description_summary").disabled=true
     document.getElementById("name_summary").disabled=true
+
+}
+
+function checkSummary(){
+   nome = document.getElementById('name_summary').value
+   descrizione = document.getElementById('description_summary').value
+   catId = document.getElementById("select_cat1")
+   cat_value = catId.options[catId.selectedIndex].value
+   path = document.getElementById("path_sum")
+
+   //alert(nome+"<br>"+descrizione+"<br>"+cat_value+"<br>"+path)
+   if (nome != "" && descrizione!="" && cat_value!="Select category" && path!="")
+        document.getElementById('submit_conferma').disabled = false;
+    else
+       document.getElementById('submit_conferma').disabled = true;
 
 }

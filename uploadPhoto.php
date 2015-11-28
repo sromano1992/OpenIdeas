@@ -8,6 +8,8 @@
 
 
 <?php 
+error_reporting(0);
+
 $target = 'galleryTmp/'; 
 $target = $target . basename( $_FILES['photo']['name']); 
 

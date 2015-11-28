@@ -7,6 +7,6 @@
     
     if($idButton = "notFollowIt") {
         deleteFollower($idUser,$idIdea);
-        echo "<li><a href='#' id='followIt'>Segui</a></li>";
+        echo "<button type='button' onClick='followIt();' id='followIt' class='btn btn-default btn-lg' style='background: green'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span> Follow</button>";
     }
 ?>
