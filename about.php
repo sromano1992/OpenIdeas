@@ -90,7 +90,7 @@
                 <div class="col-xs-6 col-sm-3">
                     <center><img  src="img/amedeo.jpg" alt="" align="middle" class="img-circle">
                     <h3>Leo Amedeo</h3>
-                        <strong><a href="#">WebSite</a></strong><center>
+                        <strong><a href="http://amedeoleo.altervista.org/">WebSite</a></strong><center>
                     
                 </div>
                  <div class="col-xs-6 col-sm-3">

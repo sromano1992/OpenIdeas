@@ -99,7 +99,8 @@
                     <li class="list-group-item text-right"><span class="pull-left"><strong>Registrato</strong></span><?php echo"{$_SESSION['registrationDate']}"?></li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong>Ultimo accesso</strong></span><?php echo"{$_SESSION['lastLogin']}"?></li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong>Nome completo</strong></span><?php echo"{$_SESSION['name']} {$_SESSION['surname']}"?></li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Pagina web</strong></span><?php echo"{$_SESSION['webPage']}"?></li>
+                    <?php if(isset($_SESSION['webPage']))
+                        echo "<li class='list-group-item text-right'><span class='pull-left'><strong>Pagina web</strong></span>{$_SESSION['webPage']}'</li>"; ?>
                 </ul>   
             </div>
         </div> 
