@@ -166,9 +166,9 @@
                                                 <h4 class="pull-right"></h4>
                                                 <h4><a property="oi:hasName" href="<?php echo"idea.php?id={$idIdea}";?>"><?php echo"{$idea['Idea']['nome']}";?></a>
                                                 </h4>
-                                                <span property="oi:hasCategory"><?php echo "Category: {$category}" ?> </span><br>
-                                                <span property="oi:hasUrl"><?php echo "Url: {$url}" ?> </span>
-                                                <p style="height:300px; overflow-y:auto"><?php echo"{$idea['Idea']['description']}";?></p>
+                                                <span style="display:none" property="oi:hasCategory"><?php echo "Category: {$category}" ?> </span><br>
+                                                <span style="display:none"  property="oi:hasUrl"><?php echo "Url: {$url}" ?> </span>
+                                                <p style="height:100px; overflow-y:auto"><?php echo"{$idea['Idea']['description']}";?></p>
                                             </div>
                                             <div class="ratings">
                                                 <p class="pull-right">
