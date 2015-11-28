@@ -102,7 +102,7 @@
                         <div class="col-md-6 content-left">				
                             <div class="contact">                                
                                 <h3>ENDPOINT</h3>
-                                <input type="text" value="http://simrom.ddns.net/OpenIdeas/query" readonly />
+                                <input type="text" value="http://simrom.ddns.net:3030/OpenIdeas/query" readonly />
                                 <h3>TESTO DELLA QUERY</h3>
                                 <textarea id="queryArea" style="color: black" value="Inserisci la query" ></textarea>
                                                                                       
