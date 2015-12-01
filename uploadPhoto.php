@@ -3,7 +3,7 @@
 <head>
 	<link href="css/bootstrap.css" rel="stylesheet">
 </head>
-<body>
+<body style="background:rgb(240, 241, 242)">
 
 
 

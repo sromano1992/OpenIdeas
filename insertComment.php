@@ -13,7 +13,7 @@
     $user_comment = getUserById($idUser);
     $flag=0;
     
-    foreach ($comments as $comment) {
+    /*foreach ($comments as $comment) {
                                             if($flag%2==0){
                                                 echo "<li><div class='tldate'>";
                                                 echo $comment['date'];
@@ -37,8 +37,10 @@
                                                 echo "&nbsp;[$nameSurname]</p></div></div></li>";
                                             }
                                             $flag=$flag+1;
-                                        }
-    
+                                        }*/
+
+    $nameSurname = $user_comment['User']['name'] . " " . $user_comment['User']['surname'];
+    echo $nameSurname;
     $followers = getFollowersByIdIdea($idIdea);
     $alreadySent = array();
     
@@ -52,8 +54,8 @@
             
             $alreadySent[] = $follower['idUser'];
             $text_idea = $idea['Idea']['nome'];
-            $text = "La idea ".$text_idea." ha un nuovo commento!";
-            sendMail($mail_destinatario, $mail_oggetto, $title, $body);
+            $text = "La idea".$text_idea." che stai seguendo ha un nuovo commento:[".$nameSurname."]: ".$content;
+             /* togliere i commenti! invia la mail! */ //sendMail($mail_destinatario, $mail_oggetto, $title, $body);
             insertNotice($follower['idUser'], $idIdea, $text, "Comment");
         }
     }
@@ -63,24 +65,34 @@
         if($writer != $idUser) {
             if(!in_array($writer, $alreadySent)) {
                 $text_idea = $idea['Idea']['nome'];
-                $text = "La idea ".$text_idea." commentata ha un nuovo commento!";
+                $text = "La idea".$text_idea." che hai commentato ha un nuovo commento:[".$nameSurname."]: ".$content;
                 insertNotice($writer, $idIdea, $text, "Comment");
             }
         }
     }
+
+    /* <p>Scrivi un tuo commento</p>";
+    echo "<form class='form-horizontal' role='form' id='addCommentForm' method='post' action=''>";
+    echo "<div class='form-group'>";
+    echo "<div class='col-sm-6'>";
+    echo "<textarea name='body' id='text-content' class='form-control'></textarea></div></div>";
+    echo "<div class='form-group'>";
+    echo "<div class='late-btn col-sm-6'>";
+    echo "<a href='#' class='.load_more' id='insertComment'>INSERISCI COMMENTO</a>";
+    echo "</div></div></form>"; */
     
     function getScore($comment){
         require __DIR__ . '/vendor/autoload.php';
         require_once __DIR__ . '/libs/sentimentAnalysis/autoload.php';
         
         //Translate first
-	$tr = new TranslateClient(); // Default is from 'auto' to 'en'
-	//$tr->setSource('it');
-	//$tr->setTarget('en');
-	$comment = $tr->translate($comment);
+    $tr = new TranslateClient(); // Default is from 'auto' to 'en'
+    //$tr->setSource('it');
+    //$tr->setTarget('en');
+    $comment = $tr->translate($comment);
         
         //Calculate sentiment
-	$sentiment = new \PHPInsight\Sentiment();
+    $sentiment = new \PHPInsight\Sentiment();
         // calculations:
         $scores = $sentiment->score($comment);
         $class = $sentiment->categorise($comment);

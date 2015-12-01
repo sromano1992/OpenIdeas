@@ -24,7 +24,8 @@
     <script type="text/javascript" src="login.js"></script>
         <script type="text/javascript" src="js/insert_idea.js"></script>
         <script async="" src="//www.google-analytics.com/analytics.js"></script>
-        <!--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>-->
+
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>        
         <!-- JavaScript jQuery code from Bootply.com editor  -->
         
@@ -93,14 +94,13 @@
         <div class="col-sm-6 col-md-4">
             <div class="box">
                 <hr><h2 class="intro-text text-center"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<strong><?php echo"{$_SESSION['name']}"?></strong></h2><hr>
-                <a href="<?php echo"{$_SESSION['picture']}" ?>"><img title="profile image" class="img-circle img-responsive" src="<?php echo"{$_SESSION['picture']}" ?>"/></a>
+                <a href="<?php echo"{$_SESSION['picture']}" ?>"><img title="profile image" style="max-width:30%; margin: 0 auto;" class="img-circle img-responsive" src="<?php echo"{$_SESSION['picture']}" ?>"/></a>
                 <br>
                 <ul class="list-group">
                     <li class="list-group-item text-right"><span class="pull-left"><strong>Registrato</strong></span><?php echo"{$_SESSION['registrationDate']}"?></li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong>Ultimo accesso</strong></span><?php echo"{$_SESSION['lastLogin']}"?></li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong>Nome completo</strong></span><?php echo"{$_SESSION['name']} {$_SESSION['surname']}"?></li>
-                    <?php if(isset($_SESSION['webPage']))
-                        echo "<li class='list-group-item text-right'><span class='pull-left'><strong>Pagina web</strong></span>{$_SESSION['webPage']}'</li>"; ?>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Pagina web</strong></span><?php echo"{$_SESSION['webPage']}"?></li>
                 </ul>   
             </div>
         </div> 
@@ -259,7 +259,7 @@
                                                 <h4 class="pull-right"></h4>
                                                 <h4><a href="<?php echo"idea.php?id={$idIdea}";?>"><?php echo"{$ideaName}";?></a>
                                                 </h4>
-                                                <p><?php echo"{$ideaDescription}";?></p>
+                                                <p style="height:300px; overflow-y:auto;text-align:justified"><?php echo"{$ideaDescription}";?></p>
                                             </div>
                                             <div class="ratings">
                                                 <p class="pull-right">
@@ -360,7 +360,7 @@
                             <input type="submit" value="Carica" class="btn btn-primary" onclick="checkParameterStep2()">
                         </form><br>
                         
-                        <iframe name="my-iframe" src="uploadPhoto.php" id="iframe_text" style="height:100px; width:600px; background: transparent; border: 0;" scrolling="no" ></iframe>
+                        <iframe name="my-iframe" src="uploadPhoto.php" id="iframe_text" style="height:51px; width:600px; background: transparent; border: 0;" scrolling="no" ></iframe>
                           
                     </div>
                   
@@ -402,11 +402,11 @@
                      </dl>
                   <div class="row">
                     <div class="col-md-6">
-                      <img id="image_summary" src="gallery/bg.jpg" alt="Allegato" class="img-thumbnail">
-                      
+                      <img id="image_summary" style="height: 300px"src="gallery/bg.jpg" alt="Allegato" class="img-thumbnail">
+
                     </div>
                     <div class="col-md-6">
-                    <iframe id="url_sum"  src="" width="409" height="313" src=""></iframe>
+                    <iframe id="url_sum"  src="" width="409" height="300px" src=""></iframe>
                      <div class="input-group" >
                         <input id="video_uploadM" style="display: none; width:409px" type="text" class="form-control" id="basic-url" onchange="setNewVideo(this)" placeholder="Insert new url video" aria-describedby="basic-addon3">
                       </div>              
@@ -421,20 +421,22 @@
 
                     <!--<button type="button" class="btn btn-primary pull-right" >Conferma</button>-->
                     <br>
-                   <hr>
+                
                  </form>
-
-                 <form id="formModifyImage" style="visibility:hidden" enctype="multipart/form-data" action="uploadPhoto.php" target="my-iframe2" method="post">
+                 <div class="col-md-3">
+                 <form id="formModifyImage" style="visibility:hidden;" enctype="multipart/form-data" action="uploadPhoto.php" target="my-iframe2" method="post">
                             <input type="file" id="p" name="photo"><br>
                             <button disabled id="button_view" type="button" class="btn btn-warning pull-right" onclick="viewNewImage()"><span class='glyphicon glyphicon-pencil'></span>View Image</button>
                             <input type="submit" value="Carica" class="btn btn-primary" onclick="viewButtonView()">
-                 </form><br>
-                        
-                 <iframe name="my-iframe2" src="uploadPhoto.php" id="iframe_text2" style="height:100px; width:600px; border: 2;" scrolling="no" ></iframe>
+                 </form>
+                </div>
+                    <br>  <br> <br> <br> <br> <br> 
+                 <iframe name="my-iframe2" src="uploadPhoto.php" id="iframe_text2" style="height:51px; width:600px; border: 2; display:none" scrolling="no" ></iframe>
                           
                 <!--<iframe name="iframe_insert" src="insert_idea.php" style="height:1px;width:1px; background: transparent; border: 0;" scrolling="no"></iframe>-->
-                <iframe name="iframe_insert" src="insert_idea.php" style="height:350px;width:400px; " scrolling="no"></iframe>
-
+               
+                <iframe name="iframe_insert" src="insert_idea.php" style="height:51px;width:400px; margin-left: 24em;" scrolling="no"></iframe>
+    
 
 
                  </div><!--/tab-pane-->

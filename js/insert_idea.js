@@ -1,20 +1,20 @@
 cat_value=""
 function checkParameterStep1(){
-	name = document.getElementById("name_idea").value;
-	description = document.getElementById("description").value;
-	catId = document.getElementById("select_cat")
+    name = document.getElementById("name_idea").value;
+    description = document.getElementById("description").value;
+    catId = document.getElementById("select_cat")
     cat_value = catId.options[catId.selectedIndex].value
-	if (name != "" && description!="" && cat_value!="Select category"){
-		document.getElementById("step1_div").className = "";
-		 document.getElementById("step2_a").href="#step2";
+    if (name != "" && description!="" && cat_value!="Select category"){
+        document.getElementById("step1_div").className = "";
+         document.getElementById("step2_a").href="#step2";
     document.getElementById("step2_a").setAttribute("data-toggle", "tab");
     document.getElementById("step2_li").className = "";
-	}
+    }
 }
 
 function checkParameterStep2(){
    document.getElementById("step2_div").className = "";
-	document.getElementById("summary_a").href="#summary";
+    document.getElementById("summary_a").href="#summary";
     document.getElementById("summary_a").setAttribute("data-toggle", "tab");
     document.getElementById("summary_li").className = "";
     //completeFormSummary()
@@ -22,7 +22,7 @@ function checkParameterStep2(){
 
 
 function nextToSummary(){
-	document.getElementById("step1_li").className = "disabled";
+    document.getElementById("step1_li").className = "disabled";
     document.getElementById("step2_li").className = "disabled";
     
     document.getElementById("step1_a").removeAttribute("data-toggle");

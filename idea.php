@@ -25,11 +25,11 @@
     <link rel="stylesheet" type="text/css" media="all" href="css/stylesTimeline.css">
 
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<!-- start-smoth-scrolling -->
-<script type="text/javascript" src="js/move-top.js"></script>
-<script type="text/javascript" src="js/easing.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="js/move-top.js"></script>
+    <script type="text/javascript" src="js/easing.js"></script>
     <script type="text/javascript">
             jQuery(document).ready(function($) {
                 $(".scroll").click(function(event){     
@@ -38,12 +38,12 @@
                 });
             });
     </script>
-<!-- //end-smoth-scrolling -->
-<link href="css/jquery.countdown.css" rel="stylesheet" type="text/css" media="all" />
-<script src="js/jquery.countdown.js"></script>
-<!--<script src="js/script.js"></script>
-<!--responsive tab script here-->
-<script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
+    <!-- //end-smoth-scrolling -->
+    <link href="css/jquery.countdown.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="js/jquery.countdown.js"></script>
+    <!--<script src="js/script.js"></script>
+    <!--responsive tab script here-->
+    <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
             <script type="text/javascript">
                 $(document).ready(function () {
                     $('#horizontalTab').easyResponsiveTabs({
@@ -53,17 +53,17 @@
                     });
                 });
                </script>
-<!--//resposive tab-->
-<script>$(document).ready(function(c) {
+    <!--//resposive tab-->
+    <script>$(document).ready(function(c) {
     $('.cros').on('click', function(c){
         $('.user-profile').fadeOut('slow', function(c){
             $('.user-profile').remove();
         });
     });   
-});
-</script>
-<script type="text/javascript">
-function financeIt() {
+    });
+    </script>
+    <script type="text/javascript">
+    function financeIt() {
         var idIdea = <?php echo $_GET['id'] ?>;
             var dataString = 'idIdea=' + idIdea;
             $.ajax({
@@ -87,6 +87,33 @@ function financeIt() {
 }
 
 </script>
+
+<script type="text/javascript">
+i=1;
+function insert(){
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    newdate = year + "-" + month + "-" + day+" "+dateObj.getHours()+ ":"+dateObj.getMinutes()+":"+dateObj.getSeconds();
+
+    
+    text=document.getElementById('text-content').value;
+    li1=document.createElement('LI');
+    //li1.setAttribute('id',i)
+    var div1="<div class='tldate'>"+newdate+"</div>";
+    li1.innerHTML=div1;
+    document.getElementById('lista').appendChild(li1);
+    i++;
+    li2=document.createElement('LI');
+    //li2.setAttribute('id',i)
+    var div2="<div class='timeline-panel'><div class='tl-heading'><p><small class='text-muted'><i class='glyphicon glyphicon-time'></i>"+newdate+"</small></p></div><div class='tl-body'><p>"+text+"</p></div></div>"
+    li2.innerHTML=div2;
+    document.getElementById('lista').appendChild(li2);
+i++;
+}
+</script>
+
 <script type="text/javascript">
     function followIt(){
         var idIdea = <?php echo $_GET['id'] ?>;
@@ -124,6 +151,7 @@ function financeIt() {
 
 
 <script type="text/javascript">
+var next=1;
 function insertComment(){
     console.log("here");
     var textcontent = $('#text-content').val();
@@ -140,15 +168,42 @@ function insertComment(){
         data: dataString,
         cache: true,
         success: function(html){
-            $('#divComments').html();
-            $('#divComments').html(html);
-            document.getElementById('text-content').value='';
+            //$('#divComments').html();
+            //$('#divComments').html(html);
+            $('#text-content').val();
+           var username = html;
         loadChart();
         console.log("loaded");
+
+    var dateObj = new Date();
+    var month = dateObj.getUTCMonth() + 1; //months from 1-12
+    var day = dateObj.getUTCDate();
+    var year = dateObj.getUTCFullYear();
+    newdate = year + "-" + month + "-" + day+" "+dateObj.getHours()+ ":"+dateObj.getMinutes()+":"+dateObj.getSeconds();
+
+    
+    text=document.getElementById('text-content').value;
+    li1=document.createElement('LI');
+    var div1="<div class='tldate'>"+newdate+"</div>";
+    li1.innerHTML=div1;
+    //document.getElementById('lista').appendChild(li1);
+   
+    li2=document.createElement('LI');
+    
+    if(next%2!=0)
+        li2.setAttribute('class','timeline-inverted')
+    
+    var div2="<div class='timeline-panel'><div class='tl-heading'><p><small class='text-muted'><i class='glyphicon glyphicon-time'></i>"+newdate+"</small></p></div><div class='tl-body'><p>"+text+" ["+username+"]</p></div></div>"
+    li2.innerHTML=div2;
+    //document.getElementById('lista').appendChild(li2);
+    document.getElementById('lista').insertBefore(li2, document.getElementById('lista').childNodes[0]);
+    document.getElementById('lista').insertBefore(li1, document.getElementById('lista').childNodes[0]);
+     next++;
         }
     });
          }
     return false;
+
 }
 
 $(document).ready(function(){
@@ -242,7 +297,6 @@ $(document).ready(function(){
   window.onload = loadChart;
   </script>
     <div class="container">
-
         <div class="row">
             <div class="box">
                 <div class="col-lg-12">
@@ -276,7 +330,7 @@ $(document).ready(function(){
                         <?php
                         echo $time = date("H:i:s",strtotime($date));
                         ?>
-                        <strong>
+                        </strong>
                         <p>
                          <?php
                         $description = $idea['Idea']['description'];
@@ -294,7 +348,7 @@ $(document).ready(function(){
                                       echo "<button type='button' onClick='notFollowIt();' id='notFollowIt' class='btn btn-default btn-lg' style='background: red'><span class='glyphicon glyphicon-remove' aria-hidden='true' ></span> Unfollow</button>"; ?>      
                             
 
-                        </div>
+                                </div>
                 
                 <?php } ?>
                     
@@ -364,7 +418,7 @@ $(document).ready(function(){
          
         <div class="row">
             <div class="col-lg-10 col-md-offset-1" id='divComments'>
-                <ul class="timeline">
+                <ul class="timeline" id="lista">
                 <?php
                                 $flag=0;
                                 $comments = getCommentsByIdIdea($idea['Idea']['id']);
@@ -423,7 +477,7 @@ $(document).ready(function(){
             </li>
             </ul>
         </div>
-        </div>
+        </div><!--row -->
         
 
         <div class="box">
@@ -434,19 +488,19 @@ $(document).ready(function(){
                                 $totalPoints = getPointsForIdeaComments($idea['Idea']['id'], "score_pos");
                                 $avgPoints = $totalPoints / 7;
                                 
-                                echo "<div class='col-lg-4 text-center'<h4>";
+                                echo "<div class='col-lg-4 text-center'><h4>";
                                 echo "Media punteggi positivi ultima settimana";
                                 echo "</h4><p>";
                                 echo "&nbsp;<span class='badge'>$avgPoints</span></p></div>";
                                 
                                 
-                                echo "<div class='col-lg-4 text-center'<h4>";
+                                echo "<div class='col-lg-4 text-center'><h4>";
                                 echo "Totale punteggi positivi ultima settimana";
                                 echo "</h4><p>";
                                 echo "&nbsp;<span class='badge'>$totalPoints</span></p></div>";
                                 
                                 $totalComments = getNumberOfCommentsOfLastWeekByIdIdea($idea['Idea']['id']);
-                                echo "<div class='col-lg-4 text-center'<h4>";
+                                echo "<div class='col-lg-4 text-center'><h4>";
                                 echo "Totale commenti ultima settimana";
                                 echo "</h4><p>";
                                 echo "&nbsp;<span class='badge'>$totalComments</span></p></div>";
