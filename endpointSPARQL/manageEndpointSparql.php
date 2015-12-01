@@ -7,31 +7,23 @@
     $endpoint =  "http://simrom.ddns.net:3030/OpenIdeas/update?";
     $endpointQuery = "http://simrom.ddns.net:3030/OpenIdeas/query?";
     function uploadIdeaInSparqlEndpoint($id, $url, $category, $name){
-        if (!function_exists('curl_init')){ 
+        if (!function_exists('curl_init')) 
            die('CURL is not installed!');
-        }
-        
         // get curl handle
         $ch= curl_init();
         $url = getUrl($id, $url, $category, $name);
         // set request url
-        curl_setopt($ch, 
-           CURLOPT_URL, $url);
-     
+        curl_setopt($ch, CURLOPT_URL, $url);     
         // return response, don't print/echo
-        curl_setopt($ch, 
-           CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, 1);
-      
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, 1);      
         /*
         Here you find more options for curl:
         http://www.php.net/curl_setopt
-        */    
-     
+        */         
         $response = curl_exec($ch);
         print_r($response);
-        curl_close($ch);
-        
+        curl_close($ch);        
         return $response;      
     }
     
