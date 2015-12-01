@@ -468,7 +468,7 @@ $(document).ready(function(){
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-9">
-                                    <a class=".load_more" onclick="insertComment()">INSERISCI COMMENTO</a>
+                                    <a class=".load_more" href="#" onclick="insertComment()">INSERISCI COMMENTO</a>
                                 </div>
                             </div>
                         </form>
