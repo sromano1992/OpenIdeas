@@ -1,11 +1,11 @@
  <!DOCTYPE html>
 <html>
-<body>
+<head>
+	<link href="css/bootstrap.css" rel="stylesheet">
+</head>
+<body style="background:rgb(240, 241, 242)">
 
 <?php
-require "endpointSPARQL/manageEndpointSparql.php";
-require "manageDB.php";
-
 error_reporting(0);
 $nome = $_POST["nome_summary"];
 $descrizione = $_POST["descr_summary"];
@@ -35,12 +35,12 @@ $sql = "INSERT INTO idea (nome, dateOfInsert, description, idUser, imPath, url_v
 //echo "{$sql}";
 $result = mysql_query($sql) ;//or die(mysql_error()); 
 
+
 $sql = "SELECT id FROM category WHERE name='".$selectOption."'";
 $result = mysql_query($sql) ;//or die(mysql_error());  
 $row = mysql_fetch_array( $result );
 $idCat = $row['id'];
 //echo "idcat: ".$idCat;
-
 
 $sql = "SELECT id FROM idea WHERE nome='".$nome."' AND idUser='".$idUser."'";
 //echo $sql;
@@ -48,7 +48,6 @@ $result = mysql_query($sql) ;//or die(mysql_error());
 $row = mysql_fetch_array( $result );
 $idIdea = $row['id'];
 //echo "idIdea: ".$idIdea;
-
 
 $sql = "INSERT INTO hascategory (idCategory, idIdea) VALUES ('$idCat', '$idIdea')";
 $Lastresult = mysql_query($sql) ;//or die(mysql_error()); 
@@ -59,10 +58,6 @@ if (!empty($Lastresult))
 echo("<div class='alert alert-success'><p>L'idea è stata aggiunta.</p></div>");
 
 mysql_close($conn);
-
-uploadIdeaInSparqlEndpoint($idIdea, "http://localhost/WebSemantico/OpenIdeas/idea.php?id="+$idIdea, $selectOption, $nome);
-
-
 ?>
 
 
