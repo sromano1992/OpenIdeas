@@ -1,4 +1,7 @@
 <?php
+    /** 
+    * @author Amedeo Leo
+    */
     function getTimestamp() {
         $date = date_create();
         return date_timestamp_get($date);

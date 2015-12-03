@@ -1,4 +1,7 @@
 <?php
+    /** 
+    * @author Amedeo Leo
+    */
     session_start();
     error_reporting(0);
     require 'manageDB.php';

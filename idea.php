@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
+<!-- @author Amedeo Leo (php and jquery functions) -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -271,7 +270,7 @@ $(document).ready(function(){
     var chart = new CanvasJS.Chart("chartContainer",
     {
       title:{
-        text: "Punteggi della tua idea"    
+        text: "Punteggi della tua idea (norm. 10)"    
       },
       animationEnabled: true,
       axisY: {
@@ -343,7 +342,7 @@ $(document).ready(function(){
                         ?>
                         </p>
 
-                       <?php if(!isIdeaOfUser($_SESSION['email'],$_GET['id'])) { ?>
+                       <?php if(!isIdeaOfUser($_SESSION['email'],$_GET['id']) && isset($_SESSION['email'])) { ?>
                            
                                 <div id="listFollow">
                                 <?php $hasAlreadyFollower = hasAlreadyFollower($_SESSION['email'],$_GET['id']);
@@ -390,7 +389,7 @@ $(document).ready(function(){
                     </div>
                 </div>
                 </div>
-
+              <?php if(isset($_SESSION['email'])) { ?>
                 <div class="bann-text text-center" id="divFinance">
                         <?php
                                $hasFinancier = hasFinancier($idea['Idea']['id']);
@@ -418,7 +417,7 @@ $(document).ready(function(){
                                 </div>
                                 <?php } endif; ?>
                 </div>
-
+		<?php } ?>
         </div><!--row -->
          
         <div class="row">
@@ -456,6 +455,7 @@ $(document).ready(function(){
                                         }
                                 }
                         ?>
+           <?php if(isset($_SESSION['email'])) { ?>
             <li class="timeline">
                 <div class='timeline-panel'>
                     <div class='tl-heading'>   
@@ -480,17 +480,50 @@ $(document).ready(function(){
                     </div>
                 </div>
             </li>
+	    <?php } ?>
             </ul>
         </div>
         </div><!--row -->
         
+	<div class="box">
+           <div class="col-lg-12 text-center">
+                <hr><h2 class="intro-text text-center"><strong>Punteggi</strong></h2><hr>
+                <div class="col-lg-12 text-center" id='divLastWeek'>
+                        <?php
+				$number_comments = getNumberOfCommentsOfIdea($idea['Idea']['id']);
+                                $total_pos = getPointsForIdeaComments($idea['Idea']['id'], "score_pos") / $number_comments;
+				$total_neg = getPointsForIdeaComments($idea['Idea']['id'], "score_neg") / $number_comments;
+				$total_neu = getPointsForIdeaComments($idea['Idea']['id'], "score_neu") / $number_comments;
+				
+				
+                                echo "<div class='col-lg-4 text-center'><h4>";
+                                echo "Media punteggi positivi";
+                                echo "</h4><p>";
+                                echo "&nbsp;<span class='badge'> $total_pos </span></p></div>";
+                                
+                                
+                                echo "<div class='col-lg-4 text-center'><h4>";
+                                echo "Media punteggi neutri";
+                                echo "</h4><p>";
+                                echo "&nbsp;<span class='badge'>$total_neu</span></p></div>";
+                                
+                                echo "<div class='col-lg-4 text-center'><h4>";
+                                echo "Media punteggi negativi";
+                                echo "</h4><p>";
+                                echo "&nbsp;<span class='badge'>$total_neg </span></p></div>";
+                                
+                                
+                        ?>
+                </div> <!-- chiudo div latest-today -->
+            </div>
+        </div>
 
         <div class="box">
            <div class="col-lg-12 text-center">
                 <hr><h2 class="intro-text text-center"><strong>Ultima settimana</strong></h2><hr>
                 <div class="col-lg-12 text-center" id='divLastWeek'>
                         <?php
-                                $totalPoints = getPointsForIdeaComments($idea['Idea']['id'], "score_pos");
+                                $totalPoints = getPointsForIdeaCommentsForLastWeek($idea['Idea']['id'], "score_pos");
                                 $avgPoints = $totalPoints / 7;
                                 
                                 echo "<div class='col-lg-4 text-center'><h4>";
