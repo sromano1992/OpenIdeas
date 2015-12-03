@@ -110,6 +110,9 @@ function insert(){
     var div2="<div class='timeline-panel'><div class='tl-heading'><p><small class='text-muted'><i class='glyphicon glyphicon-time'></i>"+newdate+"</small></p></div><div class='tl-body'><p>"+text+"</p></div></div>"
     li2.innerHTML=div2;
     document.getElementById('lista').appendChild(li2);
+    document.getElementById('text-content').value='';
+    document.getElementById("lista").scrollIntoView();
+
 i++;
 }
 </script>
@@ -199,6 +202,8 @@ function insertComment(){
     document.getElementById('lista').insertBefore(li2, document.getElementById('lista').childNodes[0]);
     document.getElementById('lista').insertBefore(li1, document.getElementById('lista').childNodes[0]);
      next++;
+         document.getElementById('text-content').value='';
+
         }
     });
          }
@@ -468,7 +473,7 @@ $(document).ready(function(){
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-9">
-                                    <a class=".load_more" href="#" onclick="insertComment()">INSERISCI COMMENTO</a>
+                                    <a class=".load_more" href="#lista" onclick="insertComment()">INSERISCI COMMENTO</a>
                                 </div>
                             </div>
                         </form>
