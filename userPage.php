@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+    <!-- @author Amedeo Leo (php and jquery functions for notices) -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,12 +63,48 @@
                     cache: true,
                     success: function(html){
                         if (html == "success") {
-                            $('#ulNotices').html();
-                            var ul = "<li class='dropdown-header'>Commenti</li><li role='separator' class='divider'></li>";
-                            ul = ul.concat("<li class='dropdown-header'>Followers</li><li role='separator' class='divider'></li>");
-                            ul = ul.concat("<li class='dropdown-header'>Finanzia</li>");
-                            $('#ulNotices').html(ul);
+                            alert("qui");
+                            $('#ulNotices').html("");
                         }
+                    }
+                });
+            }
+        </script>
+        <script type="text/javascript">
+            function showComments() {
+                $.ajax({
+                    type: "POST",
+                    url: "./showComments.php",
+                    cache: true,
+                    success: function(html){
+                            $('#ulNotices').html("");
+                            $('#ulNotices').html(html);
+                    }
+                });
+            }
+        </script>
+        <script type="text/javascript">
+            function showFinance() {
+                $.ajax({
+                    type: "POST",
+                    url: "./showFinance.php",
+                    cache: true,
+                    success: function(html){
+                            $('#ulNotices').html("");
+                            $('#ulNotices').html(html);
+                    }
+                });
+            }
+        </script>
+        <script type="text/javascript">
+            function showFollowers() {
+                $.ajax({
+                    type: "POST",
+                    url: "./showFollowers.php",
+                    cache: true,
+                    success: function(html){
+                            $('#ulNotices').html("");
+                            $('#ulNotices').html(html);
                     }
                 });
             }
@@ -100,7 +136,7 @@
                     <li class="list-group-item text-right"><span class="pull-left"><strong>Registrato</strong></span><?php echo"{$_SESSION['registrationDate']}"?></li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong>Ultimo accesso</strong></span><?php echo"{$_SESSION['lastLogin']}"?></li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong>Nome completo</strong></span><?php echo"{$_SESSION['name']} {$_SESSION['surname']}"?></li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Pagina web</strong></span><?php echo"{$_SESSION['webPage']}"?></li>
+                    <?php if(isset($_SESSION['webPage'])) { ?> <li class="list-group-item text-right"><span class="pull-left"><strong>Pagina web</strong></span><?php echo"{$_SESSION['webPage']}"?></li> <?php } ?>
                 </ul>   
             </div>
         </div> 
@@ -140,12 +176,11 @@
             <div class="box">
                 <hr><h2 class="intro-text text-center"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;<strong>Notifiche</strong></h2><hr>         
                 <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default" onclick="readAll();">Lette</button>
-                        <div class="btn-group" role="group">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                          Visualizza notifiche
-                          <span class="caret"></span>
-                        </button>
+                        <p><button type="button" class="btn btn-default" onclick="readAll();">Lette</button>
+                        <button type="button" class="btn btn-default" onclick="showComments();">Commenti</button>
+                        <button type="button" class="btn btn-default" onclick="showFollowers();">Followers</button>
+                        <button type="button" class="btn btn-default" onclick="showFinance();">Finance</button>
+                        </p>
                         <?php
                             $notices = getNoticesOfUser($_SESSION['email']);
                             $comments = array();
@@ -156,43 +191,27 @@
                                 if($notice['type'] == "Comment") {
                                     $comments[] = $notice;
                                 }
-                                else if($notice['type'] == "Financier") {
-                                    $financiers[] = $notice;
+                                
+                                /*else if($notice['type'] == "Financier") {
+                                    //$financiers[] = $notice;
+                                    $comments[] = $notice;
                                 }
                                 else if($notice['type'] == "Follower") {
-                                    $followers[] = $notice;
-                                }
+                                    //$followers[] = $notice;
+                                    $comments[] = $notice;
+                                }*/
                             }
                         ?>
-                       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="ulNotices">
-                            <li class="dropdown-header">Commenti</li>
+                        <p>
+                       <ul class="list-group" id="ulNotices">
                             <?php foreach($comments as $comment) {
                                 $href = "idea.php?id=".$comment['idIdea'];
                                 $id = $comment['idNotice'];
                                 $onclick = "readNotice($id)";
-                                echo "<li><a href=$href id=$id onclick=$onclick>".$comment['text']."</a></li>";
+                                echo "<li class='list-group-item'><a href=".$href."id=".$id."onclick=".$onclick.">".$comment['text']."</a></li>";
                             }
                             ?>
-                            <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">Followers</li>
-                            <?php foreach($followers as $follower) {
-                                $href = "idea.php?id=".$follower['idIdea'];
-                                $id = $follower['idNotice'];
-                                $onclick = "readNotice($id)";
-                                echo "<li><a href=$href id=$id onclick=$onclick>".$follower['text']."</a></li>";
-                            }
-                            ?>
-                            <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">Finanzia</li>
-                            <?php foreach($financiers as $financier) {
-                                $href = "idea.php?id=".$financier['idIdea'];
-                                $id = $financier['idNotice'];
-                                $onclick = "readNotice($id)";
-                                echo "<li><a href=$href id=$id onclick=$onclick>".$financier['text']."</a></li>";
-                            }
-                            ?>
-                        </ul>
-                        </div>
+                        </ul></p>
                     </div>
             </div>
         </div>
