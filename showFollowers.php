@@ -3,6 +3,7 @@
     * @author Amedeo Leo
     */
     session_start();
+    error_reporting(0);
     require 'manageDB.php';
     $user=$_SESSION['email'];
     $notices = getNoticesOfUser($_SESSION['email']);

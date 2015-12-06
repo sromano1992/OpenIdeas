@@ -63,7 +63,6 @@
                     cache: true,
                     success: function(html){
                         if (html == "success") {
-                            alert("qui");
                             $('#ulNotices').html("");
                         }
                     }
@@ -182,14 +181,17 @@
                         <button type="button" class="btn btn-default" onclick="showFinance();">Finance</button>
                         </p>
                         <?php
+                            error_reporting(0);
                             $notices = getNoticesOfUser($_SESSION['email']);
                             $comments = array();
                             $financiers = array();
                             $followers = array();
                             
-                            foreach($notices as $notice) {
-                                if($notice['type'] == "Comment") {
-                                    $comments[] = $notice;
+                            if(is_array($notices)) {
+                                foreach($notices as $notice) {
+                                    if($notice['type'] == "Comment") {
+                                        $comments[] = $notice;
+                                    }
                                 }
                                 
                                 /*else if($notice['type'] == "Financier") {
@@ -204,12 +206,15 @@
                         ?>
                         <p>
                        <ul class="list-group" id="ulNotices">
-                            <?php foreach($comments as $comment) {
-                                $href = "idea.php?id=".$comment['idIdea'];
-                                $id = $comment['idNotice'];
-                                $onclick = "readNotice($id)";
-                                echo "<li class='list-group-item'><a href=".$href."id=".$id."onclick=".$onclick.">".$comment['text']."</a></li>";
-                            }
+                            <?php
+                                if(is_array($_comments)) {
+                                    foreach($comments as $comment) {
+                                        $href = "idea.php?id=".$comment['idIdea'];
+                                        $id = $comment['idNotice'];
+                                        $onclick = "readNotice($id)";
+                                        echo "<li class='list-group-item'><a href=".$href."id=".$id."onclick=".$onclick.">".$comment['text']."</a></li>";
+                                    }
+                                }
                             ?>
                         </ul></p>
                     </div>

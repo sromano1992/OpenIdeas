@@ -260,11 +260,10 @@
     /** 
     * @author Amedeo Leo
     */
-    function insertIdea($name, $description,  $idUser, $categories, $financier = NULL, $dateOfFinancing = NULL, $imPath) {
+    function insertIdea($name, $description,  $idUser, $categories, $financier = NULL, $dateOfFinancing = NULL, $imPath, $urlVideo) {
         $date = getTimeAndDate();
         $conn = getConn();
-        /* if financier == NULL && $dateOfFinancing == NULL */
-        $sql = "INSERT INTO idea (nome, dateOfInsert, description,  idUser, imPath) VALUES ('$name','$date','$description','$idUser', '$imPath')";
+        $sql = "INSERT INTO idea (nome, dateOfInsert, description, idUser, imPath, url_video) VALUES ('$name','$date','$description','$idUser', '$imPath', '$urlVideo')";
         $result = mysqli_query($conn, $sql) or die ("Insert failed");
         
         $idIdea = mysqli_insert_id($conn);
