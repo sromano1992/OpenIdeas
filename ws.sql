@@ -76,8 +76,13 @@ INSERT INTO `comment` (`idIdea`, `idUser`, `date`, `text`, `score_dom`, `score_p
 (37, 'stefvkg@hotmail.it', '2015-11-28 11:28:15', 'Ottima idea :D', 'pos', 0.4, 0.2, 0.4),
 (37, 'stefania.cardamone1@gmail.com', '2015-11-30 09:29:36', 'Perfetta! ', 'pos', 0.5, 0.25, 0.25),
 (37, 'stefania.cardamone1@gmail.com', '2015-11-30 09:37:36', ':/', 'neg', 0.25, 0.5, 0.25),
-(37, 'stefania.cardamone1@gmail.com', '2015-12-01 13:20:27', ':)', 'pos', 0.5, 0.25, 0.25);
-
+(37, 'stefania.cardamone1@gmail.com', '2015-12-01 13:20:28', ':)', 'pos', 0.5, 0.25, 0.25),
+(31, 'stefania.cardamone1@gmail.com', '2015-12-01 13:20:29', ':)', 'pos', 0.5, 0.25, 0.25),
+(7, 'stefania.cardamone1@gmail.com', '2015-12-01 13:20:21', ':)', 'pos', 0.8, 0.20, 0.00),
+(7, 'stefania.cardamone1@gmail.com', '2015-12-01 13:20:22', ':)', 'pos', 0.8, 0.20, 0.00),
+(7, 'stefania.cardamone1@gmail.com', '2015-12-01 13:20:23', ':)', 'pos', 0.8, 0.20, 0.00),
+(7, 'stefania.cardamone1@gmail.com', '2015-12-01 13:20:24', ':)', 'pos', 0.8, 0.20, 0.00),
+(7, 'stefania.cardamone1@gmail.com', '2015-12-01 13:20:25', ':)', 'pos', 0.8, 0.20, 0.00);
 -- --------------------------------------------------------
 
 --

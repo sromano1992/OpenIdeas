@@ -68,7 +68,7 @@
         
         mysqli_close($conn);
     }
-     /** 
+    /** 
     * @author Simone Romano
     */
     function checkUserPassword($email, $password) {
@@ -156,6 +156,9 @@
         mysqli_close($conn);
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getCategory($category = NULL) {
         
         $returnValues = array();
@@ -170,9 +173,7 @@
         $result = mysqli_query($conn, $sql);
         
         if (mysqli_num_rows($result) > 0) {
-            // output data of each row
             while($row = mysqli_fetch_assoc($result)) {
-                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
                 $returnValues[] = $row;
             }
             mysqli_close($conn);
@@ -183,10 +184,16 @@
         }
     }    
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getCategories() {
         return getCategory();
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getCategoryById($idCategory) {
         $returnValues = array();
         $conn = getConn();
@@ -205,6 +212,9 @@
         }
     }  
     
+    /** 
+    * @author Amedeo Leo
+    */
     function insertCategory($name) {
         $conn = getConn();
         $sql = "INSERT INTO category (name) VALUES ('$name')";
@@ -213,6 +223,9 @@
         /* restituisce sempre true */
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function deleteCategory($name) {
         $conn = getConn();
         $sql = "DELETE FROM category WHERE name='$name'";
@@ -221,6 +234,9 @@
         /* restituisce sempre true */
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getCategoriesOfIdea($idIdea) {
         $returnValues = array();
         $conn = getConn();
@@ -241,13 +257,13 @@
         }
     }
     
-    //mancano gli allegati
-    //utente fb ok, utente normale?
-    function insertIdea($name, $description,  $idUser, $categories, $financier = NULL, $dateOfFinancing = NULL, $imPath) {
+    /** 
+    * @author Amedeo Leo
+    */
+    function insertIdea($name, $description,  $idUser, $categories, $financier = NULL, $dateOfFinancing = NULL, $imPath, $urlVideo) {
         $date = getTimeAndDate();
         $conn = getConn();
-        /* if financier == NULL && $dateOfFinancing == NULL */
-        $sql = "INSERT INTO idea (nome, dateOfInsert, description,  idUser, imPath) VALUES ('$name','$date','$description','$idUser', '$imPath')";
+        $sql = "INSERT INTO idea (nome, dateOfInsert, description, idUser, imPath, url_video) VALUES ('$name','$date','$description','$idUser', '$imPath', '$urlVideo')";
         $result = mysqli_query($conn, $sql) or die ("Insert failed");
         
         $idIdea = mysqli_insert_id($conn);
@@ -273,6 +289,9 @@
         return $result;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function isIdeaOfUser ($idUser, $idIdea) {
         $conn = getConn();
         $sql = "SELECT * FROM idea WHERE id = '$idIdea'";
@@ -291,6 +310,9 @@
         }
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function hasAlreadyFollower($idUser,$idIdea) {
         $conn = getConn();
         $sql = "SELECT * FROM follow WHERE idIdea = '$idIdea'";
@@ -310,6 +332,9 @@
         }
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function deleteFollower($idUser,$idIdea) {
         $conn = getConn();
         $sql = "DELETe FROM follow WHERE idIdea = '$idIdea' AND idUser = '$idUser'" ;
@@ -318,6 +343,9 @@
         return true;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function insertFollower ($idUser, $idIdea) {
         if(isIdeaOfUser($idUser, $idIdea))
             return NULL;
@@ -331,14 +359,23 @@
         return $result;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getFollowersByIdIdea($idIdea) {
         return getFollowers(NULL, $idIdea);
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getIdeasFollowed($idUser) {
         return getFollowers($idUser);
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getFollowers($idUser = NULL, $idIdea = NULL) {
         $returnValues = array();
         $conn = getConn();
@@ -366,14 +403,15 @@
         }
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getThreeMaxFollow(){
         $returnValues = array();
         $conn = getConn();
-        //$sql = "SELECT * FROM (SELECT idIdea, COUNT( idIdea ) AS countIdea FROM follow GROUP BY idIdea ) AS maxFollows ORDER BY countIdea DESC LIMIT 3";
         $sql = "SELECT idIdea, COUNT( idIdea ) FROM follow GROUP BY idIdea ORDER BY COUNT( idIdea ) DESC LIMIT 3";
         $result = mysqli_query($conn, $sql) or die("select failed");
         if (mysqli_num_rows($result) > 0) {
-            // output data of each row
             while($row = mysqli_fetch_assoc($result)) {
                 $imPath = getIdeaById($row['idIdea'])['Idea']['imPath'];
                 $returnValues[] = $imPath;
@@ -505,9 +543,7 @@
         $toReturn = array();
         $i = 0;
         if (mysqli_num_rows($result) > 0) {
-            // output data of each row
             while($row = mysqli_fetch_assoc($result)) {
-                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
                 $sql_followers = "select count(*) from follow where idIdea='{$row['id']}'";
                 $result_followers_num = mysqli_query($conn, $sql_followers) or die("select failed");
                 $followers_numb = 0;
@@ -521,24 +557,20 @@
                 $record[0] = $row['id'];
                 $record[1] = $followers_numb;
                 $index = 0;
-                //inserting in crescent order
-                //get index of new element
+                
                 for($j = 0; $j < sizeOf($toReturn); $j++) {
                     if ($toReturn[$j][1] > $record[1]){
                         $index = $j;
                         break;
                     }
                 }
-                //shifit of right part of array
                 for($j = sizeOf($toReturn)-1; $j >= $index; $j--) {
                     $toReturn[$j+1] = $toReturn[$j];             
                 }
-                //insert new element
                 $toReturn[$index] = $record;
                 $i++;
             }
         }
-    
         mysqli_close($conn);
         return $toReturn;
     }
@@ -557,9 +589,7 @@
                 ) as maxFollow";
         $result = mysqli_query($conn, $sql) or die("select failed");
         if (mysqli_num_rows($result) > 0) {
-            // output data of each row
             while($row = mysqli_fetch_assoc($result)) {
-                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
                 $toReturn = $row['max(countIdea)'];
             }
         }
@@ -568,10 +598,9 @@
         return $toReturn;
     }
     
-     /**
-     * @author Simone Romano
-     * Return all idea's scores.
-     **/
+    /** 
+    * @author Amedeo Leo
+    */
     function getIdeaScores($idIdea){
         $conn = getConn();
         $toReturn = array();
@@ -579,19 +608,58 @@
         $sql = "select sum(score_neg),sum(score_neu),sum(score_pos) from comment where idIdea='{$idIdea}'";
         $result = mysqli_query($conn, $sql) or die("select failed");
         if (mysqli_num_rows($result) > 0) {
-            // output data of each row
             while($row = mysqli_fetch_assoc($result)) {
-                //echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
                 $toReturn['pos'] = $row['sum(score_pos)'];
                 $toReturn['neg'] = $row['sum(score_neg)'];
                 $toReturn['neu'] = $row['sum(score_neu)'];
             }
         }
     
+        $toReturn['pos'] = ( $toReturn['pos'] * 10 ) / getMaxScore();
+        $toReturn['neg'] = ( $toReturn['neg'] * 10 ) / getMaxScore();
+        $toReturn['neu'] = ( $toReturn['neu'] * 10 ) / getMaxScore();
+        
         mysqli_close($conn);
         return $toReturn;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
+    function getMaxScore() {
+        $conn = getConn();
+        $neg = 0;
+        $pos = 0;
+        $neu = 0;
+            
+        $sql = "SELECT SUM(score_neg) FROM COMMENT GROUP BY idIdea HAVING SUM( score_neg ) >0 ORDER BY SUM( score_neg ) DESC LIMIT 1";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $neg = $row['SUM(score_neg)'];
+            }
+        }
+        
+        $sql = "SELECT SUM(score_pos) FROM COMMENT GROUP BY idIdea HAVING SUM( score_pos ) >0 ORDER BY SUM( score_pos ) DESC LIMIT 1";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $pos = $row['SUM(score_pos)'];
+            }
+        }
+        
+        $sql = "SELECT SUM(score_neu) FROM COMMENT GROUP BY idIdea HAVING SUM( score_neu ) >0 ORDER BY SUM( score_neu ) DESC LIMIT 1";
+        $result = mysqli_query($conn, $sql) or die("select failed");
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $neu = $row['SUM(score_neu)'];
+            }
+        }
+        
+        mysqli_close($conn);
+        return max($neu,$neg,$pos);
+    }
+
     
      /**
      * @author Simone Romano
@@ -658,6 +726,9 @@
         return $toReturn;   
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function insertComment ($idUser, $idIdea, $text, $score) {
         $date = getTimeAndDate();
         $conn = getConn();
@@ -667,14 +738,23 @@
         return $result;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getCommentsByIdIdea($idIdea) {
         return getComments(NULL, $idIdea);
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getUserComments($idUser) {
         return getComments($idUser, NULL);
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getComments($idUser = NULL, $idIdea = NULL) {
         $returnValues = array();
         $conn = getConn();
@@ -705,6 +785,9 @@
         }
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getIdeaById($idIdea) {
         $returnValues = array();
         $conn = getConn();
@@ -725,6 +808,9 @@
         }
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getUserOfIdea($idIdea) {
         $returnValues = array();
         $conn = getConn();
@@ -754,16 +840,25 @@
         mysqli_close($conn);
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getNumberOfComments($idIdea) {
         $comments = getCommentsByIdIdea($idIdea);
         return count($comments);
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getNumberOfFollowers($idIdea) {
         $followers = getFollowersByIdIdea($idIdea);
         return count($followers);
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function hasFinancier($idIdea) {
         $idea = getIdeaById($idIdea);
         if($idea['Idea']['financier'] == NULL)
@@ -771,15 +866,12 @@
         return true;
     }
     
-    function updateIdea($idIdea, $name, $description) {
-        
-    }
-    
+    /** 
+    * @author Amedeo Leo
+    */
     function insertFinancier($idIdea, $idFinancier) {
         $date = getTimeAndDate();
         $idea = getIdeaById($idIdea);
-        /* if $idea != null */
-        /* if(exists($idFinancier) */
         if($idea['Idea']['idUser'] == $idFinancier)
             return "Non puoi finanziare una tua idea";
         else if($idea['Idea']['financier'] != NULL)
@@ -793,6 +885,9 @@
         }    
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getNumberOfUserIdeas($idUser) {
         $returnValues = array();
         $conn = getConn();
@@ -802,6 +897,9 @@
         return count($result);
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getUserById($idUser) {
         $returnValues = array();
         $conn = getConn();
@@ -820,7 +918,30 @@
         }
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getPointsForIdeaComments($idIdea, $score) {
+        $return = 0;
+        $conn = getConn();
+        $sql = "SELECT * FROM comment where idIdea = '$idIdea'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                if(!isCommentOfOwner($row['idUser'],$idIdea)) {
+                    $return = $return + $row[$score];
+                }
+            }
+        }
+
+        return $return;
+        mysqli_close($conn);
+    }
+    
+    /** 
+    * @author Amedeo Leo
+    */
+    function getPointsForIdeaCommentsForLastWeek($idIdea, $score) {
         $conn = getConn();
         $today = strtotime(getTimeAndDate());
         $ts = $today;
@@ -846,51 +967,38 @@
                     if(!isCommentOfOwner($row['idUser'],$idIdea)) {
                         $comment_date = fromTimestampToDate(strtotime($row['date']));
                         if($comment_date == $current_date) {
-                            //$comments[$i][]= $row;
                             $return = $return + $row[$score];
                         }
                     }
                 }
             }
-            /*else
-                $comments[$i] = [];*/
         }
-        
+        mysqli_close($conn);
         return $return;
-        /*
-        $sort = array();
-        for($i = 1; $i <= 7; $i++) {
-            $sort[$i] = array();
-            foreach ($comments[$i] as $key => $row)
-            {
-                $sort[$key] = $row['date'];
-            }
-        }
-        array_multisort($sort, SORT_DESC, $comments);
-        $values = array();
-        $comment = array();
-        for($i = 1; $i <= 7; $i++) {
-            if(!empty($sort[$i])) {
-                $date = $sort[$i][0]['date'];
-                $j = 0;
-                $sum_score = 0;
-                foreach((array)$sort[$i] as $comment) {
-                    $sum_score = $sum_score +  $comment['score_pos'];
-                    $j++;
-                }
-                $values[$i] = $sum_score/$j;
-            }
-            else
-                $values[$i] = 0;
-        }
-        
-        $total = 0;
-        for($i = 1; $i <= 7; $i++) {
-            $total = $total + $values[$i];
-        }
-        return $total;*/
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
+    function getNumberOfCommentsOfIdea($idIdea) {
+        $conn = getConn();
+        $return = 0;
+        $sql = "SELECT count(*) AS cnt, idUser FROM comment where idIdea = '$idIdea'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                if(!isCommentOfOwner($row['idUser'],$idIdea)) {
+                    $return = $row['cnt'];
+                }
+            }
+        }
+        mysqli_close($conn);
+        return $return;
+    }
+    
+    /** 
+    * @author Amedeo Leo
+    */
     function getNumberOfCommentsOfLastWeekByIdIdea($idIdea) {
         $conn = getConn();
         $today = strtotime(getTimeAndDate());
@@ -929,9 +1037,13 @@
                 }
             }
         }
+        mysqli_close($conn);
         return $return;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getTotalScoreOfLastWeekByIdIdea($idIdea) {
         $conn = getConn();
         $today = strtotime(getTimeAndDate());
@@ -971,9 +1083,13 @@
                 }
             }
         }
+        mysqli_close($conn);
         return $return;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function isCommentOfOwner($idUser, $idIdea) {
         $user = getUserOfIdea($idIdea);
         if($idUser == $user['email'])
@@ -981,6 +1097,9 @@
         return false;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getIdeas() {
         $returnValues = array();
         $conn = getConn();
@@ -1001,12 +1120,13 @@
         }
     }
     
-    
+    /** 
+    * @author Amedeo Leo
+    */
     function getIdeasByCategory($category) {
         $returnValues = array();
         $conn = getConn();
         $idCategory = getCategory($category)[0]['id'];
-        print_r($idCategory);
         
         $sql = "SELECT * FROM hasCategory WHERE idCategory = '$idCategory'";
         $result = mysqli_query($conn, $sql);
@@ -1022,6 +1142,9 @@
         }
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getIdeasOrderedByFollowers(){
         $returnValues = array();
         $conn = getConn();
@@ -1031,13 +1154,11 @@
         $toReturn = array();
         $i = 0;
         if (mysqli_num_rows($result) > 0) {
-            // output data of each row
             while($row = mysqli_fetch_assoc($result)) {
                 $sql_followers = "select count(*) from follow where idIdea='{$row['id']}'";
                 $result_followers_num = mysqli_query($conn, $sql_followers) or die("select failed");
                 $followers_numb = 0;
                 if (mysqli_num_rows($result_followers_num) > 0) {
-                    // output data of each row
                     while($row_followers = mysqli_fetch_assoc($result_followers_num)) {
                         $followers_numb = $row_followers['count(*)'];                        
                     }
@@ -1046,19 +1167,15 @@
                 $record[0] = $row['id'];
                 $record[1] = $followers_numb;
                 $index = 0;
-                //inserting in crescent order
-                //get index of new element
                 for($j = 0; $j < sizeOf($toReturn); $j++) {
                     if ($toReturn[$j][1] > $record[1]){
                         $index = $j;
                         break;
                     }
                 }
-                //shifit of right part of array
                 for($j = sizeOf($toReturn)-1; $j >= $index; $j--) {
                     $toReturn[$j+1] = $toReturn[$j];             
                 }
-                //insert new element
                 $toReturn[$index] = $record;
                 $i++;
             }
@@ -1068,6 +1185,9 @@
         return $toReturn;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getIdeasOrderedByFollowersByCategory($category = NULL){
         $returnValues = array();
         $conn = getConn();
@@ -1081,7 +1201,6 @@
         $toReturn = array();
         $i = 0;
         if (mysqli_num_rows($result) > 0) {
-            // output data of each row
             while($row = mysqli_fetch_assoc($result)) {
                 $sql_followers = "select count(*) from follow where idIdea='{$row['id']}'";
                 $result_followers_num = mysqli_query($conn, $sql_followers) or die("select failed");
@@ -1095,19 +1214,16 @@
                 $record[0] = $row['id'];
                 $record[1] = $followers_numb;
                 $index = 0;
-                //inserting in crescent order
-                //get index of new element
+               
                 for($j = 0; $j < sizeOf($toReturn); $j++) {
                     if ($toReturn[$j][1] > $record[1]){
                         $index = $j;
                         break;
                     }
                 }
-                //shifit of right part of array
                 for($j = sizeOf($toReturn)-1; $j >= $index; $j--) {
                     $toReturn[$j+1] = $toReturn[$j];             
                 }
-                //insert new element
                 $toReturn[$index] = $record;
                 $i++;
             }
@@ -1117,6 +1233,9 @@
         return $toReturn;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function sendMail($mail_destinatario, $mail_oggetto, $title, $body) {
         $nome_mittente = "OpenIdeas";
         $mail_mittente = "";
@@ -1144,6 +1263,9 @@ HTML;
           return "Errore. Nessun messaggio inviato.";
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function insertNotice($idDestinatario, $idIdea, $text, $type, $confirmed = 0) {
         $date = getTimeAndDate();
         $conn = getConn();
@@ -1152,6 +1274,9 @@ HTML;
         return $result;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getWritersOfIdea($idIdea) {
         $toReturn = array();
         $comments = getCommentsByIdIdea($idIdea);
@@ -1167,6 +1292,9 @@ HTML;
         return $toReturn;
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getNoticesOfUser($idUser) {
         $returnValues = array();
         $conn = getConn();
@@ -1185,6 +1313,9 @@ HTML;
         }
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function getNoticeById($idNotice) {
         $returnValues;
         $conn = getConn();
@@ -1203,6 +1334,9 @@ HTML;
         }
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function updateAllNoticesOfUSer($idDestinatario, $confirmed = 1) {
         $conn = getConn();
         $sql = "UPDATE notice SET confirmed = 1 WHERE idDestinatario = '$idDestinatario'";
@@ -1211,6 +1345,9 @@ HTML;
         return "ok";
     }
     
+    /** 
+    * @author Amedeo Leo
+    */
     function updateNotice($idDestinatario, $idIdea, $date, $text, $type, $confirmed = 1) {
         $conn = getConn();
         $sql = "UPDATE notice SET confirmed = '$confirmed' WHERE idIdea = '$idIdea' AND idDestinatario = '$idDestinatario' AND date='$date' AND text='$text' AND type='$type'";
@@ -1341,15 +1478,6 @@ HTML;
             }
         }
         return false;
-        
-        mysqli_close($conn);
-    }
-    
-    function getTest($email){
-        $conn = getConn();
-        
-        $sql = "SELECT * from ";
-        
         
         mysqli_close($conn);
     }

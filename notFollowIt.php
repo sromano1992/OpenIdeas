@@ -1,4 +1,7 @@
 <?php
+    /** 
+    * @author Amedeo Leo
+    */
     session_start();
     require 'manageDB.php';
     $idButton=$_POST['idButton'];

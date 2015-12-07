@@ -1,4 +1,8 @@
 <?php
+
+    /** 
+    * @author Amedeo Leo
+    */
     use Stichoza\GoogleTranslate\TranslateClient;
     
     session_start();
@@ -13,32 +17,7 @@
     $user_comment = getUserById($idUser);
     $flag=0;
     
-    /*foreach ($comments as $comment) {
-                                            if($flag%2==0){
-                                                echo "<li><div class='tldate'>";
-                                                echo $comment['date'];
-                                                echo "</div></li><li><div class='timeline-panel'><div class='tl-heading'><p><small class='text-muted'><i class='glyphicon glyphicon-time'></i>";
-                                                echo $comment['date'];
-                                                echo "</small></p></div><div class='tl-body'><p>";
-                                                echo $comment['text'];
-                                                $user = getUserById($comment['idUser']);
-                                                $nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
-                                                echo "&nbsp;[$nameSurname]</p></div></div></li>";
-                                            }
-                                            else{
-                                                echo "<li><div class='tldate'>";
-                                                echo $comment['date'];
-                                                echo "</div></li><li class='timeline-inverted'><div class='timeline-panel'><div class='tl-heading'><p><small class='text-muted'><i class='glyphicon glyphicon-time'></i>";
-                                                echo $comment['date'];
-                                                echo "</small></p></div><div class='tl-body'><p>";
-                                                echo $comment['text'];
-                                                $user = getUserById($comment['idUser']);
-                                                $nameSurname = $user['User']['name'] . " " . $user['User']['surname'];
-                                                echo "&nbsp;[$nameSurname]</p></div></div></li>";
-                                            }
-                                            $flag=$flag+1;
-                                        }*/
-
+    
     $nameSurname = $user_comment['User']['name'] . " " . $user_comment['User']['surname'];
     echo $nameSurname;
     $followers = getFollowersByIdIdea($idIdea);
@@ -71,15 +50,7 @@
         }
     }
 
-    /* <p>Scrivi un tuo commento</p>";
-    echo "<form class='form-horizontal' role='form' id='addCommentForm' method='post' action=''>";
-    echo "<div class='form-group'>";
-    echo "<div class='col-sm-6'>";
-    echo "<textarea name='body' id='text-content' class='form-control'></textarea></div></div>";
-    echo "<div class='form-group'>";
-    echo "<div class='late-btn col-sm-6'>";
-    echo "<a href='#' class='.load_more' id='insertComment'>INSERISCI COMMENTO</a>";
-    echo "</div></div></form>"; */
+  
     
     function getScore($comment){
         require __DIR__ . '/vendor/autoload.php';
