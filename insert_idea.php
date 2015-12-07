@@ -7,13 +7,14 @@
 
 <?php
 error_reporting(0);
+require "manageDB.php";
 $nome = $_POST["nome_summary"];
 $descrizione = $_POST["descr_summary"];
 $idUser = $_GET["idUser"];
 $path_foto=$_POST["path_summary"];
 $url_video=$_POST["url_summary"];
 $selectOption = $_POST['selectSum'];
-$dataInserimento="2015-01-01";
+$dataInserimento= getTimeAndDate();
 $Lastresult=" ";
 
 /*echo "sel: ".$selectOption."*<br>";
@@ -24,7 +25,7 @@ echo $path_foto."<br>";
 echo $url_video."<br>";*/
 //if (!empty($idUser)) 
 //echo "idUser:".$idUser."aaaaa<br>";
-$conn = mysql_connect('localhost:', 'root', '');
+$conn = mysql_connect('localhost', 'root', 'root');
 if (!$conn) {
     die('Could not connect: ' . mysql_error());
 }
