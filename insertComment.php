@@ -33,7 +33,7 @@
             
             $alreadySent[] = $follower['idUser'];
             $text_idea = $idea['Idea']['nome'];
-            $text = "La idea".$text_idea." che stai seguendo ha un nuovo commento:[".$nameSurname."]: ".$content;
+            $text = "La idea ".$text_idea." che stai seguendo ha un nuovo commento:[".$nameSurname."]: ".$content;
              /* togliere i commenti! invia la mail! */ //sendMail($mail_destinatario, $mail_oggetto, $title, $body);
             insertNotice($follower['idUser'], $idIdea, $text, "Comment");
         }
@@ -44,7 +44,7 @@
         if($writer != $idUser) {
             if(!in_array($writer, $alreadySent)) {
                 $text_idea = $idea['Idea']['nome'];
-                $text = "La idea".$text_idea." che hai commentato ha un nuovo commento:[".$nameSurname."]: ".$content;
+                $text = "La idea ".$text_idea." che hai commentato ha un nuovo commento:[".$nameSurname."]: ".$content;
                 insertNotice($writer, $idIdea, $text, "Comment");
             }
         }
