@@ -8,6 +8,7 @@
 <?php
 error_reporting(0);
 require "manageDB.php";
+require "endpointSPARQL/manageEndpointSparql.php";
 $nome = $_POST["nome_summary"];
 $descrizione = $_POST["descr_summary"];
 $idUser = $_GET["idUser"];
@@ -52,6 +53,11 @@ $idIdea = $row['id'];
 
 $sql = "INSERT INTO hascategory (idCategory, idIdea) VALUES ('$idCat', '$idIdea')";
 $Lastresult = mysql_query($sql) ;//or die(mysql_error()); 
+
+//upload idea into fuseki
+$urlIdea = "http://localhost/WebSemantico/OpenIdeas/idea.php?id=" . $idIdea;
+uploadIdeaInSparqlEndpoint($idIdea,$urlIdea,$selectOption,$nome);
+
 
 //echo "idIdea: ".$row['id'];
 //echo 'Connected closed';

@@ -1,0 +1,15 @@
+PASSI da seguire:
+-run fuseki
+-visualizzazione homepage, about,
+-login con pianobarsimone@hotmail.it	Password recuperata al volo (gestione email)
+-area utente con notifiche e tutte le info
+-inserisci idea (info nella cartella)
+-visualizza idea
+-logout e login con altro account (facebook)
+-prima di commentare l'idea: linked data: visualizzare fuseki e mostrare il numero di triple presenti
+-commenta idea appena inserita (commento senza apici (') per problema sql)
+-visualizza le email ricevute e sentiment analysis (visualizza punteggi nel db)
+-visualizza le email ricevute sull'altra email
+-ritorna su fuseki per notare l'aumento del numero di triple
+-riformulare la query su fuseki (opzionale)
+-rdfa
