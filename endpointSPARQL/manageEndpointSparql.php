@@ -22,7 +22,7 @@
         http://www.php.net/curl_setopt
         */         
         $response = curl_exec($ch);
-        print_r($response);
+        //print_r($response);
         curl_close($ch);        
         return $response;      
     }

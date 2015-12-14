@@ -223,7 +223,7 @@
     </div>
 
     <div class="row">
-        <div class="box">
+        <div class="box" id="insertIdeaDiv">
             <div class="col-lg-12">
                 <hr><h2 class="intro-text text-center"><strong>Inserisci un'idea</strong></h2><hr>
                 <ul class="nav nav-pills nav-justified" id="myTab">
@@ -243,7 +243,7 @@
                     </select>
                       <nav>
                         <ul class="pager">
-                        <li class="next"><div class="disabled" id="step1_div"> <a class="btn cont" href="#">Next<span aria-hidden="true">&rarr;</span></a></div></li>
+                        <li class="next"><div class="disabled" id="step1_div"> <a class="btn cont" href="#insertIdeaDiv">Next<span aria-hidden="true">&rarr;</span></a></div></li>
                         </ul>
                       </nav>
                     
@@ -409,7 +409,7 @@
                    <nav>
                      <ul class="pager">
                       <!--<li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Prev</a></li>-->
-                      <li class="next"><div class="disabled" id="step2_div"> <a  class="btn cont" href="#" onclick="nextToSummary()">Next<span aria-hidden="true">&rarr;</span></a></div></li>
+                      <li class="next"><div class="disabled" id="step2_div"> <a  class="btn cont" href="#insertIdeaDiv" onclick="nextToSummary()">Next<span aria-hidden="true">&rarr;</span></a></div></li>
                      </ul>
                     </nav>   
                 </div>

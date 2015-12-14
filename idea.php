@@ -359,7 +359,31 @@ $(document).ready(function(){
                 </div>
             </div>
         </div><!--row1-->
-
+         
+	 
+	 <?php
+		if (isset($idea['Idea']['url_video'])){
+				?>
+						<div class="row">	<!--Video-->
+								<div class="box" >
+								    <div class="col-lg-12">
+									<hr>
+									<h2 class="intro-text text-center"><strong>Video</strong>
+									</h2>
+									<hr>
+								    </div>
+								    <table border=0 align=center>
+										    <tr><td> <iframe width="420" height="345" src="<?php echo $idea['Idea']['url_video']?>" >
+										    </iframe></td></tr>
+								    </table>
+								   
+								    </div>
+						</div><!--row --> 
+				<?php
+		}
+	 ?>
+	
+	 
         <div class="row">
             <div class="box" >
                 <div class="col-lg-4 text-center">
