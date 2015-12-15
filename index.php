@@ -46,6 +46,18 @@
         });
             }
         </script>
+        <script type="text/javascript">
+        function equalHeight(group) {
+            tallest = 0;    
+            group.each(function() {       
+                thisHeight = $(this).height();       
+                if(thisHeight > tallest) {          
+                    tallest = thisHeight;       
+                }    
+            });   
+            group.each(function() { $(this).height(tallest); });
+        };
+    </script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -55,7 +67,7 @@
 
 </head>
 
-<body>
+<body onload="equalHeight($('.thumbnail'));">
 
     <div class="brand" property="operatingSystem">OpenIdeas</div>
     <div class="address-bar">Insert your idea HERE!</div>
